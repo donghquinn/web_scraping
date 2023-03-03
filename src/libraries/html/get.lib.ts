@@ -16,11 +16,7 @@ export class ScrapeManager {
 
       const html = await axios.get("https://news.ycombinator.com/");
 
-      // Logger.log(html.data);
-
       const scrapedHtml = cheerio.load(html.data);
-
-      // Logger.log("Response: %o", { html: scrapedHtml });
 
       const rank = scrapedHtml("table")
         .children("tbody")
@@ -45,9 +41,13 @@ export class ScrapeManager {
         newsArray.push({ rank: rank[index], post: item });
       });
 
+      await this.prisma.hackers.createMany({
+        data: newsArray,
+      });
+
       Logger.log("News Array: %o", { newsArray });
 
-      return;
+      return newsArray;
     } catch (error) {
       throw new ScrapeError(
         "HTML Scrape",
