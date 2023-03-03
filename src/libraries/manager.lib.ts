@@ -1,6 +1,6 @@
 import { Logger } from "@nestjs/common";
 import { setIntervalAsync } from "set-interval-async";
-import { scrapeHackerNews } from "./html/hackers.lib";
+import { scrapeHackerNews } from "./scrape/hackers.lib";
 
 export class ScrapeObserver {
   private static instance: ScrapeObserver;

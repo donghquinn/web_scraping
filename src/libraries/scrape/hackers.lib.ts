@@ -38,6 +38,7 @@ export const scrapeHackerNews = async () => {
       .children("td.title")
       .children("span.titleline")
       .children("a")
+      // 각각의 스크레이핑 한 데이터의 스플릿 문자 추가
       .append("!")
       .text()
       .split("!");
