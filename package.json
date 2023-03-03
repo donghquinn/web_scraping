@@ -1,0 +1,21 @@
+{
+  "name": "scraping",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "packageManager": "yarn@3.4.1",
+  "scripts": {
+    "schema": "prisma generate",
+    "migrate": "prisma migrate --name scrape"
+  },
+  "dependencies": {
+    "@nestjs/common": "^9.3.9",
+    "@nestjs/core": "^9.3.9",
+    "@prisma/client": "^4.11.0",
+    "cheerio": "^1.0.0-rc.12",
+    "dotenv": "^16.0.3",
+    "node-fetch": "^3.3.0",
+    "nodemon": "^2.0.21",
+    "prisma": "^4.11.0"
+  }
+}
