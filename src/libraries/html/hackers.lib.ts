@@ -1,9 +1,8 @@
-import { ConsoleLogger, Injectable, Logger } from "@nestjs/common";
+import { Logger } from "@nestjs/common";
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { ScrapeError } from "errors/scrape.error";
 import { PrismaLibrary } from "libraries/common/prisma.lib";
-import fetch from "node-fetch";
 import { NewsArrayType } from "types/news.type";
 
 export const scrapeHackerNews = async () => {
