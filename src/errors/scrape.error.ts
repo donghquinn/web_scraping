@@ -6,6 +6,8 @@ export class ScrapeError extends Error {
 
     this.type = type;
 
+    this.name = "[Scrape Error]";
+
     this.cause = cause;
   }
 }
