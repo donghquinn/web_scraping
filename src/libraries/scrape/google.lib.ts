@@ -17,7 +17,7 @@ export const googleFinanceStock = async () => {
 
     const scraped = cheerio.load(response);
 
-    const risingArray: Array<string> = [];
+    // const risingArray: Array<string> = [];
 
     const rank = scraped("ul.sbnBtf")
       .children("li")
@@ -29,13 +29,13 @@ export const googleFinanceStock = async () => {
       .text()
       .split("!");
 
-    for (let i = 0; i < rank.length - 1; i += 1) {
-      risingArray.push(rank[i]);
-    }
+    // for (let i = 0; i < rank.length - 1; i += 1) {
+    //   risingArray.push(rank[i]);
+    // }
 
     Logger.log("Got new Rising Stocks Data. ");
 
-    return risingArray;
+    return rank;
   } catch (error) {
     throw new GoogleError(
       "Google Finance Rising Stock Rank",
