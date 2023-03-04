@@ -3,7 +3,7 @@
 import { Logger } from "@nestjs/common";
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { NaverError } from "errors/naver.error";
+import { GoogleError } from "errors/google.error";
 
 /**
  * 구글 파이넨스에서 상승 주식: https://www.google.com/finance/markets/gainers
@@ -37,9 +37,9 @@ export const googleFinanceStock = async () => {
 
     return risingArray;
   } catch (error) {
-    throw new NaverError(
-      "Naver Live Search Rank",
-      "Live Search Rank Scraping Error",
+    throw new GoogleError(
+      "Google Finance Rising Stock Rank",
+      "Rising Stock Rank Scraping Error",
       error instanceof Error ? error : new Error(JSON.stringify(error))
     );
   }
