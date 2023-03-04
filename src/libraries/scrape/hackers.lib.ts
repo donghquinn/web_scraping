@@ -31,6 +31,18 @@ export const scrapeHackerNews = async () => {
       .text()
       .split("!");
 
+    const href = scrapedHtml("table")
+      .children("tbody")
+      .children("tr.athing")
+      .children("td.title")
+      .children("span.titleline")
+      .children(".href")
+      .append("!")
+      .text()
+      .split("!");
+
+    Logger.log("href: %o", { href });
+
     // 포스트 제목
     const posts = scrapedHtml("table")
       .children("tbody")
@@ -47,10 +59,6 @@ export const scrapeHackerNews = async () => {
       newsArray.push({ rank: rank[index], post: item });
     });
 
-    await prisma.hackers.createMany({
-      data: newsArray,
-    });
-
     Logger.log("News Array: %o", { newsArray });
 
     return newsArray;
@@ -62,3 +70,5 @@ export const scrapeHackerNews = async () => {
     );
   }
 };
+
+await scrapeHackerNews();
