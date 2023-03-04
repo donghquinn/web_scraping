@@ -13,14 +13,13 @@ export const scrapeHackerNews = async () => {
   try {
     const hackerUrl = "https://news.ycombinator.com/";
 
-    const prisma = new PrismaLibrary();
-
     const newsArray: NewsArrayType[] = [];
 
     const html = await axios.get(hackerUrl);
 
     const scrapedHtml = cheerio.load(html.data);
 
+    const hrefArray: Array<string> = [];
     // 랭크
     const rank = scrapedHtml("table")
       .children("tbody")
@@ -31,17 +30,18 @@ export const scrapeHackerNews = async () => {
       .text()
       .split("!");
 
-    const href = scrapedHtml("table")
+    // HREF 게시글 원본 주소 가져오기
+    scrapedHtml("table")
       .children("tbody")
       .children("tr.athing")
       .children("td.title")
       .children("span.titleline")
-      .children(".href")
-      .append("!")
-      .text()
-      .split("!");
+      .children("a")
+      .each((index, item) => {
+        const href = scrapedHtml(item).attr("href");
 
-    Logger.log("href: %o", { href });
+        hrefArray.push(href!);
+      });
 
     // 포스트 제목
     const posts = scrapedHtml("table")
@@ -56,10 +56,8 @@ export const scrapeHackerNews = async () => {
       .split("!");
 
     posts.filter((item, index) => {
-      newsArray.push({ rank: rank[index], post: item });
+      newsArray.push({ rank: rank[index], post: item, link: hrefArray[index] });
     });
-
-    Logger.log("News Array: %o", { newsArray });
 
     return newsArray;
   } catch (error) {
