@@ -17,13 +17,13 @@ model Hackers {
   founded DateTime @default(now())
 }
 
-model GoogleFinance {
-  uuid    String   @id @default(uuid())
-  name    String
-  price   String
-  rised   String
-  founded DateTime @default(now())
-}
+// model GoogleFinance {
+//   uuid    String   @id @default(uuid())
+//   name    String
+//   price   String
+//   rised   String
+//   founded DateTime @default(now())
+// }
 
 model BbcTechNews {
   uuid    String   @id @default(uuid())
