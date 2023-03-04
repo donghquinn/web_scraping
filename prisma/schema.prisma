@@ -24,3 +24,10 @@ model GoogleFinance {
   rised   String
   founded DateTime @default(now())
 }
+
+model BbcTechNews {
+  uuid    String   @id @default(uuid())
+  rank    String
+  post    String
+  founded DateTime @default(now())
+}

@@ -2,6 +2,7 @@ import { Logger } from "@nestjs/common";
 import { setIntervalAsync } from "set-interval-async";
 import { scrapeHackerNews } from "./scrape/hackers.lib";
 import { PrismaLibrary } from "./common/prisma.lib";
+import { scrapBbcTechNewse } from "./scrape/bbc.lib";
 
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
@@ -28,9 +29,14 @@ export class ScrapeObserver {
     setIntervalAsync(async () => {
       try {
         const hakcerNewsResult = await scrapeHackerNews();
+        const bbcNewsResult = await scrapBbcTechNewse();
 
         await this.prisma.hackers.createMany({
           data: hakcerNewsResult,
+        });
+
+        await this.prisma.bbcTechNews.createMany({
+          data: bbcNewsResult,
         });
       } catch (error) {
         Logger.error("Observer Error: %o", {

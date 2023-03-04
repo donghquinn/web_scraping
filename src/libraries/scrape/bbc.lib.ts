@@ -23,17 +23,13 @@ export const scrapBbcTechNewse = async () => {
       .text()
       .split("!");
 
-    const newsLink = html("div.promo-text")
+    html("div.promo-text")
       .children("h2.bbc-qvbmj5.e47bds20")
       .children("a.focusIndicatorDisplayBlock.bbc-uk8dsi.e1d658bg0")
       .each((index, item) => {
         const link = html(item).attr("href");
         linkArray.push(link!);
       });
-
-    Logger.log("News Link: %o", { linkArray });
-
-    Logger.log("News: %o", { newsTitle });
 
     for (let i = 0; i < linkArray.length; i += 1) {
       returnArray.push({
@@ -43,7 +39,7 @@ export const scrapBbcTechNewse = async () => {
       });
     }
 
-    Logger.log("Return Array: %o", { returnArray });
+    return returnArray;
   } catch (error) {
     throw new BbcError(
       " BBC Tech News",
