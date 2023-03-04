@@ -11,11 +11,11 @@ export const scrapeHackerNews = async () => {
   try {
     const hackerUrl = "https://news.ycombinator.com/";
 
-    const newsArray: NewsArrayType[] = [];
-
     const html = await axios.get(hackerUrl);
 
     const scrapedHtml = cheerio.load(html.data);
+
+    const newsArray: NewsArrayType[] = [];
 
     const hrefArray: Array<string> = [];
     // 랭크
