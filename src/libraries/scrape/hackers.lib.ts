@@ -18,6 +18,7 @@ export const scrapeHackerNews = async () => {
     const newsArray: NewsArrayType[] = [];
 
     const hrefArray: Array<string> = [];
+
     // 랭크
     const rank = scrapedHtml("table")
       .children("tbody")
