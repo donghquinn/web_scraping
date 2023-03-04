@@ -54,9 +54,9 @@ export const scrapeHackerNews = async () => {
       .text()
       .split("!");
 
-    posts.filter((item, index) => {
-      newsArray.push({ rank: rank[index], post: item, link: hrefArray[index] });
-    });
+    for (let i = 0; i < rank.length - 1; i += 1) {
+      newsArray.push({ rank: rank[i], post: posts[i], link: hrefArray[i] });
+    }
 
     return newsArray;
   } catch (error) {
