@@ -1,8 +1,6 @@
-import { Logger } from "@nestjs/common";
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { ScrapeError } from "errors/scrape.error";
-import { PrismaLibrary } from "libraries/common/prisma.lib";
+import { HackerError } from "errors/hacker.error";
 import { NewsArrayType } from "types/news.type";
 
 /**
@@ -61,9 +59,9 @@ export const scrapeHackerNews = async () => {
 
     return newsArray;
   } catch (error) {
-    throw new ScrapeError(
-      "HTML Scrape",
-      "Web Scraping Error",
+    throw new HackerError(
+      "Hacker News Scrape",
+      "News Rank Scraping Error",
       error instanceof Error ? error : new Error(JSON.stringify(error))
     );
   }

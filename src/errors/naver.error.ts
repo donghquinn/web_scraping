@@ -1,4 +1,4 @@
-export class ScrapeError extends Error {
+export class NaverError extends Error {
   type: string;
 
   constructor(type: string, message: string, cause?: Error) {
@@ -6,7 +6,7 @@ export class ScrapeError extends Error {
 
     this.type = type;
 
-    this.name = "[Scrape Error]";
+    this.name = "[Naver Error]";
 
     this.cause = cause;
   }
