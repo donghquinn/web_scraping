@@ -1,3 +1,4 @@
+import { Logger } from "@nestjs/common";
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { HackerError } from "errors/hacker.error";
@@ -57,6 +58,8 @@ export const scrapeHackerNews = async () => {
     for (let i = 0; i < rank.length - 1; i += 1) {
       newsArray.push({ rank: rank[i], post: posts[i], link: hrefArray[i] });
     }
+
+    Logger.log("Got New Hacker News Rank.");
 
     return newsArray;
   } catch (error) {
