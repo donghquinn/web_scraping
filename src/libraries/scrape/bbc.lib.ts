@@ -1,7 +1,7 @@
-import { BbcError } from "errors/bbc.error";
-import * as cheerio from "cheerio";
-import axios from "axios";
 import { Logger } from "@nestjs/common";
+import axios from "axios";
+import * as cheerio from "cheerio";
+import { BbcError } from "errors/bbc.error";
 import { NewsArrayType } from "types/news.type";
 
 export const scrapBbcTechNewse = async () => {
@@ -38,6 +38,8 @@ export const scrapBbcTechNewse = async () => {
         link: linkArray[i],
       });
     }
+
+    Logger.log("BBC Technology News Found");
 
     return returnArray;
   } catch (error) {
