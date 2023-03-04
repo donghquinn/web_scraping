@@ -47,6 +47,8 @@ export const googleFinanceStock = async () => {
     }
 
     Logger.log("Got new Rising Stocks Data. ");
+
+    return risingArray;
   } catch (error) {
     throw new NaverError(
       "Naver Live Search Rank",
