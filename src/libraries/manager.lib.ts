@@ -12,7 +12,9 @@ export class ScrapeObserver {
   private prisma: PrismaLibrary;
 
   constructor() {
+    // ms 기준
     this.interval = Number(process.env.INTERVAL);
+    // this.interval = Math.ceil(Math.random() * 10) * 1000;
 
     this.prisma = new PrismaLibrary();
   }
