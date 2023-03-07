@@ -4,7 +4,7 @@ import * as cheerio from "cheerio";
 import { BbcError } from "errors/bbc.error";
 import { NewsArrayType } from "types/news.type";
 
-export const scrapBbcTechNewse = async () => {
+export const scrapBbcTechNews = async () => {
   try {
     const url = "https://www.bbc.com/korean/topics/c2dwqjn99ggt";
 
@@ -50,5 +50,3 @@ export const scrapBbcTechNewse = async () => {
     );
   }
 };
-
-await scrapBbcTechNewse();

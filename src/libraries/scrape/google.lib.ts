@@ -44,5 +44,3 @@ export const googleFinanceStock = async () => {
     );
   }
 };
-
-await googleFinanceStock();

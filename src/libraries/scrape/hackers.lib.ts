@@ -70,5 +70,3 @@ export const scrapeHackerNews = async () => {
     );
   }
 };
-
-await scrapeHackerNews();
