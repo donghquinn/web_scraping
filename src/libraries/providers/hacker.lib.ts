@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { HackerError } from "errors/hacker.error";
 import { PrismaLibrary } from "libraries/common/prisma.lib";
 
@@ -9,6 +9,8 @@ export class HackersNewsProvider {
   async getHackerNewsCount() {
     try {
       const count = await this.prisma.hackers.count();
+
+      Logger.log("Hacker News Total Count: %o", { count });
 
       return count;
     } catch (error) {
@@ -26,6 +28,10 @@ export class HackersNewsProvider {
         select: { post: true, link: true },
         orderBy: { rank: "desc" },
       });
+
+      Logger.log("Hacker News News: %o", { newsCount: result.length });
+
+      Logger.debug("Hacker News: ", { ...result });
 
       return result;
     } catch (error) {

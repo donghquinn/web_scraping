@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { BbcError } from "errors/bbc.error";
 import { PrismaLibrary } from "libraries/common/prisma.lib";
 import { scrapeBbcTechNews } from "libraries/scrape/bbc.lib";
@@ -10,6 +10,8 @@ export class BbcNewsProvider {
   async getBbcNewsCount() {
     try {
       const count = await this.prisma.bbcTechNews.count();
+
+      Logger.log("BBC News Total Count: %o", { count });
 
       return count;
     } catch (error) {
@@ -27,6 +29,10 @@ export class BbcNewsProvider {
         select: { post: true, link: true },
         orderBy: { rank: "desc" },
       });
+
+      Logger.log("BBC News Ordered by Rank: %o", { newsCount: result.length });
+
+      Logger.debug("BBC News: ", { ...result });
 
       return result;
     } catch (error) {
