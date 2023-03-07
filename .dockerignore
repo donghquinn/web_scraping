@@ -1,0 +1,16 @@
+env
+.env
+node_modules
+coverage-ts
+test
+*.test.*
+npm-debug.log
+.codedov.yml
+.github
+.eslintrc.json
+.prettierrc
+example.env
+
+*.test.*
+
+assets

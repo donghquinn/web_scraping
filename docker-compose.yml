@@ -1,0 +1,39 @@
+---
+version: '3.7'
+services:
+        backend:
+                build:
+                        context: .
+                        dockerfile: ./Dockerfile
+                container_name: news_miner
+                restart: unless-stopped
+                volumes:
+                        - ./taste-log:/home/taste/logs
+                deploy:
+                        resources:
+                              limits:
+                                  cpus: '0.25'
+                                  memory: 700M
+                              reservations:
+                                  cpus: '0.15'
+                                  memory: 300M
+                expose:
+                        - 5500
+                env_file:
+                        - .env
+                networks:
+                        - proxy
+
+        db:
+                image: postgres:15-alpine3.17
+                ports:
+                        - 5432:5432
+                restart: always
+                container_name: news_db
+                env_file:
+                        - .postgres.env
+                volumes:
+                        - ./blogData:/var/lib/postgresql/data
+networks:
+        proxy:
+                external: true
