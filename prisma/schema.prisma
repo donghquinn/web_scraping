@@ -30,5 +30,6 @@ model BbcTechNews {
   uuid    String   @id @default(uuid())
   rank    String
   post    String
+  link    String
   founded DateTime @default(now())
 }

@@ -23,8 +23,11 @@ export class HackersNewsProvider {
   async bringHackerPosts() {
     try {
       const result = await this.prisma.hackers.findMany({
-        select: { post: true },
+        select: { post: true, link: true },
+        orderBy: { rank: "desc" },
       });
+
+      return result;
     } catch (error) {
       throw new HackerError(
         "Hacker News",
