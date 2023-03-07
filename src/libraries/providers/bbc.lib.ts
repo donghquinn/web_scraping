@@ -20,4 +20,21 @@ export class BbcNewsProvider {
       );
     }
   }
+
+  async bringBbcNews() {
+    try {
+      const result = await this.prisma.bbcTechNews.findMany({
+        select: { post: true },
+        orderBy: { rank: "desc" },
+      });
+
+      return result;
+    } catch (error) {
+      throw new BbcError(
+        "BBC Error",
+        "BBC New Error",
+        error instanceof Error ? error : new Error(JSON.stringify(error))
+      );
+    }
+  }
 }
