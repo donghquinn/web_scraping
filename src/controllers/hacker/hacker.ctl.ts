@@ -15,7 +15,18 @@ export class HackerController {
 
       return new SetResponse(200, { count });
     } catch (error) {
-      throw new SetErrorResponse(500, error);
+      return new SetErrorResponse(500, error);
+    }
+  }
+
+  @Get("/news")
+  async getHackerNews() {
+    try {
+      const news = await this.hacker.bringHackerPosts();
+
+      return new SetResponse(200, ...news);
+    } catch (error) {
+      return new SetErrorResponse(500, error);
     }
   }
 }
