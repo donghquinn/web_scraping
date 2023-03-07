@@ -1,0 +1,4 @@
+APP_PORT=
+INTERVAL=
+
+DATABASE_URL="postgresql://user:password@DB_SERVER_IP:DB_PORT/DB_NAME?schema=public"
