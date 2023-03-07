@@ -24,7 +24,7 @@ export class BbcNewsProvider {
   async bringBbcNews() {
     try {
       const result = await this.prisma.bbcTechNews.findMany({
-        select: { post: true },
+        select: { post: true, link: true },
         orderBy: { rank: "desc" },
       });
 
