@@ -9,7 +9,7 @@
     "start": "NODE_ENV=production node -r  ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node ./src/app.ts",
     "build": "NODE_ENV=production tsc --project tsconfig.json --diagnostics -p tsconfig.json",
     "schema": "prisma generate",
-    "migrate": "prisma migrate dev --name news"
+    "migrate": "prisma migrate deploy --name news"
   },
   "type": "module",
   "dependencies": {
