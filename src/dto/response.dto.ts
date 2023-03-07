@@ -1,4 +1,6 @@
 import { Injectable } from "@nestjs/common";
+import { BbcError } from "errors/bbc.error";
+import { HackerError } from "errors/hacker.error";
 
 interface ResponseObject {
   resCode: string;
@@ -7,7 +9,7 @@ interface ResponseObject {
 }
 
 interface KeyableObject {
-  [key: string]: string;
+  [key: string]: string | number;
 }
 
 export class SetResponse implements ResponseObject {
@@ -17,6 +19,39 @@ export class SetResponse implements ResponseObject {
     this.dataRes = data ?? null;
 
     this.errMsg = [];
+  }
+
+  resCode: string;
+
+  dataRes: KeyableObject | null;
+
+  errMsg: string[];
+}
+
+export class SetErrorResponse implements ResponseObject {
+  constructor(res: number, error: unknown) {
+    const errorArray = [];
+
+    if (error instanceof BbcError) {
+      errorArray.push(error.type, error.message);
+    }
+
+    if (error instanceof HackerError) {
+      errorArray.push(error.type, error.message);
+    }
+
+    if (typeof error === "string") errorArray.push(error);
+
+    if (Array.isArray(error)) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      errorArray.push(...error);
+    }
+
+    this.resCode = res.toString();
+
+    this.dataRes = null;
+
+    this.errMsg = errorArray;
   }
 
   resCode: string;

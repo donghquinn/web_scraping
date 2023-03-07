@@ -1,4 +1,5 @@
 import { Controller, Get } from "@nestjs/common";
+import { SetErrorResponse, SetResponse } from "dto/response.dto";
 import { BbcNewsProvider } from "libraries/providers/bbc.lib";
 import { HackersNewsProvider } from "libraries/providers/hacker.lib";
 
@@ -9,8 +10,11 @@ export class BbcController {
   @Get()
   async getBbcCount() {
     try {
+      const count = await this.bbc.getBbcNewsCount();
+
+      return new SetResponse(200, { count });
     } catch (error) {
-      return new SetError();
+      return new SetErrorResponse(500, error);
     }
   }
 }
