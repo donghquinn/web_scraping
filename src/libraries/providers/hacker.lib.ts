@@ -19,4 +19,18 @@ export class HackersNewsProvider {
       );
     }
   }
+
+  async bringHackerPosts() {
+    try {
+      const result = await this.prisma.hackers.findMany({
+        select: { post: true },
+      });
+    } catch (error) {
+      throw new HackerError(
+        "Hacker News",
+        "Hacker News Bringing Error",
+        error instanceof Error ? error : new Error(JSON.stringify(error))
+      );
+    }
+  }
 }
