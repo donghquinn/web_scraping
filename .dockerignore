@@ -13,4 +13,5 @@ example.env
 
 *.test.*
 
-assets
+schema.prisma
+
