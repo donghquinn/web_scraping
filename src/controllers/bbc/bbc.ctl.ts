@@ -7,12 +7,23 @@ import { HackersNewsProvider } from "libraries/providers/hacker.lib";
 export class BbcController {
   constructor(private readonly bbc: BbcNewsProvider) {}
 
-  @Get()
+  @Get("/count")
   async getBbcCount() {
     try {
       const count = await this.bbc.getBbcNewsCount();
 
       return new SetResponse(200, { count });
+    } catch (error) {
+      return new SetErrorResponse(500, error);
+    }
+  }
+
+  @Get("/news")
+  async getBbcNews() {
+    try {
+      const news = await this.bbc.bringBbcNews();
+
+      return new SetResponse(200, ...news);
     } catch (error) {
       return new SetErrorResponse(500, error);
     }
