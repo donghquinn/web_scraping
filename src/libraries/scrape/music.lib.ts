@@ -23,6 +23,25 @@ export const scrapeMelonChartByAge = async () => {
     const { data } = await axios.get(chartByAge);
 
     const html = cheerio.load(data);
+
+    const ageList = html(".tab_rwd.mg_cont")
+      .children("ul.list_tab")
+      .children("li")
+      // .children("div.tab_rwd mg_cont")
+      // .children("ul.list_tab")
+      .append("!")
+      .text()
+      .split("!");
+
+    console.log(ageList);
+
+    const musicList = html("span").text();
+
+    // .append("!")
+    // .text()
+    // .split("!");
+
+    console.log(musicList);
   } catch (error) {
     throw new MelonError(
       "Melon Chart",
@@ -31,3 +50,5 @@ export const scrapeMelonChartByAge = async () => {
     );
   }
 };
+
+await scrapeMelonChartByAge();
