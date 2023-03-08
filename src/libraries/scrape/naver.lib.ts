@@ -1,9 +1,7 @@
-import { sub, subMonths } from "date-fns";
+import { subMonths } from "date-fns";
 import { NaverError } from "errors/naver.error";
-import {
-  NaverDataLabRequestOptionInterface,
-  NaverSearchRequests,
-} from "types/naver.type";
+import { NaverSearchRequests } from "types/naver.type";
+import { naverAgeDicision } from "utils/age.util";
 
 export const naverSearchLink = async () => {
   try {
@@ -49,9 +47,8 @@ export const naverSearchLink = async () => {
         }),
       };
 
-      let ageExplanation: string;
-
-      requestOptions.push({ age: ageExplanation, options });
+      const age = naverAgeDicision(item);
+      requestOptions.push({ age, options });
     });
   } catch (error) {
     throw new NaverError(

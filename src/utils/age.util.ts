@@ -63,5 +63,5 @@ export const naverAgeDicision = (ages: string) => {
     return ageExplanation;
   }
 
-  throw new NaverError("");
+  throw new NaverError("Naver Data Lab Search", "Age Not Invalid");
 };
