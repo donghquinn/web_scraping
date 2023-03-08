@@ -22,10 +22,15 @@ export class HackersNewsProvider {
     }
   }
 
-  async bringHackerPosts() {
+  async bringTodayHackerPosts() {
     try {
+      const date = new Date().toLocaleDateString();
+
+      Logger.debug("HAcker News Today: %o", { date });
+
       const result = await this.prisma.hackers.findMany({
         select: { post: true, link: true },
+        where: { founded: date },
         orderBy: { rank: "desc" },
       });
 

@@ -1,4 +1,5 @@
 import { Injectable, Logger } from "@nestjs/common";
+import { da } from "date-fns/locale";
 import { BbcError } from "errors/bbc.error";
 import { PrismaLibrary } from "libraries/common/prisma.lib";
 import { scrapeBbcTechNews } from "libraries/scrape/bbc.lib";
@@ -23,10 +24,15 @@ export class BbcNewsProvider {
     }
   }
 
-  async bringBbcNews() {
+  async bringTodayBbcNews() {
     try {
+      const date = new Date().toLocaleDateString();
+
+      Logger.debug("Today: %o", { date });
+
       const result = await this.prisma.bbcTechNews.findMany({
         select: { post: true, link: true },
+        where: { founded: date },
         orderBy: { rank: "desc" },
       });
 

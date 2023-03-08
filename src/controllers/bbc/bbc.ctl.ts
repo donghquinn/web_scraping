@@ -21,7 +21,7 @@ export class BbcController {
   @Get("/news")
   async getBbcNews() {
     try {
-      const news = await this.bbc.bringBbcNews();
+      const news = await this.bbc.bringTodayBbcNews();
 
       return new SetResponse(200, ...news);
     } catch (error) {
