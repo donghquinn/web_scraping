@@ -20,7 +20,7 @@ export class HackerController {
   @Get("/news")
   async getHackerNews() {
     try {
-      const news = await this.hacker.bringHackerPosts();
+      const news = await this.hacker.bringTodayHackerPosts();
 
       return new SetResponse(200, ...news);
     } catch (error) {
