@@ -61,10 +61,9 @@ export const naverSearchLink = async () => {
     });
 
     const responses = requestOptions.map(async (item) => {
-      const result = (await fetch(
-        url,
-        item.options
-      )) as unknown as NaverDataLabResponse;
+      const result = (await (
+        await fetch(url, item.options)
+      ).json()) as NaverDataLabResponse;
 
       return { age: item.age, response: result };
     });
