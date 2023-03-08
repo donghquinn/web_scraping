@@ -1,9 +1,10 @@
-import { Logger } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { setIntervalAsync } from "set-interval-async";
-import { scrapeHackerNews } from "./scrape/hackers.lib";
 import { PrismaLibrary } from "./common/prisma.lib";
 import { scrapeBbcTechNews } from "./scrape/bbc.lib";
+import { scrapeHackerNews } from "./scrape/hackers.lib";
 
+@Injectable()
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
 
