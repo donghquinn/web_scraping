@@ -26,7 +26,7 @@ export class BbcNewsProvider {
 
   async bringTodayBbcNews() {
     try {
-      const date = new Date().toLocaleDateString();
+      const date = new Date();
 
       Logger.debug("Today: %o", { date });
 

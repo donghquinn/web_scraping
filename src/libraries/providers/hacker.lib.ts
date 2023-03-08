@@ -24,7 +24,7 @@ export class HackersNewsProvider {
 
   async bringTodayHackerPosts() {
     try {
-      const date = new Date().toLocaleDateString();
+      const date = new Date();
 
       Logger.debug("HAcker News Today: %o", { date });
 
