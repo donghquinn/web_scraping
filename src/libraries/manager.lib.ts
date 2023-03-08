@@ -4,7 +4,6 @@ import { PrismaLibrary } from "./common/prisma.lib";
 import { scrapeBbcTechNews } from "./scrape/bbc.lib";
 import { scrapeHackerNews } from "./scrape/hackers.lib";
 
-@Injectable()
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
 
