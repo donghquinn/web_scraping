@@ -1,6 +1,9 @@
+import { Optional } from "@nestjs/common";
+import axios from "axios";
 import { subMonths } from "date-fns";
 import { NaverError } from "errors/naver.error";
-import { NaverSearchRequests } from "types/naver.type";
+import fetch from "node-fetch";
+import { NaverDataLabResponse, NaverSearchRequests } from "types/naver.type";
 import { naverAgeDicision } from "utils/age.util";
 
 export const naverSearchLink = async () => {
@@ -36,8 +39,14 @@ export const naverSearchLink = async () => {
     const requestOptions: Array<NaverSearchRequests> = [];
 
     ageArray.filter((item) => {
+      const headers = {
+        "X-Naver-Client-Id": client,
+        "X-Naver-Client-Secret": token,
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+      };
       const options = {
         method: "POST",
+        headers,
         body: JSON.stringify({
           startDate: startDate.toString(),
           endDate: endDate.toString(),
@@ -50,6 +59,17 @@ export const naverSearchLink = async () => {
       const age = naverAgeDicision(item);
       requestOptions.push({ age, options });
     });
+
+    const responses = requestOptions.map(async (item) => {
+      const result = (await fetch(
+        url,
+        item.options
+      )) as unknown as NaverDataLabResponse;
+
+      return { age: item.age, response: result };
+    });
+
+    return responses;
   } catch (error) {
     throw new NaverError(
       "Naver Search Rank",
