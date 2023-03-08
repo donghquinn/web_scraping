@@ -43,6 +43,10 @@ export const scrapeBbcTechNews = async () => {
 
     return returnArray;
   } catch (error) {
+    Logger.error("Scrape BBC Tech News Error: %o", {
+      error: error instanceof Error ? error : new Error(JSON.stringify(error)),
+    });
+
     throw new BbcError(
       " BBC Tech News",
       "Scrape BBC Tech News Error",
