@@ -63,6 +63,10 @@ export const scrapeHackerNews = async () => {
 
     return newsArray;
   } catch (error) {
+    Logger.error("Scrape Hacker Tech News Error: %o", {
+      error: error instanceof Error ? error : new Error(JSON.stringify(error)),
+    });
+
     throw new HackerError(
       "Hacker News Scrape",
       "News Rank Scraping Error",
