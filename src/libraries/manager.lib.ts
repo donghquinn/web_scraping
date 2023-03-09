@@ -3,6 +3,7 @@ import { setIntervalAsync } from "set-interval-async";
 import { PrismaLibrary } from "./common/prisma.lib";
 import { scrapeBbcTechNews } from "./scrape/bbc.lib";
 import { scrapeHackerNews } from "./scrape/hackers.lib";
+import { scrapeMelonChart } from "./scrape/music.lib";
 
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
@@ -32,6 +33,7 @@ export class ScrapeObserver {
       try {
         const hakcerNewsResult = await scrapeHackerNews();
         const bbcNewsResult = await scrapeBbcTechNews();
+        const melonMusicChart = await scrapeMelonChart();
 
         await this.prisma.hackers.createMany({
           data: hakcerNewsResult,
@@ -40,6 +42,8 @@ export class ScrapeObserver {
         await this.prisma.bbcTechNews.createMany({
           data: bbcNewsResult,
         });
+
+        await this.prisma.melon.createMany({ data: melonMusicChart });
       } catch (error) {
         Logger.error("Observer Error: %o", {
           error:

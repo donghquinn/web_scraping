@@ -33,3 +33,19 @@ model BbcTechNews {
   link    String
   founded DateTime @default(now())
 }
+
+model Naver {
+  uuid      String   @id @default(uuid())
+  age       String
+  groupName String
+  keywords  String[]
+  founded   DateTime @default(now())
+}
+
+model Melon {
+  uuid    String   @id @default(uuid())
+  rank    Int      @default(autoincrement())
+  title   String
+  artist  String
+  founded DateTime @default(now())
+}
