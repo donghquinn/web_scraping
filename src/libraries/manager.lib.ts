@@ -1,9 +1,9 @@
-import { Injectable, Logger } from "@nestjs/common";
-import { setIntervalAsync } from "set-interval-async";
-import { PrismaLibrary } from "./common/prisma.lib";
-import { scrapeBbcTechNews } from "./scrape/bbc.lib";
-import { scrapeHackerNews } from "./scrape/hackers.lib";
-import { scrapeMelonChart } from "./scrape/music.lib";
+import { Injectable, Logger } from '@nestjs/common';
+import { setIntervalAsync } from 'set-interval-async';
+import { PrismaLibrary } from './common/prisma.lib';
+import { scrapeBbcTechNews } from './scrape/bbc.lib';
+import { scrapeHackerNews } from './scrape/hackers.lib';
+import { scrapeMelonChart } from './scrape/music.lib';
 
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
@@ -45,9 +45,8 @@ export class ScrapeObserver {
 
         await this.prisma.melon.createMany({ data: melonMusicChart });
       } catch (error) {
-        Logger.error("Observer Error: %o", {
-          error:
-            error instanceof Error ? error : new Error(JSON.stringify(error)),
+        Logger.error('Observer Error: %o', {
+          error: error instanceof Error ? error : new Error(JSON.stringify(error)),
         });
       }
     }, this.interval);
