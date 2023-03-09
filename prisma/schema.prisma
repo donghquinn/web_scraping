@@ -41,3 +41,11 @@ model Naver {
   keywords  String[]
   founded   DateTime @default(now())
 }
+
+model Melon {
+  uuid    String   @id @default(uuid())
+  rank    Int      @default(autoincrement())
+  title   String
+  artist  String
+  founded DateTime @default(now())
+}
