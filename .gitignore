@@ -3,6 +3,8 @@ logs
 .env
 *.env
 
+dist
+
 .yarn/*
 !.yarn/patches
 !.yarn/plugins

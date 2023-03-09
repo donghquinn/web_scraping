@@ -19,7 +19,7 @@
     "esModuleInterop": true,
     "baseUrl": "src",
   },
-  "include": ["src/**/*", "jest.config.cjs"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"],
   "ts-node": {
     "files": true
