@@ -1,8 +1,6 @@
-import { Injectable, Logger } from "@nestjs/common";
-import { da } from "date-fns/locale";
-import { BbcError } from "errors/bbc.error";
-import { PrismaLibrary } from "libraries/common/prisma.lib";
-import { scrapeBbcTechNews } from "libraries/scrape/bbc.lib";
+import { Injectable, Logger } from '@nestjs/common';
+import { BbcError } from 'errors/bbc.error';
+import { PrismaLibrary } from 'libraries/common/prisma.lib';
 
 @Injectable()
 export class BbcNewsProvider {
@@ -12,14 +10,14 @@ export class BbcNewsProvider {
     try {
       const count = await this.prisma.bbcTechNews.count();
 
-      Logger.log("BBC News Total Count: %o", { count });
+      Logger.log('BBC News Total Count: %o', { count });
 
       return count;
     } catch (error) {
       throw new BbcError(
-        "BBC Error",
-        "BBC Total Count Error",
-        error instanceof Error ? error : new Error(JSON.stringify(error))
+        'BBC Error',
+        'BBC Total Count Error',
+        error instanceof Error ? error : new Error(JSON.stringify(error)),
       );
     }
   }
@@ -28,24 +26,24 @@ export class BbcNewsProvider {
     try {
       const date = new Date();
 
-      Logger.debug("Today: %o", { date });
+      Logger.debug('Today: %o', { date });
 
       const result = await this.prisma.bbcTechNews.findMany({
         select: { post: true, link: true },
         where: { founded: date },
-        orderBy: { rank: "desc" },
+        orderBy: { rank: 'desc' },
       });
 
-      Logger.log("BBC News Ordered by Rank: %o", { newsCount: result.length });
+      Logger.log('BBC News Ordered by Rank: %o', { newsCount: result.length });
 
-      Logger.debug("BBC News: ", { ...result });
+      Logger.debug('BBC News: ', { ...result });
 
       return result;
     } catch (error) {
       throw new BbcError(
-        "BBC Error",
-        "BBC New Error",
-        error instanceof Error ? error : new Error(JSON.stringify(error))
+        'BBC Error',
+        'BBC New Error',
+        error instanceof Error ? error : new Error(JSON.stringify(error)),
       );
     }
   }
