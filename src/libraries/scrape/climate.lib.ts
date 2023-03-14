@@ -23,7 +23,7 @@ export const getKoreanClimate = async () => {
 
     Logger.debug('ResponseData: %o', { responseData });
 
-    const climate = responseData.body.items as Array<ClimateReturnData>;
+    const climate = responseData.response.body.items as Array<ClimateReturnData>;
 
     for (let i = 0; i < climate.length; i += 1) {
       if (Number(climate[i].khaiGrade) === 1) {
@@ -45,20 +45,6 @@ export const getKoreanClimate = async () => {
         khaiStatus = 'Very Bad';
         climate[i].khaiStatus = khaiStatus;
       }
-
-      // await this.prisma.climate.create({
-      //   data: {
-      //     dataTime: climate[i].dataTime,
-      //     pm10Value: climate[i].pm10Value,
-      //     no2Value: climate[i].no2Value,
-      //     o3Value: climate[i].o3Value,
-      //     coValue: climate[i].coValue,
-      //     so2Value: climate[i].so2Value,
-      //     khaiValue: climate[i].khaiValue,
-      //     so2Grade: climate[i].so2Grade,
-      //     khaiGrade: climate[i].khaiGrade,
-      //   },
-      // });
     }
     return climate;
   } catch (error) {
@@ -69,5 +55,3 @@ export const getKoreanClimate = async () => {
     );
   }
 };
-
-await getKoreanClimate();
