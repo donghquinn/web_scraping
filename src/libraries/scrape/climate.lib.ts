@@ -1,36 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { ClimateError } from 'errors/climate.error';
 import fetch from 'node-fetch';
-
-interface Response {
-  body: ClimateResponse;
-}
-
-interface ClimateResponse {
-  total: string;
-  items: Array<ClimateItems>;
-}
-
-interface ClimateItems {
-  so2Grade: string;
-  coFlag: string | null;
-  khaiValue: string;
-  khaiGrade: string;
-  so2Value: string;
-  coValue: string;
-  pm10Flag: string | null;
-  pm10Value: string;
-  o3Grade: string;
-  no2Flage: string | null;
-  no2Grade: string;
-  o3Flag: string | null;
-  so2Flag: string | null;
-  dataTime: string;
-  coGrade: string;
-  no2Value: string;
-  pm10Grade: string;
-  o3Value: string;
-}
+import { Response } from 'types/climate.type';
 
 export const getKoreanClimate = async () => {
   try {
@@ -43,6 +14,7 @@ export const getKoreanClimate = async () => {
 
     const response = await fetch(
       `${url}?returnType=json&serviceKey=${token}&numOfRows=10pageNo=1&&stationName=종로구&dataTerm=DAILY`,
+      options,
     );
 
     const responseData = (await response.json()) as Response;
