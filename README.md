@@ -13,6 +13,9 @@ https://www.melon.com/chart/index.htm
 멜론 음원 차트
 
 ## Korean Climate Data
+https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15073861
+공공API 홈페이지에 가입하고서, Token을 발급받는다.
+
 http://apis.data.go.kr/B552584/ArpltnInforInqireSvc
 기상청 정보
 
