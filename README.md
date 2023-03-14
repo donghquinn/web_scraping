@@ -1,4 +1,20 @@
-# BBC & Hacker News
+# Data Scraping
+
+## BBC Tech News
+https://www.bbc.com/korean/topics/c2dwqjn99ggt
+BBC 기술 관련 뉴스
+
+## Hacker News
+https://news.ycombinator.com
+Hacker News 1~30위
+
+## Melon Music Chart - South Korean
+https://www.melon.com/chart/index.htm
+멜론 음원 차트
+
+## Korean Climate Data
+http://apis.data.go.kr/B552584/ArpltnInforInqireSvc
+기상청 정보
 
 ## 사전 작업
 
