@@ -49,3 +49,18 @@ model Melon {
   artist  String
   founded DateTime @default(now())
 }
+
+model Climate {
+  uuid      String  @id @default(uuid())
+  dataTime  String
+  pm25Value String?
+  pm10Value String
+  no2Value  String
+  o3Value   String
+  coValue   String
+  so2Value  String
+  // 통합대기환경수치
+  khaiValue String
+  // 통합대기환경지수
+  khaiGrade String
+}

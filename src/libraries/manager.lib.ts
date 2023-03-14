@@ -4,6 +4,7 @@ import { PrismaLibrary } from './common/prisma.lib';
 import { scrapeBbcTechNews } from './scrape/bbc.lib';
 import { scrapeHackerNews } from './scrape/hackers.lib';
 import { scrapeMelonChart } from './scrape/music.lib';
+import { getKoreanClimate } from './scrape/climate.lib';
 
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
@@ -34,6 +35,7 @@ export class ScrapeObserver {
         const hakcerNewsResult = await scrapeHackerNews();
         const bbcNewsResult = await scrapeBbcTechNews();
         const melonMusicChart = await scrapeMelonChart();
+        const climate = await getKoreanClimate();
 
         await this.prisma.hackers.createMany({
           data: hakcerNewsResult,
