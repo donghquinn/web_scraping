@@ -64,4 +64,3 @@ export const scrapeMelonChart = async () => {
     );
   }
 };
-await scrapeMelonChart();
