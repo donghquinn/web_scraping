@@ -60,7 +60,7 @@ export const getKoreanClimate = async () => {
       //   },
       // });
     }
-    return responseData.body.items;
+    return climate;
   } catch (error) {
     throw new ClimateError(
       'Korean Climate',

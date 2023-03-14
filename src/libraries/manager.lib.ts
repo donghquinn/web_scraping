@@ -46,6 +46,26 @@ export class ScrapeObserver {
         });
 
         await this.prisma.melon.createMany({ data: melonMusicChart });
+
+        for (let i = 0; i < climate.length; i += 1) {
+          await this.prisma.climate.create({
+            data: {
+              dataTime: climate[i].dataTime,
+              pm10Value: climate[i].pm10Value,
+              no2Value: climate[i].no2Value,
+              o3Value: climate[i].o3Value,
+              coValue: climate[i].coValue,
+              so2Value: climate[i].so2Value,
+              khaiValue: climate[i].khaiValue,
+              o3Grade: climate[i].o3Grade,
+              so2Grade: climate[i].so2Grade,
+              no2Grade: climate[i].no2Grade,
+              coGrade: climate[i].coGrade,
+              khaiGrade: climate[i].khaiGrade,
+              khaiStatus: climate[i].khaiStatus,
+            },
+          });
+        }
       } catch (error) {
         Logger.error('Error: %o', { error });
 
