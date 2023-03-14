@@ -21,7 +21,7 @@ export const getKoreanClimate = async () => {
 
     const responseData = (await response.json()) as Response;
 
-    Logger.debug('ResponseData: %o', { responseData });
+    // Logger.debug('ResponseData: %o', { responseData });
 
     const climate = responseData.response.body.items as Array<ClimateReturnData>;
 
@@ -46,6 +46,9 @@ export const getKoreanClimate = async () => {
         climate[i].khaiStatus = khaiStatus;
       }
     }
+
+    Logger.debug('Climate Return Data: %o', { climate });
+
     return climate;
   } catch (error) {
     throw new ClimateError(
