@@ -45,6 +45,8 @@ export class ScrapeObserver {
 
         await this.prisma.melon.createMany({ data: melonMusicChart });
       } catch (error) {
+        Logger.error('Error: %o', { error });
+
         Logger.error('Observer Error: %o', {
           error: error instanceof Error ? error : new Error(JSON.stringify(error)),
         });
