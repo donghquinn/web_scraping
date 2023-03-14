@@ -1,8 +1,9 @@
 {
   "name": "scraping",
-  "version": "1.0.0",
+  "version": "1.5.0",
   "main": "index.js",
   "license": "MIT",
+  "author": "donghquinn",
   "packageManager": "yarn@3.4.1",
   "scripts": {
     "start": "NODE_ENV=production node -r  ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node ./src/app.ts",

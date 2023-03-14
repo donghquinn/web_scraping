@@ -1,4 +1,20 @@
-# BBC & Hacker News
+# Data Scraping
+
+## BBC Tech News
+https://www.bbc.com/korean/topics/c2dwqjn99ggt
+BBC 기술 관련 뉴스
+
+## Hacker News
+https://news.ycombinator.com
+Hacker News 1~30위
+
+## Melon Music Chart - South Korean
+https://www.melon.com/chart/index.htm
+멜론 음원 차트
+
+## Korean Climate Data
+http://apis.data.go.kr/B552584/ArpltnInforInqireSvc
+기상청 정보
 
 ## 사전 작업
 
@@ -16,6 +32,12 @@ yarn run migrate
 ```
 
 를 통해 데이터 베이스 마이그레이션
+
+### 이미 실행 중에 데이터베이스 스키마가 변경되었을 떄
+
+```
+yarn run db:update
+```
 
 ## 환경변수 설정
 
