@@ -2,3 +2,7 @@ APP_PORT=
 INTERVAL=
 
 DATABASE_URL="postgresql://user:password@DB_SERVER_IP:DB_PORT/DB_NAME?schema=public"
+
+KOREAN_CLIMATE=http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty
+CLIMATE_ENCODED_TOKEN=
+CLIMATE_DECODED_TOKEN=
