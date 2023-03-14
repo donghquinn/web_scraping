@@ -13,8 +13,6 @@ export const bootstrap = async () => {
 
   manager.start();
 
-  Logger.log(`Scrape Manager Start: ${date}`);
-
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   const port = Number(process.env.APP_PORT!);
@@ -31,6 +29,7 @@ export const bootstrap = async () => {
   const wrapper = '@'.repeat(message.length);
 
   Logger.log(wrapper);
+  Logger.log(`Scrape Manager Start: ${date}`);
   Logger.log(message);
   Logger.log(wrapper);
 };
