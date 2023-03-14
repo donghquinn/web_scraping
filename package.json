@@ -9,6 +9,7 @@
     "build": "NODE_ENV=production tsc --project tsconfig.json --diagnostics -p tsconfig.json",
     "dev:bbc": "nodemon --exec node -r  ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node ./src/libraries/scrape/bbc.lib.ts",
     "dev:melon": "nodemon --exec node -r  ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node ./src/libraries/scrape/music.lib.ts",
+    "dev:climate": "nodemon --exec node -r  ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node ./src/libraries/scrape/climate.lib.ts",
     "schema": "prisma generate",
     "migrate": "prisma migrate dev --name added_melon",
     "db:update": "prisma db push"

@@ -1,10 +1,5 @@
-import "./env";
+import './env';
 
-import { ScrapeObserver } from "libraries/manager.lib";
-import { bootstrap } from "server";
-
-const observer = new ScrapeObserver();
-
-observer.start();
+import { bootstrap } from 'server';
 
 await bootstrap();
