@@ -41,11 +41,17 @@ export class ScrapeObserver {
           data: hakcerNewsResult,
         });
 
+        Logger.log('Hacker News Inserted Finished.');
+
         await this.prisma.bbcTechNews.createMany({
           data: bbcNewsResult,
         });
 
+        Logger.log('BBC News Inserted Finished.');
+
         await this.prisma.melon.createMany({ data: melonMusicChart });
+
+        Logger.log('Melon Music Chart Inserted Finished.');
 
         for (let i = 0; i < climate.length; i += 1) {
           await this.prisma.climate.create({
@@ -66,6 +72,8 @@ export class ScrapeObserver {
             },
           });
         }
+
+        Logger.log('Korean Climate Inserted Finished.');
       } catch (error) {
         Logger.error('Error: %o', { error });
 
