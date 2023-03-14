@@ -63,7 +63,7 @@ model Climate {
   o3Value   String
   // 일산화탄소 농도
   coValue   String
-  // 아황산가스 수치
+  // 아황산가스 농도
   so2Value  String
   // 아황산가스 지수
   so2Grade  String
