@@ -1,4 +1,8 @@
 export interface Response {
+  response: BodyResponse;
+}
+
+interface BodyResponse {
   body: ClimateResponse;
 }
 
