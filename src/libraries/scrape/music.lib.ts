@@ -1,11 +1,10 @@
 import { Logger } from '@nestjs/common';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
-import { sub, subMonths, subYears } from 'date-fns';
+import { subYears } from 'date-fns';
 import { MelonError } from 'errors/melon.error';
 import { NaverError } from 'errors/naver.error';
 import fetch from 'node-fetch';
-import { json } from 'stream/consumers';
 import { MusicNaverSearchResponse, MusicRank } from 'types/music.type';
 
 /**
@@ -50,6 +49,10 @@ export const scrapeMelonChart = async () => {
 
     return musicArray;
   } catch (error) {
+    Logger.error('Scrape Melon Chart Error: %o', {
+      error: error instanceof Error ? error : new Error(JSON.stringify(error)),
+    });
+
     throw new MelonError(
       'Melon Chart',
       'Scrape Melon Chart by Age Error',
@@ -100,6 +103,10 @@ export const searchMusicStatistics = async (musics: Array<MusicRank>) => {
       console.log('Music Search Response: %o', { responseData: response.results });
     }
   } catch (error) {
+    Logger.error('Scrape Music Statistics Search Error: %o', {
+      error: error instanceof Error ? error : new Error(JSON.stringify(error)),
+    });
+
     throw new NaverError(
       'Music Statistics Search',
       'Music Statistics Search Error',

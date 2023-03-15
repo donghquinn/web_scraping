@@ -41,3 +41,10 @@ export interface NaverNewsItems {
   description: string;
   pubDate: string;
 }
+
+export interface NaverNewsResultReturn {
+  keyWord: string;
+  title: string;
+  url: string;
+  postedTime: string;
+}

@@ -1,7 +1,7 @@
 import { subMonths } from 'date-fns';
 import { NaverError } from 'errors/naver.error';
 import fetch from 'node-fetch';
-import { NaverDataLabResponse, NaverNewsResponse, NaverSearchRequests } from 'types/naver.type';
+import { NaverDataLabResponse, NaverNewsResponse, NaverNewsResultReturn, NaverSearchRequests } from 'types/naver.type';
 import utf8 from 'utf8';
 import { naverAgeDicision } from 'utils/age.util';
 
@@ -64,6 +64,8 @@ export const naverSearchLink = async () => {
 
 export const naverNews = async () => {
   try {
+    const newsArray: Array<NaverNewsResultReturn> = [];
+
     const queryName = utf8.encode('IT');
 
     const url = `https://openapi.naver.com/v1/search/news.json?query=${queryName}`;
