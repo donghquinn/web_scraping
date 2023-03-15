@@ -2,6 +2,9 @@ import { Logger } from '@nestjs/common';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { MelonError } from 'errors/melon.error';
+import { NaverError } from 'errors/naver.error';
+import fetch from 'node-fetch';
+import { json } from 'stream/consumers';
 import { MusicRank } from 'types/music.type';
 
 /**
@@ -49,6 +52,33 @@ export const scrapeMelonChart = async () => {
     throw new MelonError(
       'Melon Chart',
       'Scrape Melon Chart by Age Error',
+      error instanceof Error ? error : new Error(JSON.stringify(error)),
+    );
+  }
+};
+
+export const searchMusicStatistics = async (musics: Array<MusicRank>) => {
+  try {
+    const url = 'https://openapi.naver.com/v1/datalab/search';
+
+    const headers = {
+      'X-Naver-Client-Id': process.env.NAVER_CLIENT!,
+      'X-Naver-Client-Secret': process.env.NAVER_TOKEN!,
+    };
+
+    for (let i = 0; i < musics.length; i += 1) {
+      const body = JSON.stringify({});
+      const options = {
+        method: 'POST',
+        headers,
+      };
+
+      const response = await (await fetch(url, options)).json();
+    }
+  } catch (error) {
+    throw new NaverError(
+      'Music Statistics Search',
+      'Music Statistics Search Error',
       error instanceof Error ? error : new Error(JSON.stringify(error)),
     );
   }
