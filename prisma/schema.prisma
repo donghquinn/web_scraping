@@ -36,7 +36,9 @@ model BbcTechNews {
 
 model NaverNews {
   uuid       String   @id @default(uuid())
+  keyWords   String
   title      String
+  // originallink
   url        String
   postedTime DateTime
   founded    DateTime @default(now())

@@ -1,7 +1,7 @@
 import { subMonths } from 'date-fns';
 import { NaverError } from 'errors/naver.error';
 import fetch from 'node-fetch';
-import { NaverDataLabResponse, NaverSearchRequests } from 'types/naver.type';
+import { NaverDataLabResponse, NaverNewsResponse, NaverSearchRequests } from 'types/naver.type';
 import utf8 from 'utf8';
 import { naverAgeDicision } from 'utils/age.util';
 
@@ -78,11 +78,11 @@ export const naverNews = async () => {
       headers,
     };
 
-    const response = await (await fetch(url, options)).json();
+    const response = (await (await fetch(url, options)).json()) as NaverNewsResponse;
 
     console.log('Naver News: %o', { response });
 
-    return response;
+    return response.items;
   } catch (error) {
     throw new NaverError(
       'Naver News',
