@@ -85,6 +85,8 @@ export const searchMusicStatistics = async (musics: Array<MusicRank>) => {
       };
 
       const response = await (await fetch(url, options)).json();
+
+      console.log('Music Search Response: %o', { response });
     }
   } catch (error) {
     throw new NaverError(
