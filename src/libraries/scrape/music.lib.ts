@@ -62,15 +62,26 @@ export const searchMusicStatistics = async (musics: Array<MusicRank>) => {
     const url = 'https://openapi.naver.com/v1/datalab/search';
 
     const headers = {
+      'Content-Type': 'application/json',
       'X-Naver-Client-Id': process.env.NAVER_CLIENT!,
       'X-Naver-Client-Secret': process.env.NAVER_TOKEN!,
     };
 
     for (let i = 0; i < musics.length; i += 1) {
-      const body = JSON.stringify({});
+      const body = JSON.stringify({
+        timeUnit: 'month',
+        keywordGroups: [
+          {
+            groupName: musics[i].title,
+            keywords: [musics[i].title, musics[i].artist],
+          },
+        ],
+      });
+
       const options = {
         method: 'POST',
         headers,
+        body,
       };
 
       const response = await (await fetch(url, options)).json();
