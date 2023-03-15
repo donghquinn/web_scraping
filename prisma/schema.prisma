@@ -34,12 +34,12 @@ model BbcTechNews {
   founded DateTime @default(now())
 }
 
-model Naver {
-  uuid      String   @id @default(uuid())
-  age       String
-  groupName String
-  keywords  String[]
-  founded   DateTime @default(now())
+model NaverNews {
+  uuid       String   @id @default(uuid())
+  title      String
+  url        String
+  postedTime DateTime
+  founded    DateTime @default(now())
 }
 
 model Melon {

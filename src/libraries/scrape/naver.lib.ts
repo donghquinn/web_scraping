@@ -2,6 +2,7 @@ import { subMonths } from 'date-fns';
 import { NaverError } from 'errors/naver.error';
 import fetch from 'node-fetch';
 import { NaverDataLabResponse, NaverSearchRequests } from 'types/naver.type';
+import utf8 from 'utf8';
 import { naverAgeDicision } from 'utils/age.util';
 
 export const naverSearchLink = async () => {
@@ -60,3 +61,35 @@ export const naverSearchLink = async () => {
     );
   }
 };
+
+export const naverNews = async () => {
+  try {
+    const queryName = utf8.encode('IT');
+
+    const url = `https://openapi.naver.com/v1/search/news.json?query=${queryName}`;
+
+    const headers = {
+      'X-Naver-Client-Id': process.env.NAVER_CLIENT!,
+      'X-Naver-Client-Secret': process.env.NAVER_TOKEN!,
+    };
+
+    const options = {
+      method: 'GET',
+      headers,
+    };
+
+    const response = await (await fetch(url, options)).json();
+
+    console.log('Naver News: %o', { response });
+
+    return response;
+  } catch (error) {
+    throw new NaverError(
+      'Naver News',
+      'Naver News Error',
+      error instanceof Error ? error : new Error(JSON.stringify(error)),
+    );
+  }
+};
+
+await naverNews();
