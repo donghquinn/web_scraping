@@ -32,13 +32,13 @@ export class MusicChartProvider {
   // 특정 음원의 음원 랭킹 그래프
   async melonChartGraph(musicTitle: string) {
     try {
-      const melonRankData = this.prisma.melon.findMany({
-        select: { rank: true },
+      const melonRankData = await this.prisma.melon.findMany({
+        select: { rank: true, title: true, founded: true },
         where: { title: musicTitle },
         orderBy: { founded: 'asc' },
       });
 
-      const url = '';
+      const url = 'https://plot.andongh.com/music';
 
       const bodyData = JSON.stringify({ titleArray: melonRankData });
 
@@ -48,6 +48,8 @@ export class MusicChartProvider {
       };
 
       const response = await fetch(url, options);
+
+      return response;
     } catch (error) {
       throw new MelonError('Melon Chart', 'Get Music Chart Status');
     }
