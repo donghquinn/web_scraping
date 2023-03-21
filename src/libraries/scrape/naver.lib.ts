@@ -1,9 +1,7 @@
-import { subMonths } from 'date-fns';
 import { NaverError } from 'errors/naver.error';
 import fetch from 'node-fetch';
-import { NaverDataLabResponse, NaverNewsResponse, NaverNewsResultReturn, NaverSearchRequests } from 'types/naver.type';
+import { NaverNewsResponse, NaverNewsResultReturn } from 'types/naver.type';
 import utf8 from 'utf8';
-import { naverAgeDicision } from 'utils/age.util';
 
 // export const naverSearchLink = async () => {
 //   try {
@@ -93,5 +91,3 @@ export const naverNews = async () => {
     );
   }
 };
-
-await naverNews();
