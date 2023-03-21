@@ -68,7 +68,7 @@ export const naverNews = async () => {
 
     const queryName = utf8.encode('IT');
 
-    const url = `https://openapi.naver.com/v1/search/news.json?query=${queryName}`;
+    const url = `https://openapi.naver.com/v1/search/news?resultType=json&query=${queryName}`;
 
     const headers = {
       'X-Naver-Client-Id': process.env.NAVER_CLIENT!,
