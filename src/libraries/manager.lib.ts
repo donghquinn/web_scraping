@@ -10,6 +10,7 @@ import { NewsArrayType } from 'types/news.type';
 import { MusicRank } from 'types/music.type';
 import { ClimateReturnData } from 'types/climate.type';
 import { naverNews } from './scrape/naver.lib';
+import { NaverNewsItems } from 'types/naver.type';
 
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
@@ -41,9 +42,9 @@ export class ScrapeObserver {
         const bbcNewsResult = await scrapeBbcTechNews();
         const melonMusicChart = await scrapeMelonChart();
         const climate = await getKoreanClimate();
-        const naver = await naverNews();
+        const naverNewsResult = await naverNews();
 
-        await this.receivedDataInsert(hakcerNewsResult, bbcNewsResult, melonMusicChart, climate);
+        await this.receivedDataInsert(hakcerNewsResult, bbcNewsResult, melonMusicChart, climate, naverNewsResult);
       } catch (error) {
         Logger.error('Error: %o', { error });
 
@@ -59,6 +60,7 @@ export class ScrapeObserver {
     bbcNews: NewsArrayType[],
     melonMusicChart: MusicRank[],
     climateDate: ClimateReturnData[],
+    naverNewsResult: NaverNewsItems[],
   ) {
     try {
       await this.prisma.hackers.createMany({
@@ -98,6 +100,21 @@ export class ScrapeObserver {
       }
 
       Logger.log('Korean Climate Inserted Finished.');
+
+      for (let i = 0; i < naverNewsResult.length; i += 1) {
+        await this.prisma.naverNews.create({
+          data: {
+            keyWord: 'IT',
+            title: naverNewsResult[i].title,
+            description: naverNewsResult[i].description,
+            originallink: naverNewsResult[i].originallink,
+            url: naverNewsResult[i].link,
+            postedTime: naverNewsResult[i].pubDate,
+          },
+        });
+      }
+
+      Logger.log('Naver IT News Inserted Finished.');
     } catch (error) {
       throw new PrismaError(
         'Prisma Manager',
