@@ -110,14 +110,14 @@ export const searchMusicStatistics = async (musics: Array<MusicRank>) => {
         body,
       };
 
-      console.log('Request Body: %o', { body });
+      console.log('Request Body: ', { body });
 
       const response = (await (await fetch(url, options)).json()) as MusicNaverSearchResponse;
 
-      console.log('Music Search Response: %o', { responseData: response.results });
+      console.log('Music Search Response: ', { responseData: response.results });
     }
   } catch (error) {
-    Logger.error('Scrape Music Statistics Search Error: %o', {
+    Logger.error('Scrape Music Statistics Search Error: ', {
       error: error instanceof Error ? error : new Error(JSON.stringify(error)),
     });
 

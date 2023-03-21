@@ -9,6 +9,7 @@ import { PrismaError } from 'errors/prisma.error';
 import { NewsArrayType } from 'types/news.type';
 import { MusicRank } from 'types/music.type';
 import { ClimateReturnData } from 'types/climate.type';
+import { naverNews } from './scrape/naver.lib';
 
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
@@ -40,6 +41,7 @@ export class ScrapeObserver {
         const bbcNewsResult = await scrapeBbcTechNews();
         const melonMusicChart = await scrapeMelonChart();
         const climate = await getKoreanClimate();
+        const naver = await naverNews();
 
         await this.receivedDataInsert(hakcerNewsResult, bbcNewsResult, melonMusicChart, climate);
       } catch (error) {
