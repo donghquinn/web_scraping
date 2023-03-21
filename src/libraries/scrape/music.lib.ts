@@ -1,8 +1,11 @@
 import { Logger } from '@nestjs/common';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
+import { subYears } from 'date-fns';
 import { MelonError } from 'errors/melon.error';
-import { MusicRank } from 'types/music.type';
+import { NaverError } from 'errors/naver.error';
+import fetch from 'node-fetch';
+import { MusicNaverSearchResponse, MusicRank } from 'types/music.type';
 
 /**
  * https://search.daum.net/search?nil_suggest=sugsch&w=tot&DA=GIQ&sq=%EC%97%B0%EB%A0%B9%EB%B3%84+%EC%9D%8C%EC%9B%90%EC%B0%A8%ED%8A%B8&o=1&sugo=11&q=%EC%97%B0%EB%A0%B9%EB%B3%84+%EC%9D%8C%EC%9B%90%EC%B0%A8%ED%8A%B8
@@ -34,9 +37,23 @@ export const scrapeMelonChart = async () => {
       .text()
       .split('!');
 
-    // Logger.debug('Music Artis: %o', { musicArtist });
-
     for (let i = 0; i < musicTitle.length - 1; i += 1) {
+      // const { data: naver } = await axios.get(
+      //   `https://search.naver.com/search.naver?sm=tab_etc&mra=bkhH&where=nexearch&qvt=0&query=${musicTitle[i]}`,
+      // );
+
+      // // Logger.debug(' google Search: %o', { naver });
+
+      // const searchMusic = cheerio.load(naver);
+
+      // const musicGenre = searchMusic('div.info_group')
+      //   // .children('dd')
+      //   .append('!')
+      //   .text()
+      //   .split('!');
+
+      // Logger.debug('Music Genre: %o', { musicGenre });
+
       musicArray.push({ rank: i + 1, title: musicTitle[i], artist: musicArtist[i] });
     }
 
@@ -46,6 +63,10 @@ export const scrapeMelonChart = async () => {
 
     return musicArray;
   } catch (error) {
+    Logger.error('Scrape Melon Chart Error: %o', {
+      error: error instanceof Error ? error : new Error(JSON.stringify(error)),
+    });
+
     throw new MelonError(
       'Melon Chart',
       'Scrape Melon Chart by Age Error',
@@ -53,3 +74,59 @@ export const scrapeMelonChart = async () => {
     );
   }
 };
+
+export const searchMusicStatistics = async (musics: Array<MusicRank>) => {
+  try {
+    const url = 'https://openapi.naver.com/v1/datalab/search';
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'X-Naver-Client-Id': process.env.NAVER_CLIENT!,
+      'X-Naver-Client-Secret': process.env.NAVER_TOKEN!,
+    };
+
+    const today = new Date();
+
+    const startDate = subYears(today, 1);
+
+    console.log('Dates: %o', { today, startDate });
+    // const returndata = [];
+    for (let i = 0; i < musics.length; i += 1) {
+      const body = JSON.stringify({
+        startDate: startDate,
+        endDate: today,
+        timeUnit: 'year',
+        keywordGroups: [
+          {
+            groupName: musics[i].title,
+            keywords: [musics[i].title, musics[i].artist],
+          },
+        ],
+      });
+
+      const options = {
+        method: 'POST',
+        headers,
+        body,
+      };
+
+      console.log('Request Body: ', { body });
+
+      const response = (await (await fetch(url, options)).json()) as MusicNaverSearchResponse;
+
+      console.log('Music Search Response: ', { responseData: response.results });
+    }
+  } catch (error) {
+    Logger.error('Scrape Music Statistics Search Error: ', {
+      error: error instanceof Error ? error : new Error(JSON.stringify(error)),
+    });
+
+    throw new NaverError(
+      'Music Statistics Search',
+      'Music Statistics Search Error',
+      error instanceof Error ? error : new Error(JSON.stringify(error)),
+    );
+  }
+};
+const array = await scrapeMelonChart();
+// await searchMusicStatistics(array);

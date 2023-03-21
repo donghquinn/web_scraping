@@ -25,3 +25,26 @@ export interface NaverDataLabDataResult {
   period: string;
   ratio: string;
 }
+
+export interface NaverNewsResponse {
+  lastBuildDate: string;
+  total: number;
+  start: number;
+  display: number;
+  items: Array<NaverNewsItems>;
+}
+
+export interface NaverNewsItems {
+  title: string;
+  originallink: string;
+  link: string;
+  description: string;
+  pubDate: string;
+}
+
+export interface NaverNewsResultReturn {
+  keyWord: string;
+  title: string;
+  url: string;
+  postedTime: string;
+}

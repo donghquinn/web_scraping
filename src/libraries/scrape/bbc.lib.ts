@@ -1,12 +1,12 @@
-import { Logger } from "@nestjs/common";
-import axios from "axios";
-import * as cheerio from "cheerio";
-import { BbcError } from "errors/bbc.error";
-import { NewsArrayType } from "types/news.type";
+import { Logger } from '@nestjs/common';
+import axios from 'axios';
+import * as cheerio from 'cheerio';
+import { BbcError } from 'errors/bbc.error';
+import { NewsArrayType } from 'types/news.type';
 
 export const scrapeBbcTechNews = async () => {
   try {
-    const url = "https://www.bbc.com/korean/topics/c2dwqjn99ggt";
+    const url = 'https://www.bbc.com/korean/topics/c2dwqjn99ggt';
 
     const { data } = await axios.get(url);
 
@@ -16,18 +16,18 @@ export const scrapeBbcTechNews = async () => {
 
     const returnArray: Array<NewsArrayType> = [];
 
-    const newsTitle = html("div.promo-text")
-      .children("h2.bbc-qvbmj5.e47bds20")
-      .children("a.focusIndicatorDisplayBlock.bbc-uk8dsi.e1d658bg0")
-      .append("!")
+    const newsTitle = html('div.promo-text')
+      .children('h2.bbc-qvbmj5.e47bds20')
+      .children('a.focusIndicatorDisplayBlock.bbc-uk8dsi.e1d658bg0')
+      .append('!')
       .text()
-      .split("!");
+      .split('!');
 
-    html("div.promo-text")
-      .children("h2.bbc-qvbmj5.e47bds20")
-      .children("a.focusIndicatorDisplayBlock.bbc-uk8dsi.e1d658bg0")
+    html('div.promo-text')
+      .children('h2.bbc-qvbmj5.e47bds20')
+      .children('a.focusIndicatorDisplayBlock.bbc-uk8dsi.e1d658bg0')
       .each((index, item) => {
-        const link = html(item).attr("href");
+        const link = html(item).attr('href');
         linkArray.push(link!);
       });
 
@@ -39,18 +39,18 @@ export const scrapeBbcTechNews = async () => {
       });
     }
 
-    Logger.log("BBC Technology News Found");
+    Logger.log('BBC Technology News Found');
 
     return returnArray;
   } catch (error) {
-    Logger.error("Scrape BBC Tech News Error: %o", {
+    Logger.error('Scrape BBC Tech News Error: ', {
       error: error instanceof Error ? error : new Error(JSON.stringify(error)),
     });
 
     throw new BbcError(
-      " BBC Tech News",
-      "Scrape BBC Tech News Error",
-      error instanceof Error ? error : new Error(JSON.stringify(error))
+      ' BBC Tech News',
+      'Scrape BBC Tech News Error',
+      error instanceof Error ? error : new Error(JSON.stringify(error)),
     );
   }
 };
