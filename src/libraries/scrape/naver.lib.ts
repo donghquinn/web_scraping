@@ -62,7 +62,9 @@ import utf8 from 'utf8';
 
 export const naverNews = async () => {
   try {
-    const newsArray: Array<NaverNewsResultReturn> = [];
+
+    // const newsArray: Array<NaverNewsResultReturn> = [];
+
 
     const queryName = utf8.encode('IT');
 
