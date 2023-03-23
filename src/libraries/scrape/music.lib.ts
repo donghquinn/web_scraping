@@ -38,22 +38,6 @@ export const scrapeMelonChart = async () => {
       .split('!');
 
     for (let i = 0; i < musicTitle.length - 1; i += 1) {
-      // const { data: naver } = await axios.get(
-      //   `https://search.naver.com/search.naver?sm=tab_etc&mra=bkhH&where=nexearch&qvt=0&query=${musicTitle[i]}`,
-      // );
-
-      // // Logger.debug(' google Search: %o', { naver });
-
-      // const searchMusic = cheerio.load(naver);
-
-      // const musicGenre = searchMusic('div.info_group')
-      //   // .children('dd')
-      //   .append('!')
-      //   .text()
-      //   .split('!');
-
-      // Logger.debug('Music Genre: %o', { musicGenre });
-
       musicArray.push({ rank: i + 1, title: musicTitle[i], artist: musicArtist[i] });
     }
 
@@ -128,5 +112,5 @@ export const searchMusicStatistics = async (musics: Array<MusicRank>) => {
     );
   }
 };
-const array = await scrapeMelonChart();
-// await searchMusicStatistics(array);
+// const array = await scrapeMelonChart();
+// // await searchMusicStatistics(array);
