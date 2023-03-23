@@ -41,7 +41,7 @@ model NaverNews {
   description  String
   originallink String
   url          String
-  postedTime   DateTime
+  postedTime   String
   founded      DateTime @default(now())
 }
 
