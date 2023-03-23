@@ -1,8 +1,9 @@
-import { Injectable } from "@nestjs/common";
-import { BbcError } from "errors/bbc.error";
-import { HackerError } from "errors/hacker.error";
-import { MelonError } from "errors/melon.error";
-import { MusicRank } from "types/music.type";
+import { Injectable } from '@nestjs/common';
+import { BbcError } from 'errors/bbc.error';
+import { HackerError } from 'errors/hacker.error';
+import { MelonError } from 'errors/melon.error';
+import { NaverError } from 'errors/naver.error';
+import { MusicRank } from 'types/music.type';
 
 interface ResponseObject {
   resCode: string;
@@ -46,7 +47,11 @@ export class SetErrorResponse implements ResponseObject {
       errorArray.push(error.type, error.message);
     }
 
-    if (typeof error === "string") errorArray.push(error);
+    if (error instanceof NaverError) {
+      errorArray.push(error.type, error.message);
+    }
+
+    if (typeof error === 'string') errorArray.push(error);
 
     if (Array.isArray(error)) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
