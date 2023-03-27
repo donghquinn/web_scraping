@@ -152,9 +152,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/core@npm:^9.3.9":
-  version: 9.3.9
-  resolution: "@nestjs/core@npm:9.3.9"
+"@nestjs/core@npm:^9.3.12":
+  version: 9.3.12
+  resolution: "@nestjs/core@npm:9.3.12"
   dependencies:
     "@nuxtjs/opencollective": 0.3.2
     fast-safe-stringify: 2.1.1
@@ -176,7 +176,7 @@ __metadata:
       optional: true
     "@nestjs/websockets":
       optional: true
-  checksum: b2a29c8b61b8b7bbc8d883d4ff9aed80504e28c11bd627fccbeb11a7920559b8d885efecee4799c3bd9c2cd0224dd519c7b2dcdfa9f523855529143596e1837a
+  checksum: 9a2ba9c304aae9655a8656e7eb2b9644340bc5498216377818c62d58930c1326dd313f3f20497e2499ed4c6215b5b77a2d18f874a463c14094b216ae743f14e1
   languageName: node
   linkType: hard
 
@@ -4109,7 +4109,7 @@ __metadata:
   resolution: "scraping@workspace:."
   dependencies:
     "@nestjs/common": ^9.3.9
-    "@nestjs/core": ^9.3.9
+    "@nestjs/core": ^9.3.12
     "@nestjs/platform-express": ^9.3.9
     "@prisma/client": ^4.11.0
     "@types/node": ^18.15.0
