@@ -20,7 +20,7 @@
   "dependencies": {
     "@nestjs/common": "^9.3.9",
     "@nestjs/core": "^9.3.9",
-    "@nestjs/platform-express": "^9.3.9",
+    "@nestjs/platform-express": "^9.3.12",
     "@prisma/client": "^4.11.0",
     "@types/node": "^18.15.0",
     "autoprefixer": "^10.4.13",
