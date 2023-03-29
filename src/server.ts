@@ -13,7 +13,7 @@ export const bootstrap = async () => {
 
   manager.start();
 
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, { logger: ['debug', 'warn', 'error'] });
 
   const port = Number(process.env.APP_PORT!);
 
