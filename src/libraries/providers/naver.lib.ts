@@ -33,9 +33,9 @@ export class NaverProvider {
       });
 
       if (returnArray.length === 0) {
-        Logger.debug("It's Not Founded Yet");
+        Logger.log("It's Not Founded Yet");
       } else {
-        Logger.debug('Found Naver News');
+        Logger.log('Found Naver News');
       }
 
       return returnArray;

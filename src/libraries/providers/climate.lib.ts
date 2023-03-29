@@ -39,12 +39,17 @@ export class ClimateProvider {
       result.filter((item) => {
         Logger.debug('Date: %o', { created: item.created.toDateString(), now: now.toDateString() });
 
-        if (item.created.getDate() === now.getDate()) {
+        if (item.created.getDate() === now.getDate() - 1 && item.created.getMonth() === now.getMonth()) {
           returnArray.push(item);
-        } else {
-          returnArray.push('No Result Found');
         }
       });
+
+      if (returnArray.length === 0) {
+        Logger.log("It's Not Founded Yet");
+      } else {
+        Logger.log('Found Naver News');
+      }
+
       return returnArray;
     } catch (error) {
       throw new ClimateError(

@@ -29,16 +29,30 @@ export class HackersNewsProvider {
       Logger.debug('HAcker News Today: %o', { date });
 
       const result = await this.prisma.hackers.findMany({
-        select: { post: true, link: true },
-        take: 30,
+        select: { post: true, link: true, founded: true },
+
         orderBy: { rank: 'desc' },
       });
 
-      Logger.log('Hacker News News: %o', { newsCount: result.length });
+      const now = new Date();
 
-      Logger.debug('Hacker News: ', { ...result });
+      const returnArray: unknown[] = [];
 
-      return result;
+      result.filter((item) => {
+        Logger.debug('Date: %o', { created: item.founded.getDate(), now: now.getDate() - 1 });
+
+        if (item.founded.getDate() === now.getDate() - 1 && item.founded.getMonth() === now.getMonth()) {
+          returnArray.push(item);
+        }
+      });
+
+      if (returnArray.length === 0) {
+        Logger.log("It's Not Founded Yet");
+      } else {
+        Logger.log('Found Hackers News');
+      }
+
+      return returnArray;
     } catch (error) {
       throw new HackerError(
         'Hacker News',
