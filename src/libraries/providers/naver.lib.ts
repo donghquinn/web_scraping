@@ -29,10 +29,10 @@ export class NaverProvider {
 
         if (item.founded.getDate() === now.getDate()) {
           returnArray.push(item);
-        } else {
-          returnArray.push('No Result Found');
         }
       });
+
+      Logger.debug('Found Naver News');
 
       return returnArray;
     } catch (error) {
