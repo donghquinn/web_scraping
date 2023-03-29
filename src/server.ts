@@ -4,7 +4,6 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import session from 'express-session';
 import helmet from 'helmet';
 import { AppModule } from 'modules/app.module';
-import { LoggerModule } from 'modules/logger.module';
 
 export const bootstrap = async () => {
   const { ScrapeObserver } = await import('libraries/manager.lib');
@@ -31,6 +30,8 @@ export const bootstrap = async () => {
       secret: process.env.SESSION_SECRET!,
       resave: false,
       saveUninitialized: false,
+      // TODO Save Session into Redis or Cache Server
+      // store: new RedisStore(),
       cookie: { maxAge: 1800000, secure: true },
     }),
   );
