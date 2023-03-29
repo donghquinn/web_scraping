@@ -1,13 +1,13 @@
-import { Controller, Get } from "@nestjs/common";
-import { SetErrorResponse, SetResponse } from "dto/response.dto";
-import { BbcNewsProvider } from "libraries/providers/bbc.lib";
-import { HackersNewsProvider } from "libraries/providers/hacker.lib";
+import { Controller, Get } from '@nestjs/common';
+import { SetErrorResponse, SetResponse } from 'dto/response.dto';
+import { BbcNewsProvider } from 'libraries/providers/bbc.lib';
+import { HackersNewsProvider } from 'libraries/providers/hacker.lib';
 
-@Controller("bbc")
+@Controller('bbc')
 export class BbcController {
   constructor(private readonly bbc: BbcNewsProvider) {}
 
-  @Get("/count")
+  @Get('/count')
   async getBbcCount() {
     try {
       const count = await this.bbc.getBbcNewsCount();
@@ -18,12 +18,12 @@ export class BbcController {
     }
   }
 
-  @Get("/news")
+  @Get('/news')
   async getBbcNews() {
     try {
       const news = await this.bbc.bringTodayBbcNews();
 
-      return new SetResponse(200, ...news);
+      return new SetResponse(200, { news });
     } catch (error) {
       return new SetErrorResponse(500, error);
     }
