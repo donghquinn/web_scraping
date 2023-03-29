@@ -40,7 +40,7 @@ export class ScrapeObserver {
     const now = new Date();
     const runningMoment = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59);
 
-    Logger.debug('Now, and Running Moment: %o', { now: now, runningMoment });
+    // Logger.debug('Now, and Running Moment: %o', { now: now, runningMoment });
     try {
       if (now === runningMoment) {
         const hakcerNewsResult = await scrapeHackerNews();

@@ -25,7 +25,7 @@ export class NaverProvider {
       const returnArray: unknown[] = [];
 
       result.filter((item) => {
-        Logger.debug('Date: %o', { created: item.founded.toDateString(), now: now.toDateString() });
+        // Logger.debug('Date: %o', { created: item.founded.toDateString(), now: now.toDateString() });
 
         if (item.founded.getDate() === now.getDate()) {
           returnArray.push(item);
@@ -33,6 +33,8 @@ export class NaverProvider {
           returnArray.push('No Result Found');
         }
       });
+
+      return returnArray;
     } catch (error) {
       throw new NaverError(
         'Get Today NAver News',
