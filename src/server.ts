@@ -13,7 +13,7 @@ export const bootstrap = async () => {
 
   const date = new Date().toLocaleTimeString();
 
-  manager.start();
+  await manager.start();
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule, { logger: ['debug', 'warn', 'error'] });
 
@@ -34,7 +34,8 @@ export const bootstrap = async () => {
       cookie: { maxAge: 1800000, secure: true },
     }),
   );
-  await app.listen(port);
+
+  await app.listen(port, '0.0.0.0');
 
   const message = `Listening On ${port}`;
   const wrapper = '@'.repeat(message.length);

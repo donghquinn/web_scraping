@@ -6,8 +6,8 @@ export class HeadersMiddleware implements NestMiddleware {
   constructor() {}
 
   use(request: Request, response: Response, next: (error?: any) => void) {
-    Logger.log(request.headers);
-    Logger.log(request.ip);
+    Logger.debug(request.headers);
+    Logger.debug(request.ip);
 
     next();
   }

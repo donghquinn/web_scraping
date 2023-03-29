@@ -12,6 +12,6 @@ import { NaverModule } from './naver.module';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(HeadersMiddleware).forRoutes('naver');
+    consumer.apply(HeadersMiddleware).forRoutes('*');
   }
 }
