@@ -8,6 +8,7 @@
   "scripts": {
     "start": "NODE_ENV=production node -r  ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node ./src/app.ts",
     "build": "NODE_ENV=production tsc --project tsconfig.json --diagnostics -p tsconfig.json",
+    "dev": "nodemon --exec node -r  ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node ./src/app.ts",
     "dev:bbc": "nodemon --exec node -r  ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node ./src/libraries/scrape/bbc.lib.ts",
     "dev:melon": "nodemon --exec node -r  ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node ./src/libraries/scrape/music.lib.ts",
     "dev:climate": "nodemon --exec node -r  ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node ./src/libraries/scrape/climate.lib.ts",
@@ -29,6 +30,7 @@
     "dotenv": "^16.0.3",
     "express-session": "^1.17.3",
     "helmet": "^6.0.1",
+    "nest-winston": "^1.9.1",
     "node-fetch": "^3.3.1",
     "nodemon": "^2.0.22",
     "prisma": "^4.11.0",

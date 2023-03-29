@@ -2271,7 +2271,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-safe-stringify@npm:2.1.1":
+"fast-safe-stringify@npm:2.1.1, fast-safe-stringify@npm:^2.1.1":
   version: 2.1.1
   resolution: "fast-safe-stringify@npm:2.1.1"
   checksum: a851cbddc451745662f8f00ddb622d6766f9bd97642dabfd9a405fb0d646d69fc0b9a1243cbf67f5f18a39f40f6fa821737651ff1bceeba06c9992ca2dc5bd3d
@@ -3652,6 +3652,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nest-winston@npm:^1.9.1":
+  version: 1.9.1
+  resolution: "nest-winston@npm:1.9.1"
+  dependencies:
+    fast-safe-stringify: ^2.1.1
+  peerDependencies:
+    "@nestjs/common": ^5.0.0 || ^6.6.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
+    winston: ^3.0.0
+  checksum: 811afd4a750971e67b2000d30aa87fb4f91b91e9d90fcf89925a58b01911cf8d301cdbe0de3f8ca8a91f5c01db3e0504393ea705134c549711ce2063404e03d8
+  languageName: node
+  linkType: hard
+
 "node-domexception@npm:^1.0.0":
   version: 1.0.0
   resolution: "node-domexception@npm:1.0.0"
@@ -4472,6 +4484,7 @@ __metadata:
     eslint-plugin-import: ^2.26.0
     express-session: ^1.17.3
     helmet: ^6.0.1
+    nest-winston: ^1.9.1
     node-fetch: ^3.3.1
     nodemon: ^2.0.22
     prettier: ^2.8.1

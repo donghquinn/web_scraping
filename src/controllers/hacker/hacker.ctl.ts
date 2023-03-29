@@ -1,12 +1,12 @@
-import { Controller, Get } from "@nestjs/common";
-import { SetErrorResponse, SetResponse } from "dto/response.dto";
-import { HackersNewsProvider } from "libraries/providers/hacker.lib";
+import { Controller, Get } from '@nestjs/common';
+import { SetErrorResponse, SetResponse } from 'dto/response.dto';
+import { HackersNewsProvider } from 'libraries/providers/hacker.lib';
 
-@Controller("hacker")
+@Controller('hacker')
 export class HackerController {
   constructor(private readonly hacker: HackersNewsProvider) {}
 
-  @Get("/count")
+  @Get('/count')
   async getHackerCount() {
     try {
       const count = await this.hacker.getHackerNewsCount();
@@ -17,7 +17,7 @@ export class HackerController {
     }
   }
 
-  @Get("/news")
+  @Get('/news')
   async getHackerNews() {
     try {
       const news = await this.hacker.bringTodayHackerPosts();
