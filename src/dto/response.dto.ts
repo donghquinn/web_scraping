@@ -4,6 +4,7 @@ import { HackerError } from 'errors/hacker.error';
 import { MelonError } from 'errors/melon.error';
 import { NaverError } from 'errors/naver.error';
 import { MusicRank } from 'types/music.type';
+import { NewsResponse } from 'types/news.type';
 
 interface ResponseObject {
   resCode: string;
@@ -12,7 +13,7 @@ interface ResponseObject {
 }
 
 interface KeyableObject {
-  [key: string]: string | number | MusicRank[];
+  [key: string]: string | number | MusicRank[] | NewsResponse[];
 }
 
 export class SetResponse implements ResponseObject {

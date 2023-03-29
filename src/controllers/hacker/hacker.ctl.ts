@@ -22,7 +22,7 @@ export class HackerController {
     try {
       const news = await this.hacker.bringTodayHackerPosts();
 
-      return new SetResponse(200, ...news);
+      return new SetResponse(200, { news });
     } catch (error) {
       return new SetErrorResponse(500, error);
     }
