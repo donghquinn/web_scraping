@@ -1,15 +1,14 @@
-import { INestApplication, Injectable } from "@nestjs/common";
-import { PrismaClient } from "@prisma/client";
+import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
 
 @Injectable()
-export class PrismaLibrary extends PrismaClient {
-  async Init() {
+export class PrismaLibrary extends PrismaClient implements OnModuleInit {
+  async onModuleInit() {
     await this.$connect();
   }
 
   stopping(connection: INestApplication) {
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    this.$on("beforeExit", async () => {
+    this.$on('beforeExit', async () => {
       await connection.close();
     });
   }
