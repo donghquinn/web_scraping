@@ -53,3 +53,19 @@ export interface ClimateReturnData {
   o3Value: string;
   khaiStatus: string;
 }
+
+export interface ClimateResponse {
+  pm10Value: string;
+  no2Value: string;
+  o3Value: string;
+  coValue: string;
+  so2Value: string;
+  khaiValue: string;
+  o3Grade: string;
+  so2Grade: string;
+  no2Grade: string;
+  coGrade: string;
+  khaiGrade: string;
+  khaiStatus: string;
+  dataTime: string;
+}

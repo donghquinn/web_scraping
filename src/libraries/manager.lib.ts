@@ -11,6 +11,7 @@ import { MusicRank } from 'types/music.type';
 import { ClimateReturnData } from 'types/climate.type';
 import { naverNews } from './scrape/naver.lib';
 import { NaverNewsItems } from 'types/naver.type';
+import { run } from 'node:test';
 
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
@@ -35,9 +36,13 @@ export class ScrapeObserver {
     return this.instance;
   }
 
-  start() {
-    setIntervalAsync(async () => {
-      try {
+  async start() {
+    const now = new Date();
+    const runningMoment = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59);
+
+    Logger.debug('Now, and Running Moment: %o', { now: now, runningMoment });
+    try {
+      if (now === runningMoment) {
         const hakcerNewsResult = await scrapeHackerNews();
         const bbcNewsResult = await scrapeBbcTechNews();
         const melonMusicChart = await scrapeMelonChart();
@@ -45,14 +50,15 @@ export class ScrapeObserver {
         const naverNewsResult = await naverNews();
 
         await this.receivedDataInsert(hakcerNewsResult, bbcNewsResult, melonMusicChart, climate, naverNewsResult);
-      } catch (error) {
-        Logger.error('Error: %o', { error });
-
-        Logger.error('Observer Error: %o', {
-          error: error instanceof Error ? error : new Error(JSON.stringify(error)),
-        });
       }
-    }, this.interval);
+      // if ()
+    } catch (error) {
+      Logger.error('Error: %o', { error });
+
+      Logger.error('Observer Error: %o', {
+        error: error instanceof Error ? error : new Error(JSON.stringify(error)),
+      });
+    }
   }
 
   async receivedDataInsert(

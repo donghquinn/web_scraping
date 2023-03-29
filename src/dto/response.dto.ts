@@ -3,6 +3,7 @@ import { BbcError } from 'errors/bbc.error';
 import { HackerError } from 'errors/hacker.error';
 import { MelonError } from 'errors/melon.error';
 import { NaverError } from 'errors/naver.error';
+import { ClimateResponse, ClimateReturnData } from 'types/climate.type';
 import { MusicRank } from 'types/music.type';
 import { NewsResponse } from 'types/news.type';
 
@@ -13,7 +14,7 @@ interface ResponseObject {
 }
 
 interface KeyableObject {
-  [key: string]: string | number | MusicRank[] | NewsResponse[];
+  [key: string]: unknown;
 }
 
 export class SetResponse implements ResponseObject {

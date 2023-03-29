@@ -1,6 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Logger } from '@nestjs/common';
 import { SetErrorResponse, SetResponse } from 'dto/response.dto';
 import { ClimateProvider } from 'libraries/providers/climate.lib';
+import { loggers } from 'winston';
 
 @Controller('climate')
 export class ClimateController {
@@ -11,7 +12,7 @@ export class ClimateController {
     try {
       const result = await this.climate.getDailyClimateData();
 
-      return new SetResponse(200, ...result);
+      return new SetResponse(200, { result });
     } catch (error) {
       return new SetErrorResponse(500, error);
     }
