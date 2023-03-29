@@ -69,3 +69,4 @@ export class SetErrorResponse implements ResponseObject {
 
   errMsg: string[];
 }
+
