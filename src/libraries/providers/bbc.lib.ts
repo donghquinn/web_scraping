@@ -29,16 +29,30 @@ export class BbcNewsProvider {
       Logger.debug('Today: %o', { date });
 
       const result = await this.prisma.bbcTechNews.findMany({
-        select: { post: true, link: true },
+        select: { post: true, link: true, founded: true },
         where: { founded: date },
         orderBy: { rank: 'desc' },
       });
 
-      Logger.log('BBC News Ordered by Rank: %o', { newsCount: result.length });
+      const now = new Date();
 
-      Logger.debug('BBC News: ', { ...result });
+      const returnArray: unknown[] = [];
 
-      return result;
+      result.filter((item) => {
+        // Logger.debug('Date: %o', { created: item.founded.getDate(), now: now.getDate() - 1 });
+
+        if (item.founded.getDate() === now.getDate() - 1 && item.founded.getMonth() === now.getMonth()) {
+          returnArray.push(item);
+        }
+      });
+
+      if (returnArray.length === 0) {
+        Logger.log("It's Not Founded Yet");
+      } else {
+        Logger.log('Found BBC News');
+      }
+
+      return returnArray;
     } catch (error) {
       throw new BbcError(
         'BBC Error',

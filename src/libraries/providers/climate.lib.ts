@@ -37,7 +37,7 @@ export class ClimateProvider {
       const returnArray: unknown[] = [];
 
       result.filter((item) => {
-        Logger.debug('Date: %o', { created: item.created.toDateString(), now: now.toDateString() });
+        // Logger.debug('Date: %o', { created: item.created.toDateString(), now: now.toDateString() });
 
         if (item.created.getDate() === now.getDate() - 1 && item.created.getMonth() === now.getMonth()) {
           returnArray.push(item);

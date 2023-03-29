@@ -39,7 +39,7 @@ export class HackersNewsProvider {
       const returnArray: unknown[] = [];
 
       result.filter((item) => {
-        Logger.debug('Date: %o', { created: item.founded.getDate(), now: now.getDate() - 1 });
+        // Logger.debug('Date: %o', { created: item.founded.getDate(), now: now.getDate() - 1 });
 
         if (item.founded.getDate() === now.getDate() - 1 && item.founded.getMonth() === now.getMonth()) {
           returnArray.push(item);
