@@ -30,7 +30,7 @@ export class HackersNewsProvider {
 
       const result = await this.prisma.hackers.findMany({
         select: { post: true, link: true },
-
+        take: 30,
         orderBy: { rank: 'desc' },
       });
 
