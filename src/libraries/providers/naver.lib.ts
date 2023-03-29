@@ -25,14 +25,18 @@ export class NaverProvider {
       const returnArray: unknown[] = [];
 
       result.filter((item) => {
-        // Logger.debug('Date: %o', { created: item.founded.toDateString(), now: now.toDateString() });
+        Logger.debug('Date: %o', { created: item.founded.getDate(), now: now.getDate() - 1 });
 
-        if (item.founded.getDate() === now.getDate()) {
+        if (item.founded.getDate() === now.getDate() - 1 && item.founded.getMonth() === now.getMonth()) {
           returnArray.push(item);
         }
       });
 
-      Logger.debug('Found Naver News');
+      if (returnArray.length === 0) {
+        Logger.debug("It's Not Founded Yet");
+      } else {
+        Logger.debug('Found Naver News');
+      }
 
       return returnArray;
     } catch (error) {
