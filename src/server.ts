@@ -24,7 +24,7 @@ export const bootstrap = async () => {
   app.enableVersioning();
   app.useBodyParser('json');
   app.enableShutdownHooks();
-  app.useLogger(app.get(LoggerModule));
+  // app.useLogger(app.get(LoggerModule));
   app.use(
     session({
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
