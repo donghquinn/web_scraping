@@ -1,9 +1,7 @@
-import { Injectable } from '@nestjs/common';
 import { BbcError } from 'errors/bbc.error';
 import { HackerError } from 'errors/hacker.error';
 import { MelonError } from 'errors/melon.error';
 import { NaverError } from 'errors/naver.error';
-import { MusicRank } from 'types/music.type';
 
 interface ResponseObject {
   resCode: string;
@@ -12,7 +10,7 @@ interface ResponseObject {
 }
 
 interface KeyableObject {
-  [key: string]: string | number | MusicRank[];
+  [key: string]: unknown;
 }
 
 export class SetResponse implements ResponseObject {
@@ -71,3 +69,4 @@ export class SetErrorResponse implements ResponseObject {
 
   errMsg: string[];
 }
+
