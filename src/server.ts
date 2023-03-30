@@ -4,6 +4,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import session from 'express-session';
 import helmet from 'helmet';
 import { AppModule } from 'modules/app.module';
+import { shutdown } from 'utils/shutdown.utils';
 
 export const bootstrap = async () => {
   const { ScrapeObserver } = await import('libraries/manager.lib');
@@ -45,4 +46,6 @@ export const bootstrap = async () => {
   Logger.log(`Scrape Manager Start: ${date}`);
   Logger.log(message);
   Logger.log(wrapper);
+
+  process.on('SIGTERM', async () => await shutdown(app));
 };
