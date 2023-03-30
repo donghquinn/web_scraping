@@ -32,8 +32,6 @@ export class ScrapeObserver {
 
     this.interval = Number(process.env.INTERVAL!);
 
-    // this.interval = Math.ceil(Math.random() * 10) * 1000;
-
     this.prisma = new PrismaLibrary();
 
     this.workTime = false;
@@ -54,14 +52,6 @@ export class ScrapeObserver {
   }
 
   public start() {
-    Logger.log('Start');
-
-    // Logger.debug(Number(process.env.INTERVAL!));
-
-    Logger.debug({ now: this.now, runningMoment: this.runningMoment });
-
-    Logger.log({ workTime: this.workTime });
-
     setIntervalAsync(async () => {
       try {
         Logger.log('Start time Check');
@@ -78,6 +68,7 @@ export class ScrapeObserver {
 
           await this.receivedDataInsert(hakcerNewsResult, bbcNewsResult, melonMusicChart, climate, naverNewsResult);
 
+          // 실행 완료 후, 다시 false로
           this.workTime = false;
         }
       } catch (error) {
@@ -166,7 +157,15 @@ export class ScrapeObserver {
   }
 
   timeCheck() {
-    if (this.now === this.runningMoment) {
+    Logger.debug({ now: this.now, runningMoment: this.runningMoment });
+
+    if (
+      this.now.getFullYear() === this.runningMoment.getFullYear() &&
+      this.now.getMonth() === this.runningMoment.getMonth() &&
+      this.now.getDay() === this.runningMoment.getDay() &&
+      this.now.getHours() === this.runningMoment.getHours() &&
+      this.now.getMinutes() === this.runningMoment.getMinutes()
+    ) {
       this.workTime = true;
     } else {
       this.workTime = false;
