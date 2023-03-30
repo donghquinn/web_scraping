@@ -4,17 +4,19 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import session from 'express-session';
 import helmet from 'helmet';
 import { AppModule } from 'modules/app.module';
+import { shutdown } from 'utils/shutdown.utils';
 
 export const bootstrap = async () => {
+  const date = new Date().toLocaleTimeString();
   const { ScrapeObserver } = await import('libraries/manager.lib');
 
   const manager = ScrapeObserver.getInstance();
 
-  const date = new Date().toLocaleTimeString();
+  manager.start();
 
-  await manager.start();
-
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, { logger: ['debug', 'warn', 'error'] });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    logger: ['log', 'debug', 'warn', 'error'],
+  });
 
   const port = Number(process.env.APP_PORT!);
 
@@ -45,4 +47,6 @@ export const bootstrap = async () => {
   Logger.log(`Scrape Manager Start: ${date}`);
   Logger.log(message);
   Logger.log(wrapper);
+
+  process.on('SIGTERM', async () => await shutdown(app));
 };
