@@ -19,8 +19,13 @@ export class MusicChartProvider {
       });
 
       Logger.debug('Melon Music Chart Founded: %o', { result });
+
       return result;
     } catch (error) {
+      Logger.error('Bring Melon Chart Error: %o', {
+        error: error instanceof Error ? error : new Error(JSON.stringify(error)),
+      });
+
       throw new MelonError(
         'Music Chart',
         'Bring MelonChart Error',
@@ -29,6 +34,7 @@ export class MusicChartProvider {
     }
   }
 
+  // TODO 그래프 그리는 코드 작업
   // 특정 음원의 음원 랭킹 그래프
   async melonChartGraph(musicTitle: string) {
     try {
@@ -51,7 +57,15 @@ export class MusicChartProvider {
 
       return response;
     } catch (error) {
-      throw new MelonError('Melon Chart', 'Get Music Chart Status');
+      Logger.error('Get Melon Chart Error: %o', {
+        error: error instanceof Error ? error : new Error(JSON.stringify(error)),
+      });
+
+      throw new MelonError(
+        'Melon Chart',
+        'Get Music Chart Status',
+        error instanceof Error ? error : new Error(JSON.stringify(error)),
+      );
     }
   }
 }
