@@ -8,7 +8,7 @@ export const getKoreanClimate = async () => {
     let khaiStatus: string;
 
     const url = process.env.KOREAN_CLIMATE!;
-    const token = process.env.CLIMATE_ENCODED_TOKEN!;
+    const token = process.env.KOREAN_ENCODED_TOKEN!;
 
     const options = {
       method: 'GET',
