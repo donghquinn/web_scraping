@@ -14,6 +14,10 @@ export class HackersNewsProvider {
 
       return count;
     } catch (error) {
+      Logger.error('Get Hacker News Count Error: %o', {
+        error: error instanceof Error ? error : new Error(JSON.stringify(error)),
+      });
+
       throw new HackerError(
         'Hacker News',
         'Hacker News Count Error',
@@ -54,6 +58,10 @@ export class HackersNewsProvider {
 
       return returnArray;
     } catch (error) {
+      Logger.error('Bring Hacker News Error: %o', {
+        error: error instanceof Error ? error : new Error(JSON.stringify(error)),
+      });
+
       throw new HackerError(
         'Hacker News',
         'Hacker News Bringing Error',
