@@ -42,6 +42,8 @@ export class ScrapeObserver {
 
     setIntervalAsync(async () => {
       try {
+        Logger.log(`Time: ${now}`);
+
         if (now === runningMoment) {
           await this.scrapeData();
         }
