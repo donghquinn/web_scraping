@@ -166,19 +166,13 @@ export class ScrapeObserver {
   }
 
   timeCheck() {
-    // let isTime: boolean = false;
-
-    // Logger.log('time: %o, target Time: %o', { now: this.now, runningMomonet: this.runningMoment });
-
     if (this.now === this.runningMoment) {
       this.workTime = true;
     } else {
       this.workTime = false;
     }
 
-    // this.workTime = this.timeCheck();
-
-    Logger.log('Is Time: ', this.workTime);
+    Logger.log(`Is Working Time: ${this.workTime}`);
 
     return this.workTime;
   }
