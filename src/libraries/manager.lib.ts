@@ -1,17 +1,17 @@
 import { Logger } from '@nestjs/common';
-import { setIntervalAsync } from 'set-interval-async';
+import { PrismaError } from 'errors/prisma.error';
+import { ClimateReturnData } from 'types/climate.type';
+import { MusicRank } from 'types/music.type';
+import { NaverNewsItems } from 'types/naver.type';
+import { NewsArrayType } from 'types/news.type';
 import { PrismaLibrary } from './common/prisma.lib';
 import { scrapeBbcTechNews } from './scrape/bbc.lib';
 import { getKoreanClimate } from './scrape/climate.lib';
 import { scrapeHackerNews } from './scrape/hackers.lib';
 import { scrapeMelonChart } from './scrape/music.lib';
-import { PrismaError } from 'errors/prisma.error';
-import { NewsArrayType } from 'types/news.type';
-import { MusicRank } from 'types/music.type';
-import { ClimateReturnData } from 'types/climate.type';
 import { naverNews } from './scrape/naver.lib';
-import { NaverNewsItems } from 'types/naver.type';
-import { run } from 'node:test';
+import { ManagerError } from 'errors/manager.error';
+import { setIntervalAsync } from 'set-interval-async';
 
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
@@ -21,7 +21,7 @@ export class ScrapeObserver {
   private prisma: PrismaLibrary;
 
   constructor() {
-    // ms 기준
+    // ms 기준 - 1분에 한번씩 시간 체크
     this.interval = Number(process.env.INTERVAL);
     // this.interval = Math.ceil(Math.random() * 10) * 1000;
 
@@ -40,24 +40,41 @@ export class ScrapeObserver {
     const now = new Date();
     const runningMoment = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59);
 
-    // Logger.debug('Now, and Running Moment: %o', { now: now, runningMoment });
-    try {
-      if (now === runningMoment) {
-        const hakcerNewsResult = await scrapeHackerNews();
-        const bbcNewsResult = await scrapeBbcTechNews();
-        const melonMusicChart = await scrapeMelonChart();
-        const climate = await getKoreanClimate();
-        const naverNewsResult = await naverNews();
+    setIntervalAsync(async () => {
+      try {
+        if (now === runningMoment) {
+          await this.scrapeData();
+        }
+      } catch (error) {
+        Logger.error('Error: %o', { error });
 
-        await this.receivedDataInsert(hakcerNewsResult, bbcNewsResult, melonMusicChart, climate, naverNewsResult);
+        Logger.error('Observer Error: %o', {
+          error: error instanceof Error ? error : new Error(JSON.stringify(error)),
+        });
       }
-      // if ()
-    } catch (error) {
-      Logger.error('Error: %o', { error });
+    }, this.interval);
+    // Logger.debug('Now, and Running Moment: %o', { now: now, runningMoment });
+  }
 
-      Logger.error('Observer Error: %o', {
+  async scrapeData() {
+    try {
+      const hakcerNewsResult = await scrapeHackerNews();
+      const bbcNewsResult = await scrapeBbcTechNews();
+      const melonMusicChart = await scrapeMelonChart();
+      const climate = await getKoreanClimate();
+      const naverNewsResult = await naverNews();
+
+      await this.receivedDataInsert(hakcerNewsResult, bbcNewsResult, melonMusicChart, climate, naverNewsResult);
+    } catch (error) {
+      Logger.error('Scrape Function Call Error', {
         error: error instanceof Error ? error : new Error(JSON.stringify(error)),
       });
+
+      throw new ManagerError(
+        'Manager',
+        'Scrape Function Call Error',
+        error instanceof Error ? error : new Error(JSON.stringify(error)),
+      );
     }
   }
 

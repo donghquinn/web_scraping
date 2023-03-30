@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { MetroError } from 'errors/metro.error';
 import { PrismaLibrary } from 'libraries/common/prisma.lib';
 import fetch from 'node-fetch';
 import { SeoulMetroResponse } from 'types/metro.type';
@@ -10,21 +11,18 @@ import { SeoulMetroResponse } from 'types/metro.type';
  * filedata
  * https://www.data.go.kr/tcs/dss/selectFileDataDetailView.do?publicDataPk=15048032#tab-layer-file
  */
-@Injectable()
-export class SeoulMetroProvider {
-  private stationName: string[];
 
-  constructor(private prisma: PrismaLibrary) {
-    /**
-     * 여의나루: 2528
-     * 여의도역: 2527
-     * 국회의사당역:
-     * 이태원: 2631
-     */
-    this.stationName = ['여의도역', '여의나루역', '국회의사당역'];
-  }
+/**
+ * 여의나루: 2528
+ * 여의도역: 2527
+ * 국회의사당역:
+ * 이태원: 2631
+ */
 
-  async getMetroData() {
+export const getSeoulMetroInfo = async () => {
+  const stationName = ['여의도역', '여의나루역', '국회의사당역'];
+
+  try {
     // const url = process.env.KOREAN_CLIMATE!;
     const token = process.env.KOREAN_ENCODED_TOKEN!;
     const baseUrl = 'https://api.odcloud.kr/api/15048032/v1/uddi:';
@@ -39,5 +37,15 @@ export class SeoulMetroProvider {
     );
 
     const responseData = (await response.json()) as SeoulMetroResponse;
+
+    console.log('Response Data: %o', { responseData });
+  } catch (error) {
+    throw new MetroError(
+      'Seoul Metro',
+      'Scrape Seoul Metro Info Error',
+      error instanceof Error ? error : new Error(JSON.stringify(error)),
+    );
   }
-}
+};
+
+await getSeoulMetroInfo();
