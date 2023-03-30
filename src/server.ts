@@ -12,7 +12,7 @@ export const bootstrap = async () => {
 
   const date = new Date().toLocaleTimeString();
 
-  await manager.start();
+  manager.start();
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule, { logger: ['debug', 'warn', 'error'] });
 
