@@ -40,8 +40,12 @@ export class NaverProvider {
 
       return returnArray;
     } catch (error) {
+      Logger.error('Bring Naver Today News Error: %o', {
+        error: error instanceof Error ? error : new Error(JSON.stringify(error)),
+      });
+
       throw new NaverError(
-        'Get Today NAver News',
+        'Get Today Naver News',
         'Get Naver News Error',
         error instanceof Error ? error : new Error(JSON.stringify(error)),
       );

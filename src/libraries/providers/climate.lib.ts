@@ -10,9 +10,6 @@ export class ClimateProvider {
   async getDailyClimateData() {
     try {
       const now = new Date();
-      // Logger.debug('Now: %o', { now });
-
-      // Logger.debug('Today: %o', { today });
 
       const result = await this.prisma.climate.findMany({
         select: {
@@ -47,11 +44,15 @@ export class ClimateProvider {
       if (returnArray.length === 0) {
         Logger.log("It's Not Founded Yet");
       } else {
-        Logger.log('Found Naver News');
+        Logger.log('Found Climate');
       }
 
       return returnArray;
     } catch (error) {
+      Logger.error('Bring Korean Climate Data Error: %o', {
+        error: error instanceof Error ? error : new Error(JSON.stringify(error)),
+      });
+
       throw new ClimateError(
         'Korean Climate Provider',
         'Korean Climate Provider Error',

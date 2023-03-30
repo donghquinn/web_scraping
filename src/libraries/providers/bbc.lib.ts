@@ -14,6 +14,10 @@ export class BbcNewsProvider {
 
       return count;
     } catch (error) {
+      Logger.error('Get BBC Total News Count Error: %o', {
+        error: error instanceof Error ? error : new Error(JSON.stringify(error)),
+      });
+
       throw new BbcError(
         'BBC Error',
         'BBC Total Count Error',
@@ -54,9 +58,11 @@ export class BbcNewsProvider {
 
       return returnArray;
     } catch (error) {
+      Logger.error('Bring BBC News Error: %o', error instanceof Error ? error : new Error(JSON.stringify(error)));
+
       throw new BbcError(
         'BBC Error',
-        'BBC New Error',
+        'BBC News Error',
         error instanceof Error ? error : new Error(JSON.stringify(error)),
       );
     }

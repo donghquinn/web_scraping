@@ -1,6 +1,7 @@
+import { Logger } from '@nestjs/common';
 import { NaverError } from 'errors/naver.error';
 import fetch from 'node-fetch';
-import { NaverNewsResponse, NaverNewsResultReturn } from 'types/naver.type';
+import { NaverNewsResponse } from 'types/naver.type';
 import utf8 from 'utf8';
 
 export const naverNews = async () => {
@@ -27,6 +28,10 @@ export const naverNews = async () => {
 
     return response.items;
   } catch (error) {
+    Logger.error('Scrape Naver News Error: %o', {
+      error: error instanceof Error ? error : new Error(JSON.stringify(error)),
+    });
+
     throw new NaverError(
       'Naver News',
       'Naver News Error',
