@@ -21,8 +21,6 @@ export const getKoreanClimate = async () => {
 
     const responseData = (await response.json()) as Response;
 
-    // Logger.debug('ResponseData: %o', { responseData });
-
     const climate = responseData.response.body.items as Array<ClimateReturnData>;
 
     for (let i = 0; i < climate.length; i += 1) {
@@ -51,6 +49,10 @@ export const getKoreanClimate = async () => {
 
     return climate;
   } catch (error) {
+    Logger.error('Scrape Korean Climate Error: %o', {
+      error: error instanceof Error ? error : new Error(JSON.stringify(error)),
+    });
+
     throw new ClimateError(
       'Korean Climate',
       'Get Korean Climate Error',
