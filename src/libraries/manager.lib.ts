@@ -15,8 +15,6 @@ import { clearIntervalAsync, setIntervalAsync } from 'set-interval-async';
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
 
-  private interval: number;
-
   private prisma: PrismaLibrary;
 
   private workTime: boolean;
@@ -25,11 +23,15 @@ export class ScrapeObserver {
 
   private runningMoment: Date;
 
+  private interval: number;
+
   private blockTimer: ReturnType<typeof setIntervalAsync> | null;
 
   constructor() {
     // ms 기준 - 1분에 한번씩 시간 체크
+
     this.interval = Number(process.env.INTERVAL!);
+
     // this.interval = Math.ceil(Math.random() * 10) * 1000;
 
     this.prisma = new PrismaLibrary();
@@ -54,9 +56,9 @@ export class ScrapeObserver {
   public start() {
     Logger.log('Start');
 
-    Logger.log(this.interval);
+    // Logger.debug(Number(process.env.INTERVAL!));
 
-    Logger.log({ now: this.now, runningMoment: this.runningMoment });
+    Logger.debug({ now: this.now, runningMoment: this.runningMoment });
 
     Logger.log({ workTime: this.workTime });
 
