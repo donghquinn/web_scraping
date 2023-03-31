@@ -55,6 +55,8 @@ export class ScrapeObserver {
     setIntervalAsync(async () => {
       try {
         Logger.log('Start time Check');
+        this.now = new Date();
+
         this.timeCheck();
 
         if (this.workTime) {
@@ -190,5 +192,3 @@ export class ScrapeObserver {
     }
   }
 }
-
-// return isTime;
