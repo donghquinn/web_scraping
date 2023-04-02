@@ -159,15 +159,15 @@ export class ScrapeObserver {
   }
 
   timeCheck() {
-    Logger.debug({ now: this.now, runningMoment: this.runningMoment });
-
     if (
-      this.now.getFullYear() === this.runningMoment.getFullYear() &&
-      this.now.getMonth() === this.runningMoment.getMonth() &&
-      this.now.getDay() === this.runningMoment.getDay() &&
+      // this.now.getFullYear() === this.runningMoment.getFullYear() &&
+      // this.now.getMonth() === this.runningMoment.getMonth() &&
+      // this.now.getDay() === this.runningMoment.getDay() &&
       this.now.getHours() === this.runningMoment.getHours() &&
       this.now.getMinutes() === this.runningMoment.getMinutes()
     ) {
+      Logger.debug({ now: this.now, runningMoment: this.runningMoment });
+
       this.workTime = true;
     } else {
       this.workTime = false;
