@@ -159,10 +159,11 @@ export class ScrapeObserver {
   }
 
   timeCheck() {
+    this.runningMoment = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate(), 23, 59);
     if (
-      // this.now.getFullYear() === this.runningMoment.getFullYear() &&
-      // this.now.getMonth() === this.runningMoment.getMonth() &&
-      // this.now.getDay() === this.runningMoment.getDay() &&
+      this.now.getFullYear() === this.runningMoment.getFullYear() &&
+      this.now.getMonth() === this.runningMoment.getMonth() &&
+      this.now.getDay() === this.runningMoment.getDay() &&
       this.now.getHours() === this.runningMoment.getHours() &&
       this.now.getMinutes() === this.runningMoment.getMinutes()
     ) {
