@@ -159,7 +159,9 @@ export class ScrapeObserver {
   }
 
   timeCheck() {
-    Logger.debug({ now: this.now, runningMoment: this.runningMoment });
+    this.runningMoment = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate(), 23, 59);
+
+    // Logger.debug({ now: this.now, runningMoment: this.runningMoment });
 
     if (
       this.now.getFullYear() === this.runningMoment.getFullYear() &&
@@ -168,6 +170,8 @@ export class ScrapeObserver {
       this.now.getHours() === this.runningMoment.getHours() &&
       this.now.getMinutes() === this.runningMoment.getMinutes()
     ) {
+      Logger.debug({ now: this.now, runningMoment: this.runningMoment });
+
       this.workTime = true;
     } else {
       this.workTime = false;
