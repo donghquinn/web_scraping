@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { BbcError } from 'errors/bbc.error';
-import { NewsArrayType } from 'types/news.type';
+import { BbcNewsReturnArray } from 'types/bbc.type';
 
 export const scrapeBbcTechNews = async () => {
   try {
@@ -14,7 +14,7 @@ export const scrapeBbcTechNews = async () => {
 
     const linkArray: Array<string> = [];
 
-    const returnArray: Array<NewsArrayType> = [];
+    const returnArray: Array<BbcNewsReturnArray> = [];
 
     const newsTitle = html('div.promo-text')
       .children('h2.bbc-qvbmj5.e47bds20')

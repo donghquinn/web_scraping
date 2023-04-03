@@ -1,17 +1,13 @@
 import { Logger } from '@nestjs/common';
 import { PrismaError } from 'errors/prisma.error';
-import { ClimateReturnData } from 'types/climate.type';
-import { MusicRank } from 'types/music.type';
-import { NaverNewsItems } from 'types/naver.type';
-import { NewsArrayType } from 'types/news.type';
+import { clearIntervalAsync, setIntervalAsync } from 'set-interval-async';
+import { ScrapeResultArray } from 'types/manager.type';
 import { PrismaLibrary } from './common/prisma.lib';
 import { scrapeBbcTechNews } from './scrape/bbc.lib';
 import { getKoreanClimate } from './scrape/climate.lib';
 import { scrapeHackerNews } from './scrape/hackers.lib';
 import { scrapeMelonChart } from './scrape/music.lib';
 import { naverNews } from './scrape/naver.lib';
-import { clearIntervalAsync, setIntervalAsync } from 'set-interval-async';
-import { ScrapeResultArray } from 'types/manager.type';
 
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
