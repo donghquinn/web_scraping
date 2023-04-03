@@ -60,3 +60,5 @@ export const getKoreanClimate = async () => {
     );
   }
 };
+
+await getKoreanClimate();

@@ -11,6 +11,7 @@ import { scrapeHackerNews } from './scrape/hackers.lib';
 import { scrapeMelonChart } from './scrape/music.lib';
 import { naverNews } from './scrape/naver.lib';
 import { clearIntervalAsync, setIntervalAsync } from 'set-interval-async';
+import { ScrapeResultArray } from 'types/manager.type';
 
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
@@ -27,6 +28,8 @@ export class ScrapeObserver {
 
   private blockTimer: ReturnType<typeof setIntervalAsync> | null;
 
+  private scrapeResultArray: ScrapeResultArray;
+
   constructor() {
     // ms 기준 - 1분에 한번씩 시간 체크
 
@@ -41,6 +44,8 @@ export class ScrapeObserver {
     this.runningMoment = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate(), 23, 59);
 
     this.blockTimer = null;
+
+    this.scrapeResultArray = { bbc: [], hackers: [], climate: [], naverNews: [], melon: [] };
   }
 
   public static getInstance() {
@@ -62,13 +67,35 @@ export class ScrapeObserver {
         if (this.workTime) {
           Logger.log('Scrape Start');
 
-          const hakcerNewsResult = await scrapeHackerNews();
-          const bbcNewsResult = await scrapeBbcTechNews();
-          const melonMusicChart = await scrapeMelonChart();
-          const climate = await getKoreanClimate();
-          const naverNewsResult = await naverNews();
+          const result = await Promise.allSettled([
+            scrapeHackerNews(),
+            scrapeBbcTechNews(),
+            scrapeMelonChart(),
+            getKoreanClimate(),
+            naverNews(),
+          ]);
 
-          await this.receivedDataInsert(hakcerNewsResult, bbcNewsResult, melonMusicChart, climate, naverNewsResult);
+          if (result[0].status === 'fulfilled') {
+            this.scrapeResultArray.hackers = result[0].value;
+          }
+
+          if (result[1].status === 'fulfilled') {
+            this.scrapeResultArray.bbc = result[1].value;
+          }
+
+          if (result[2].status === 'fulfilled') {
+            this.scrapeResultArray.melon = result[2].value;
+          }
+
+          if (result[3].status === 'fulfilled') {
+            this.scrapeResultArray.climate = result[3].value;
+          }
+
+          if (result[4].status === 'fulfilled') {
+            this.scrapeResultArray.naverNews = result[4].value;
+          }
+
+          await this.receivedDataInsert(this.scrapeResultArray);
 
           // 실행 완료 후, 다시 false로
           this.workTime = false;
@@ -85,61 +112,56 @@ export class ScrapeObserver {
     // Logger.debug('Now, and Running Moment: %o', { now: now, runningMoment });
   }
 
-  async receivedDataInsert(
-    hackersNews: NewsArrayType[],
-    bbcNews: NewsArrayType[],
-    melonMusicChart: MusicRank[],
-    climateDate: ClimateReturnData[],
-    naverNewsResult: NaverNewsItems[],
-  ) {
+  async receivedDataInsert(scrapeResults: ScrapeResultArray) {
+    const { bbc, hackers, melon, climate, naverNews } = scrapeResults;
     try {
       await this.prisma.hackers.createMany({
-        data: hackersNews,
+        data: hackers,
       });
 
       Logger.log('Hacker News Inserted Finished.');
 
       await this.prisma.bbcTechNews.createMany({
-        data: bbcNews,
+        data: bbc,
       });
 
       Logger.log('BBC News Inserted Finished.');
 
-      await this.prisma.melon.createMany({ data: melonMusicChart });
+      await this.prisma.melon.createMany({ data: melon });
 
       Logger.log('Melon Music Chart Inserted Finished.');
 
-      for (let i = 0; i < climateDate.length; i += 1) {
+      for (let i = 0; i < climate.length; i += 1) {
         await this.prisma.climate.create({
           data: {
-            dataTime: climateDate[i].dataTime,
-            pm10Value: climateDate[i].pm10Value,
-            no2Value: climateDate[i].no2Value,
-            o3Value: climateDate[i].o3Value,
-            coValue: climateDate[i].coValue,
-            so2Value: climateDate[i].so2Value,
-            khaiValue: climateDate[i].khaiValue,
-            o3Grade: climateDate[i].o3Grade,
-            so2Grade: climateDate[i].so2Grade,
-            no2Grade: climateDate[i].no2Grade,
-            coGrade: climateDate[i].coGrade,
-            khaiGrade: climateDate[i].khaiGrade,
-            khaiStatus: climateDate[i].khaiStatus,
+            dataTime: climate[i].dataTime,
+            pm10Value: climate[i].pm10Value,
+            no2Value: climate[i].no2Value,
+            o3Value: climate[i].o3Value,
+            coValue: climate[i].coValue,
+            so2Value: climate[i].so2Value,
+            khaiValue: climate[i].khaiValue,
+            o3Grade: climate[i].o3Grade,
+            so2Grade: climate[i].so2Grade,
+            no2Grade: climate[i].no2Grade,
+            coGrade: climate[i].coGrade,
+            khaiGrade: climate[i].khaiGrade,
+            khaiStatus: climate[i].khaiStatus,
           },
         });
       }
 
       Logger.log('Korean Climate Inserted Finished.');
 
-      for (let i = 0; i < naverNewsResult.length; i += 1) {
+      for (let i = 0; i < naverNews.length; i += 1) {
         await this.prisma.naverNews.create({
           data: {
             keyWord: 'IT',
-            title: naverNewsResult[i].title,
-            description: naverNewsResult[i].description,
-            originallink: naverNewsResult[i].originallink,
-            url: naverNewsResult[i].link,
-            postedTime: naverNewsResult[i].pubDate,
+            title: naverNews[i].title,
+            description: naverNews[i].description,
+            originallink: naverNews[i].originallink,
+            url: naverNews[i].link,
+            postedTime: naverNews[i].pubDate,
           },
         });
       }
