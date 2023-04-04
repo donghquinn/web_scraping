@@ -8,6 +8,8 @@ import { getKoreanClimate } from './scrape/climate.lib';
 import { scrapeHackerNews } from './scrape/hackers.lib';
 import { scrapeMelonChart } from './scrape/music.lib';
 import { naverNews } from './scrape/naver.lib';
+import { HackersNewsArrayType } from 'types/hackers.type';
+import { NaverNewsResponse } from 'types/naver.type';
 
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
@@ -28,7 +30,6 @@ export class ScrapeObserver {
 
   constructor() {
     // ms 기준 - 1분에 한번씩 시간 체크
-
     this.interval = Number(process.env.INTERVAL!);
 
     this.prisma = new PrismaLibrary();
@@ -73,36 +74,31 @@ export class ScrapeObserver {
 
           if (result[0].status === 'fulfilled') {
             this.scrapeResultArray.hackers = result[0].value;
-          }
-          if (result[0].status === 'rejected') {
+          } else if (result[0].status === 'rejected') {
             Logger.error('Hackers News Scrape Error: %o', { error: result[0].reason });
           }
 
           if (result[1].status === 'fulfilled') {
             this.scrapeResultArray.bbc = result[1].value;
-          }
-          if (result[1].status === 'rejected') {
+          } else if (result[1].status === 'rejected') {
             Logger.error('BBC News Scrape Error: %o', { error: result[1].reason });
           }
 
           if (result[2].status === 'fulfilled') {
             this.scrapeResultArray.melon = result[2].value;
-          }
-          if (result[2].status === 'rejected') {
+          } else if (result[2].status === 'rejected') {
             Logger.error('Melon Music Rank Chart Scrape Error: %o', { error: result[2].reason });
           }
 
           if (result[3].status === 'fulfilled') {
             this.scrapeResultArray.climate = result[3].value;
-          }
-          if (result[3].status === 'rejected') {
+          } else if (result[3].status === 'rejected') {
             Logger.error('Korea Climate Scrape Error: %o', { error: result[3].reason });
           }
 
           if (result[4].status === 'fulfilled') {
             this.scrapeResultArray.naverNews = result[4].value;
-          }
-          if (result[4].status === 'rejected') {
+          } else if (result[4].status === 'rejected') {
             Logger.error('Naver News Scrape Error: %o', { error: result[4].reason });
           }
 
