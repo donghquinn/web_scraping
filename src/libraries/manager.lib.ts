@@ -8,8 +8,6 @@ import { getKoreanClimate } from './scrape/climate.lib';
 import { scrapeHackerNews } from './scrape/hackers.lib';
 import { scrapeMelonChart } from './scrape/music.lib';
 import { naverNews } from './scrape/naver.lib';
-import { HackersNewsArrayType } from 'types/hackers.type';
-import { NaverNewsResponse } from 'types/naver.type';
 
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
@@ -56,7 +54,6 @@ export class ScrapeObserver {
   public start() {
     setIntervalAsync(async () => {
       try {
-        Logger.log('Start time Check');
         this.now = new Date();
 
         this.timeCheck();
@@ -202,11 +199,10 @@ export class ScrapeObserver {
       Logger.debug({ now: this.now, runningMoment: this.runningMoment });
 
       this.workTime = true;
+      Logger.log(`Is Working Time: ${this.workTime}`);
     } else {
       this.workTime = false;
     }
-
-    Logger.log(`Is Working Time: ${this.workTime}`);
 
     return this.workTime;
   }
