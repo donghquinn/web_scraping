@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { HackerError } from 'errors/hacker.error';
-import { NewsArrayType } from 'types/news.type';
+import { HackersNewsArrayType } from 'types/hackers.type';
 
 /**
  * Hackers News 1 ~ 30: "https://news.ycombinator.com/"
@@ -16,7 +16,7 @@ export const scrapeHackerNews = async () => {
 
     const scrapedHtml = cheerio.load(html.data);
 
-    const newsArray: NewsArrayType[] = [];
+    const newsArray: HackersNewsArrayType[] = [];
 
     const hrefArray: Array<string> = [];
 

@@ -1,4 +1,4 @@
-export interface NewsArrayType {
+export interface BbcNewsReturnArray {
   rank: string;
   post: string;
   link: string;

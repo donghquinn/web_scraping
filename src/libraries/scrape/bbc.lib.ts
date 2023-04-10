@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { BbcError } from 'errors/bbc.error';
-import { NewsArrayType } from 'types/news.type';
+import { BbcNewsReturnArray } from 'types/bbc.type';
 
 export const scrapeBbcTechNews = async () => {
   try {
@@ -14,22 +14,21 @@ export const scrapeBbcTechNews = async () => {
 
     const linkArray: Array<string> = [];
 
-    const returnArray: Array<NewsArrayType> = [];
+    const returnArray: Array<BbcNewsReturnArray> = [];
 
-    const newsTitle = html('div.promo-text')
-      .children('h2.bbc-qvbmj5.e47bds20')
-      .children('a.focusIndicatorDisplayBlock.bbc-uk8dsi.e1d658bg0')
-      .append('!')
-      .text()
-      .split('!');
+    const newsTitle = html('div.promo-text').children('h2').children('a').append('!').text().split('!');
 
     html('div.promo-text')
-      .children('h2.bbc-qvbmj5.e47bds20')
-      .children('a.focusIndicatorDisplayBlock.bbc-uk8dsi.e1d658bg0')
+      .children('h2')
+      .children('a')
       .each((index, item) => {
         const link = html(item).attr('href');
+
+        Logger.log(link);
         linkArray.push(link!);
       });
+
+    Logger.debug(newsTitle);
 
     for (let i = 0; i < linkArray.length; i += 1) {
       returnArray.push({
