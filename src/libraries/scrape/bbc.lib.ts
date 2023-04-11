@@ -24,11 +24,8 @@ export const scrapeBbcTechNews = async () => {
       .each((index, item) => {
         const link = html(item).attr('href');
 
-        Logger.log(link);
         linkArray.push(link!);
       });
-
-    Logger.debug(newsTitle);
 
     for (let i = 0; i < linkArray.length; i += 1) {
       returnArray.push({

@@ -187,8 +187,6 @@ export class ScrapeObserver {
   timeCheck() {
     this.runningMoment = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate(), 23, 59);
 
-    // Logger.debug({ now: this.now, runningMoment: this.runningMoment });
-
     if (
       this.now.getFullYear() === this.runningMoment.getFullYear() &&
       this.now.getMonth() === this.runningMoment.getMonth() &&
