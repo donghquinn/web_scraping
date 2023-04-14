@@ -6,8 +6,8 @@ export async function shutdown(server: NestExpressApplication) {
   try {
     const observer = new ScrapeObserver();
 
-    await server.close();
     observer.stop();
+    await server.close();
 
     process.exitCode = 0;
   } catch (error) {

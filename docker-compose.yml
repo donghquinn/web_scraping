@@ -30,6 +30,8 @@ services:
                         - 6432:5432
                 restart: always
                 container_name: news_db
+                environment:
+                        - TZ=Asia/Seoul
                 env_file:
                         - .postgres.env
                 volumes:

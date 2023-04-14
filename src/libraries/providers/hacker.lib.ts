@@ -31,6 +31,7 @@ export class HackersNewsProvider {
       const date = new Date();
 
       Logger.debug('HAcker News Today: %o', { date });
+      // Logger.debug('TimeZone: %o', { tz: date.() });
 
       const result = await this.prisma.hackers.findMany({
         select: { post: true, link: true, founded: true },
