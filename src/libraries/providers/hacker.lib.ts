@@ -39,14 +39,12 @@ export class HackersNewsProvider {
         orderBy: { rank: 'desc' },
       });
 
-      const now = new Date();
-
       const returnArray: unknown[] = [];
 
       result.filter((item) => {
         // Logger.debug('Date: %o', { created: item.founded.getDate(), now: now.getDate() - 1 });
 
-        if (item.founded.getDate() === now.getDate() - 1 && item.founded.getMonth() === now.getMonth()) {
+        if (item.founded.getDate() === date.getDate() - 1 && item.founded.getMonth() === date.getMonth()) {
           returnArray.push(item);
         }
       });

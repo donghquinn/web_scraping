@@ -14,13 +14,31 @@ export class MusicChartProvider {
       Logger.debug('Today: %o', { today });
 
       const result = await this.prisma.melon.findMany({
-        select: { rank: true, title: true, artist: true },
-        where: { founded: today },
+        select: { rank: true, title: true, artist: true, founded: true },
+        orderBy: { rank: 'desc' },
       });
 
       Logger.debug('Melon Music Chart Founded: %o', { result });
 
-      return result;
+      const returnArray: unknown[] = [];
+
+      result.filter((item) => {
+        // Logger.debug('Date: %o', { created: item.created.toDateString(), now: now.toDateString() });
+
+        if (item.founded.getDate() === today.getDate() - 1 && item.founded.getMonth() === today.getMonth()) {
+          // Logger.debug('Dates: %o', { createdDate: item.founded.getDate(), today: now.getDate() });
+
+          returnArray.push(item);
+        }
+      });
+
+      if (returnArray.length === 0) {
+        Logger.log("It's Not Founded Yet");
+      } else {
+        Logger.log('Found Today Music Rank');
+      }
+
+      return returnArray;
     } catch (error) {
       Logger.error('Bring Melon Chart Error: %o', {
         error: error instanceof Error ? error : new Error(JSON.stringify(error)),

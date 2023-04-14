@@ -29,6 +29,7 @@ export class ClimateProvider {
           dataTime: true,
           created: true,
         },
+        where: { created: now },
         orderBy: { dataTime: 'desc' },
       });
 
