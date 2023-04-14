@@ -14,6 +14,7 @@
     "dev:climate": "nodemon --exec node -r  ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node ./src/libraries/scrape/climate.lib.ts",
     "dev:naverNews": "nodemon --exec node -r  ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node ./src/libraries/scrape/naver.lib.ts",
     "dev:metro": "nodemon --exec node -r  ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node ./src/libraries/scrape/metro.lib.ts",
+    "dev:clicon": "nodemon --exec node -r  ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node ./src/libraries/providers/climate.lib.ts",
     "schema": "prisma generate",
     "migrate": "prisma migrate dev --name added_melon",
     "db:update": "prisma db push"

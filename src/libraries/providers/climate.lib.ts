@@ -10,6 +10,8 @@ export class ClimateProvider {
     try {
       const now = new Date();
 
+      console.log('Now Date: %o', { now });
+
       const result = await this.prisma.climate.findMany({
         select: {
           pm10Value: true,
@@ -36,6 +38,8 @@ export class ClimateProvider {
         // Logger.debug('Date: %o', { created: item.created.toDateString(), now: now.toDateString() });
 
         if (item.created.getDate() === now.getDate() - 1 && item.created.getMonth() === now.getMonth()) {
+          Logger.debug('Dates: %o', { createdDate: item.created.getDate(), today: now.getDate() });
+
           returnArray.push(item);
         }
       });
