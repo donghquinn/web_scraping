@@ -30,7 +30,7 @@ export class ClimateProvider {
           created: true,
         },
 
-        orderBy: { dataTime: 'desc' },
+        orderBy: { dataTime: 'asc' },
       });
 
       const returnArray: unknown[] = [];
@@ -39,8 +39,6 @@ export class ClimateProvider {
         // Logger.debug('Date: %o', { created: item.created.toDateString(), now: now.toDateString() });
 
         if (item.created.getDate() === now.getDate() - 1 && item.created.getMonth() === now.getMonth()) {
-          Logger.debug('Dates: %o', { createdDate: item.created.getDate(), today: now.getDate() });
-
           returnArray.push(item);
         }
       });
