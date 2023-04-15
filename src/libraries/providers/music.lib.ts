@@ -59,7 +59,7 @@ export class MusicChartProvider {
       const melonRankData = await this.prisma.melon.findMany({
         select: { rank: true, title: true, founded: true },
         where: { title: musicTitle },
-        orderBy: { founded: 'asc' },
+        orderBy: { founded: 'desc' },
       });
 
       const url = 'https://plot.andongh.com/music';

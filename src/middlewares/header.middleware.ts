@@ -1,12 +1,23 @@
 import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { SetErrorResponse } from 'dto/response.dto';
+import { NextFunction, Request, Response } from 'express';
 
 @Injectable()
 export class HeadersMiddleware implements NestMiddleware {
-  use(request: Request, response: Response, next: (error?: any) => void) {
-    // Logger.debug(request.headers);
-    Logger.debug(request.ip);
+  async use(request: Request, response: Response, next: NextFunction) {
+    try {
+      const authKey = request.headers?.key;
+      Logger.debug(request.ip);
 
-    next();
+      Logger.debug(authKey);
+
+      if (authKey === process.env.AUTH_KEY!) {
+        next();
+      } else {
+        return new SetErrorResponse(500, { response: 'No Auth Key Detected' });
+      }
+    } catch (error) {
+      return new SetErrorResponse(500, { response: 'Middleware Error' });
+    }
   }
 }
