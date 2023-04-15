@@ -29,8 +29,7 @@ export class ClimateProvider {
           dataTime: true,
           created: true,
         },
-
-        orderBy: { dataTime: 'asc' },
+        orderBy: { dataTime: 'desc' },
       });
 
       const returnArray: unknown[] = [];
