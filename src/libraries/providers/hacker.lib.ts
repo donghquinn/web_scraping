@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { HackerError } from 'errors/hacker.error';
 import { PrismaLibrary } from 'libraries/common/prisma.lib';
 import moment from 'moment';
+import fns from 'date-fns';
 
 @Injectable()
 export class HackersNewsProvider {

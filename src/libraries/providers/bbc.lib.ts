@@ -2,6 +2,8 @@ import { Injectable, Logger } from '@nestjs/common';
 import { BbcError } from 'errors/bbc.error';
 import { PrismaLibrary } from 'libraries/common/prisma.lib';
 import moment from 'moment-timezone';
+import fns from 'date-fns';
+
 
 @Injectable()
 export class BbcNewsProvider {
