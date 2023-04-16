@@ -2,7 +2,6 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ClimateError } from 'errors/climate.error';
 import { PrismaLibrary } from 'libraries/common/prisma.lib';
 import moment from 'moment';
-import fns from 'date-fns';
 
 @Injectable()
 export class ClimateProvider {
@@ -37,24 +36,6 @@ export class ClimateProvider {
         },
         orderBy: { dataTime: 'desc' },
       });
-
-      // const returnArray: unknown[] = [];
-
-      // result.filter((item) => {
-      //   // Logger.debug('Date: %o', { created: item.created.toDateString(), now: now.toDateString() });
-
-      //   if (item.created.getDate() === now.getDate() - 1 && item.created.getMonth() === now.getMonth()) {
-      //     Logger.debug('Dates: %o', { createdDate: item.created.getDate(), today: now.getDate() });
-
-      //     returnArray.push(item);
-      //   }
-      // });
-
-      // if (returnArray.length === 0) {
-      //   Logger.log("It's Not Founded Yet");
-      // } else {
-      //   Logger.log('Found Climate');
-      // }
 
       return result;
     } catch (error) {

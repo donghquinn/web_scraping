@@ -1,4 +1,4 @@
-import { ConsoleLogger, Injectable, LoggerService } from '@nestjs/common';
+import { Injectable, LoggerService } from '@nestjs/common';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import Winston from 'winston';

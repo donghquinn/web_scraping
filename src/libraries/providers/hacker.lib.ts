@@ -2,7 +2,6 @@ import { Injectable, Logger } from '@nestjs/common';
 import { HackerError } from 'errors/hacker.error';
 import { PrismaLibrary } from 'libraries/common/prisma.lib';
 import moment from 'moment';
-import fns from 'date-fns';
 
 @Injectable()
 export class HackersNewsProvider {
@@ -33,7 +32,6 @@ export class HackersNewsProvider {
       const yesterday = moment.utc().tz('Asia/Seoul').subtract(1, 'day');
 
       Logger.debug('HAcker News Today: %o', { yesterday });
-      // Logger.debug('TimeZone: %o', { tz: date.() });
 
       const result = await this.prisma.hackers.findMany({
         select: { post: true, link: true, founded: true },
@@ -45,22 +43,6 @@ export class HackersNewsProvider {
         },
         orderBy: { rank: 'desc' },
       });
-
-      // const returnArray: unknown[] = [];
-
-      // result.filter((item) => {
-      //   // Logger.debug('Date: %o', { created: item.founded.getDate(), now: now.getDate() - 1 });
-
-      //   if (item.founded.getDate() === date.getDate() - 1 && item.founded.getMonth() === date.getMonth()) {
-      //     returnArray.push(item);
-      //   }
-      // });
-
-      // if (returnArray.length === 0) {
-      //   Logger.log("It's Not Founded Yet");
-      // } else {
-      //   Logger.log('Found Hackers News');
-      // }
 
       return result;
     } catch (error) {
