@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { NaverError } from 'errors/naver.error';
 import { PrismaLibrary } from 'libraries/common/prisma.lib';
 import moment from 'moment';
+import fns from 'date-fns';
 
 @Injectable()
 export class NaverProvider {
@@ -9,7 +10,7 @@ export class NaverProvider {
 
   async getNaverNews() {
     try {
-      const now = moment.utc().tz('Asia/Seoul').toDate();
+      const now = fns.subDays(moment.utc().tz('Asia/Seoul').toDate(), 1);
 
       const result = await this.prisma.naverNews.findMany({
         select: {

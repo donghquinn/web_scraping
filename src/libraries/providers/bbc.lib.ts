@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { BbcError } from 'errors/bbc.error';
 import { PrismaLibrary } from 'libraries/common/prisma.lib';
 import moment from 'moment-timezone';
+import fns from 'date-fns';
 
 @Injectable()
 export class BbcNewsProvider {
@@ -29,7 +30,7 @@ export class BbcNewsProvider {
 
   async bringTodayBbcNews() {
     try {
-      const date = moment.utc().tz('Asia/Seoul').toDate();
+      const date = fns.subDays(moment.utc().tz('Asia/Seoul').toDate(), 1);
 
       Logger.debug('Today: %o', { date });
 
