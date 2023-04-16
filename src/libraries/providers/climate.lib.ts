@@ -2,6 +2,8 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ClimateError } from 'errors/climate.error';
 import { PrismaLibrary } from 'libraries/common/prisma.lib';
 import moment from 'moment';
+import fns from 'date-fns';
+
 
 @Injectable()
 export class ClimateProvider {
@@ -9,7 +11,7 @@ export class ClimateProvider {
 
   async getDailyClimateData() {
     try {
-      const now = moment.utc().tz('Asia/Seoul').toDate();
+      const now = fns.subDays(moment.utc().tz('Asia/Seoul').toDate(), 1);
 
       console.log('Now Date: %o', { now });
 

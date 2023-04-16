@@ -3,6 +3,7 @@ import { MelonError } from 'errors/melon.error';
 import { PrismaLibrary } from 'libraries/common/prisma.lib';
 import moment from 'moment';
 import fetch from 'node-fetch';
+import fns from 'date-fns';
 
 @Injectable()
 export class MusicChartProvider {
@@ -10,7 +11,7 @@ export class MusicChartProvider {
 
   async melonMusicChart() {
     try {
-      const today = moment.utc().tz('Asia/Seoul').toDate();
+      const today = fns.subDays(moment.utc().tz('Asia/Seoul').toDate(), 1);
 
       Logger.debug('Today: %o', { today });
 
