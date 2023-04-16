@@ -11,13 +11,16 @@ export class MusicChartProvider {
 
   async melonMusicChart() {
     try {
-      const today = fns.subDays(moment.utc().tz('Asia/Seoul').toDate(), 1);
-
-      Logger.debug('Today: %o', { today });
+      const yesterday = moment.utc().tz('Asia/Seoul').subtract(1, 'day');
 
       const result = await this.prisma.melon.findMany({
         select: { rank: true, title: true, artist: true, founded: true },
-        where: { founded: today },
+        where: {
+          founded: {
+            lt: yesterday.endOf('day').toDate(),
+            gte: yesterday.startOf('day').toDate(),
+          },
+        },
         orderBy: { rank: 'desc' },
       });
 

@@ -4,16 +4,13 @@ import { PrismaLibrary } from 'libraries/common/prisma.lib';
 import moment from 'moment';
 import fns from 'date-fns';
 
-
 @Injectable()
 export class ClimateProvider {
   constructor(private prisma: PrismaLibrary) {}
 
   async getDailyClimateData() {
     try {
-      const now = fns.subDays(moment.utc().tz('Asia/Seoul').toDate(), 1);
-
-      console.log('Now Date: %o', { now });
+      const yesterday = moment.utc().tz('Asia/Seoul').subtract(1, 'day');
 
       const result = await this.prisma.climate.findMany({
         select: {
@@ -32,7 +29,12 @@ export class ClimateProvider {
           dataTime: true,
           created: true,
         },
-        where: { created: now },
+        where: {
+          created: {
+            lt: yesterday.endOf('day').toDate(),
+            gte: yesterday.startOf('day').toDate(),
+          },
+        },
         orderBy: { dataTime: 'desc' },
       });
 

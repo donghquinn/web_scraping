@@ -4,14 +4,13 @@ import { PrismaLibrary } from 'libraries/common/prisma.lib';
 import moment from 'moment';
 import fns from 'date-fns';
 
-
 @Injectable()
 export class NaverProvider {
   constructor(private prisma: PrismaLibrary) {}
 
   async getNaverNews() {
     try {
-      const now = fns.subDays(moment.utc().tz('Asia/Seoul').toDate(), 1);
+      const yesterday = moment.utc().tz('Asia/Seoul').subtract(1, 'day');
 
       const result = await this.prisma.naverNews.findMany({
         select: {
@@ -22,7 +21,12 @@ export class NaverProvider {
           postedTime: true,
           founded: true,
         },
-        where: { founded: now },
+        where: {
+          founded: {
+            lt: yesterday.endOf('day').toDate(),
+            gte: yesterday.startOf('day').toDate(),
+          },
+        },
         orderBy: { founded: 'desc' },
       });
 

@@ -30,14 +30,19 @@ export class HackersNewsProvider {
 
   async bringTodayHackerPosts() {
     try {
-      const date = fns.subDays(moment.utc().tz('Asia/Seoul').toDate(), 1);
+      const yesterday = moment.utc().tz('Asia/Seoul').subtract(1, 'day');
 
-      Logger.debug('HAcker News Today: %o', { date });
+      Logger.debug('HAcker News Today: %o', { yesterday });
       // Logger.debug('TimeZone: %o', { tz: date.() });
 
       const result = await this.prisma.hackers.findMany({
         select: { post: true, link: true, founded: true },
-        where: { founded: date },
+        where: {
+          founded: {
+            lt: yesterday.endOf('day').toDate(),
+            gte: yesterday.startOf('day').toDate(),
+          },
+        },
         orderBy: { rank: 'desc' },
       });
 

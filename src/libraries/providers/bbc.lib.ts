@@ -31,14 +31,19 @@ export class BbcNewsProvider {
 
   async bringTodayBbcNews() {
     try {
-      const date = fns.subDays(moment.utc().tz('Asia/Seoul').toDate(), 1);
-      
-      Logger.debug('Today: %o', { date });
+      const yesterday = moment.utc().tz('Asia/Seoul').subtract(1, 'day');
+
+      // Logger.debug('Today: %o', { date });
 
       const result = await this.prisma.bbcTechNews.findMany({
         select: { post: true, link: true, founded: true },
         orderBy: { rank: 'desc' },
-        where: { founded: date },
+        where: {
+          founded: {
+            lt: yesterday.endOf('day').toDate(),
+            gte: yesterday.startOf('day').toDate(),
+          },
+        },
       });
 
       // const returnArray: unknown[] = [];
