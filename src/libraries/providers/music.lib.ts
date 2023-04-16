@@ -3,7 +3,6 @@ import { MelonError } from 'errors/melon.error';
 import { PrismaLibrary } from 'libraries/common/prisma.lib';
 import moment from 'moment';
 import fetch from 'node-fetch';
-import fns from 'date-fns';
 
 @Injectable()
 export class MusicChartProvider {
@@ -21,28 +20,10 @@ export class MusicChartProvider {
             gte: yesterday.startOf('day').toDate(),
           },
         },
-        orderBy: { rank: 'desc' },
+        orderBy: { rank: 'asc' },
       });
 
       Logger.debug('Melon Music Chart Founded: %o', { result });
-
-      // const returnArray: unknown[] = [];
-
-      // result.filter((item) => {
-      //   // Logger.debug('Date: %o', { created: item.created.toDateString(), now: now.toDateString() });
-
-      //   if (item.founded.getDate() === today.getDate() - 1 && item.founded.getMonth() === today.getMonth()) {
-      //     // Logger.debug('Dates: %o', { createdDate: item.founded.getDate(), today: now.getDate() });
-
-      //     returnArray.push(item);
-      //   }
-      // });
-
-      // if (returnArray.length === 0) {
-      //   Logger.log("It's Not Founded Yet");
-      // } else {
-      //   Logger.log('Found Today Music Rank');
-      // }
 
       return result;
     } catch (error) {
