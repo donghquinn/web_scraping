@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ClimateError } from 'errors/climate.error';
 import { PrismaLibrary } from 'libraries/common/prisma.lib';
+import moment from 'moment';
 
 @Injectable()
 export class ClimateProvider {
@@ -8,7 +9,7 @@ export class ClimateProvider {
 
   async getDailyClimateData() {
     try {
-      const now = new Date();
+      const now = moment.utc().tz('Asia/Seoul').toDate();
 
       console.log('Now Date: %o', { now });
 
@@ -29,29 +30,29 @@ export class ClimateProvider {
           dataTime: true,
           created: true,
         },
-
+        where: { created: now },
         orderBy: { dataTime: 'desc' },
       });
 
-      const returnArray: unknown[] = [];
+      // const returnArray: unknown[] = [];
 
-      result.filter((item) => {
-        // Logger.debug('Date: %o', { created: item.created.toDateString(), now: now.toDateString() });
+      // result.filter((item) => {
+      //   // Logger.debug('Date: %o', { created: item.created.toDateString(), now: now.toDateString() });
 
-        if (item.created.getDate() === now.getDate() - 1 && item.created.getMonth() === now.getMonth()) {
-          Logger.debug('Dates: %o', { createdDate: item.created.getDate(), today: now.getDate() });
+      //   if (item.created.getDate() === now.getDate() - 1 && item.created.getMonth() === now.getMonth()) {
+      //     Logger.debug('Dates: %o', { createdDate: item.created.getDate(), today: now.getDate() });
 
-          returnArray.push(item);
-        }
-      });
+      //     returnArray.push(item);
+      //   }
+      // });
 
-      if (returnArray.length === 0) {
-        Logger.log("It's Not Founded Yet");
-      } else {
-        Logger.log('Found Climate');
-      }
+      // if (returnArray.length === 0) {
+      //   Logger.log("It's Not Founded Yet");
+      // } else {
+      //   Logger.log('Found Climate');
+      // }
 
-      return returnArray;
+      return result;
     } catch (error) {
       Logger.error('Bring Korean Climate Data Error: %o', {
         error: error instanceof Error ? error : new Error(JSON.stringify(error)),
