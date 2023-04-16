@@ -15,7 +15,7 @@ model Hackers {
   rank    String
   post    String
   link    String
-  founded DateTime @default(now())
+  founded DateTime
 }
 
 // model GoogleFinance {
@@ -31,7 +31,7 @@ model BbcTechNews {
   rank    String
   post    String
   link    String
-  founded DateTime @default(now())
+  founded DateTime
 }
 
 model NaverNews {
@@ -42,7 +42,7 @@ model NaverNews {
   originallink String
   url          String
   postedTime   String
-  founded      DateTime @default(now())
+  founded      DateTime
 }
 
 model Metro {
@@ -63,7 +63,7 @@ model Melon {
   rank    Int      @default(autoincrement())
   title   String
   artist  String
-  founded DateTime @default(now())
+  founded DateTime
 }
 
 model Climate {
@@ -94,5 +94,5 @@ model Climate {
   // 통합대기환경지수
   khaiGrade  String?
   khaiStatus String   @default("normal")
-  created    DateTime @default(now())
+  created    DateTime
 }
