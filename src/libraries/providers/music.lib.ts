@@ -21,7 +21,7 @@ export class MusicChartProvider {
             gte: yesterday.startOf('day').toDate(),
           },
         },
-        orderBy: { rank: 'desc' },
+        orderBy: { rank: 'asc' },
       });
 
       Logger.debug('Melon Music Chart Founded: %o', { result });

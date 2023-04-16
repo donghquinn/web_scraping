@@ -15,7 +15,7 @@ export const getKoreanClimate = async () => {
     };
 
     const response = await fetch(
-      `${url}?returnType=json&serviceKey=${token}&numOfRows=1pageNo=1&&stationName=종로구&dataTerm=DAILY`,
+      `${url}?returnType=json&serviceKey=${token}&numOfRows=1pageNo=1&&stationName=종로구&dataTerm=DAILY&numOfRows=23`,
       options,
     );
 
