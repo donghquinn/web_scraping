@@ -8,6 +8,7 @@ import { getKoreanClimate } from './scrape/climate.lib';
 import { scrapeHackerNews } from './scrape/hackers.lib';
 import { scrapeMelonChart } from './scrape/music.lib';
 import { naverNews } from './scrape/naver.lib';
+import moment from 'moment-timezone';
 
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
@@ -16,7 +17,7 @@ export class ScrapeObserver {
 
   private workTime: boolean;
 
-  private now: Date;
+  private now: moment.Moment;
 
   private runningMoment: Date;
 
@@ -34,9 +35,9 @@ export class ScrapeObserver {
 
     this.workTime = false;
 
-    this.now = new Date();
+    this.now = moment.utc().tz('Asia/Seoul');
 
-    this.runningMoment = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate(), 23, 59);
+    this.runningMoment = moment.tz('23:59', 'HH:mm', 'Asia/Seoul').toDate();
 
     this.blockTimer = null;
 
@@ -54,8 +55,6 @@ export class ScrapeObserver {
   public start() {
     setIntervalAsync(async () => {
       try {
-        this.now = new Date();
-
         this.timeCheck();
 
         if (this.workTime) {
@@ -119,19 +118,42 @@ export class ScrapeObserver {
   async receivedDataInsert(scrapeResults: ScrapeResultArray) {
     const { bbc, hackers, melon, climate, naverNews } = scrapeResults;
     try {
-      await this.prisma.hackers.createMany({
-        data: hackers,
-      });
+      for (let i = 0; i < hackers.length; i += 1) {
+        await this.prisma.hackers.create({
+          data: {
+            rank: hackers[i].rank,
+            post: hackers[i].post,
+            link: hackers[i].link,
+            founded: this.now.toDate(),
+          },
+        });
+      }
 
       Logger.log('Hacker News Inserted Finished.');
 
-      await this.prisma.bbcTechNews.createMany({
-        data: bbc,
-      });
+      for (let i = 0; i < bbc.length; i += 1) {
+        await this.prisma.bbcTechNews.create({
+          data: {
+            rank: bbc[i].rank,
+            post: bbc[i].post,
+            link: bbc[i].link,
+            founded: this.now.toDate(),
+          },
+        });
+      }
 
       Logger.log('BBC News Inserted Finished.');
 
-      await this.prisma.melon.createMany({ data: melon });
+      for (let i = 0; i < melon.length; i += 1) {
+        await this.prisma.melon.create({
+          data: {
+            rank: melon[i].rank,
+            title: melon[i].title,
+            artist: melon[i].artist,
+            founded: this.now.toDate(),
+          },
+        });
+      }
 
       Logger.log('Melon Music Chart Inserted Finished.');
 
@@ -151,6 +173,7 @@ export class ScrapeObserver {
             coGrade: climate[i].coGrade,
             khaiGrade: climate[i].khaiGrade,
             khaiStatus: climate[i].khaiStatus,
+            created: this.now.toDate(),
           },
         });
       }
@@ -166,6 +189,7 @@ export class ScrapeObserver {
             originallink: naverNews[i].originallink,
             url: naverNews[i].link,
             postedTime: naverNews[i].pubDate,
+            founded: this.now.toDate(),
           },
         });
       }
@@ -185,14 +209,12 @@ export class ScrapeObserver {
   }
 
   timeCheck() {
-    this.runningMoment = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate(), 23, 59);
-
     if (
-      this.now.getFullYear() === this.runningMoment.getFullYear() &&
-      this.now.getMonth() === this.runningMoment.getMonth() &&
-      this.now.getDay() === this.runningMoment.getDay() &&
-      this.now.getHours() === this.runningMoment.getHours() &&
-      this.now.getMinutes() === this.runningMoment.getMinutes()
+      this.now.toDate().getFullYear() === this.runningMoment.getFullYear() &&
+      this.now.toDate().getMonth() === this.runningMoment.getMonth() &&
+      this.now.toDate().getDay() === this.runningMoment.getDay() &&
+      this.now.toDate().getHours() === this.runningMoment.getHours() &&
+      this.now.toDate().getMinutes() === this.runningMoment.getMinutes()
     ) {
       Logger.debug({ now: this.now, runningMoment: this.runningMoment });
 
