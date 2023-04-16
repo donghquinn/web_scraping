@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { MelonError } from 'errors/melon.error';
 import { PrismaLibrary } from 'libraries/common/prisma.lib';
+import moment from 'moment';
 import fetch from 'node-fetch';
 
 @Injectable()
@@ -9,36 +10,37 @@ export class MusicChartProvider {
 
   async melonMusicChart() {
     try {
-      const today = new Date();
+      const today = moment.utc().tz('Asia/Seoul').toDate();
 
       Logger.debug('Today: %o', { today });
 
       const result = await this.prisma.melon.findMany({
         select: { rank: true, title: true, artist: true, founded: true },
+        where: { founded: today },
         orderBy: { rank: 'desc' },
       });
 
       Logger.debug('Melon Music Chart Founded: %o', { result });
 
-      const returnArray: unknown[] = [];
+      // const returnArray: unknown[] = [];
 
-      result.filter((item) => {
-        // Logger.debug('Date: %o', { created: item.created.toDateString(), now: now.toDateString() });
+      // result.filter((item) => {
+      //   // Logger.debug('Date: %o', { created: item.created.toDateString(), now: now.toDateString() });
 
-        if (item.founded.getDate() === today.getDate() - 1 && item.founded.getMonth() === today.getMonth()) {
-          // Logger.debug('Dates: %o', { createdDate: item.founded.getDate(), today: now.getDate() });
+      //   if (item.founded.getDate() === today.getDate() - 1 && item.founded.getMonth() === today.getMonth()) {
+      //     // Logger.debug('Dates: %o', { createdDate: item.founded.getDate(), today: now.getDate() });
 
-          returnArray.push(item);
-        }
-      });
+      //     returnArray.push(item);
+      //   }
+      // });
 
-      if (returnArray.length === 0) {
-        Logger.log("It's Not Founded Yet");
-      } else {
-        Logger.log('Found Today Music Rank');
-      }
+      // if (returnArray.length === 0) {
+      //   Logger.log("It's Not Founded Yet");
+      // } else {
+      //   Logger.log('Found Today Music Rank');
+      // }
 
-      return returnArray;
+      return result;
     } catch (error) {
       Logger.error('Bring Melon Chart Error: %o', {
         error: error instanceof Error ? error : new Error(JSON.stringify(error)),
