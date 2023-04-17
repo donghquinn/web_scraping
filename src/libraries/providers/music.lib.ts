@@ -16,8 +16,8 @@ export class MusicChartProvider {
         select: { rank: true, title: true, artist: true, founded: true },
         where: {
           founded: {
-            lt: yesterday.endOf('day').toDate(),
-            gte: yesterday.startOf('day').toDate(),
+            lt: yesterday.endOf('day').format('YYYY-MM-DD HH:mm:ss'),
+            gte: yesterday.startOf('day').format('YYYY-MM-DD HH:mm:ss'),
           },
         },
         orderBy: { rank: 'asc' },

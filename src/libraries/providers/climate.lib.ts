@@ -30,8 +30,8 @@ export class ClimateProvider {
         },
         where: {
           created: {
-            lt: yesterday.endOf('day').toDate(),
-            gte: yesterday.startOf('day').toDate(),
+            lt: yesterday.endOf('day').format('YYYY-MM-DD HH:mm:ss'),
+            gte: yesterday.startOf('day').format('YYYY-MM-DD HH:mm:ss'),
           },
         },
         orderBy: { dataTime: 'desc' },

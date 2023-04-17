@@ -16,7 +16,7 @@ export class ScrapeObserver {
 
   private prisma: PrismaLibrary;
 
-  private now: moment.Moment;
+  private now: string;
 
   private rule: RecurrenceRule;
 
@@ -37,7 +37,7 @@ export class ScrapeObserver {
 
     this.rule.minute = 59;
 
-    this.now = moment.utc().tz('Asia/Seoul');
+    this.now = moment.utc().tz('Asia/Seoul').format('YYYY-MM-DD HH:mm:ss');
 
     this.blockTimer = null;
 
@@ -117,7 +117,7 @@ export class ScrapeObserver {
             rank: hackers[i].rank,
             post: hackers[i].post,
             link: hackers[i].link,
-            founded: this.now.toDate(),
+            founded: this.now,
           },
         });
       }
@@ -130,7 +130,7 @@ export class ScrapeObserver {
             rank: bbc[i].rank,
             post: bbc[i].post,
             link: bbc[i].link,
-            founded: this.now.toDate(),
+            founded: this.now,
           },
         });
       }
@@ -143,7 +143,7 @@ export class ScrapeObserver {
             rank: melon[i].rank,
             title: melon[i].title,
             artist: melon[i].artist,
-            founded: this.now.toDate(),
+            founded: this.now,
           },
         });
       }
@@ -166,7 +166,7 @@ export class ScrapeObserver {
             coGrade: climate[i].coGrade,
             khaiGrade: climate[i].khaiGrade,
             khaiStatus: climate[i].khaiStatus,
-            created: this.now.toDate(),
+            created: this.now,
           },
         });
       }
@@ -182,7 +182,7 @@ export class ScrapeObserver {
             originallink: naverNews[i].originallink,
             url: naverNews[i].link,
             postedTime: naverNews[i].pubDate,
-            founded: this.now.toDate(),
+            founded: this.now,
           },
         });
       }
