@@ -5,7 +5,7 @@ logs
 
 dist
 
-./prisma/migrations
+prisma/migrations/*
 
 .yarn/*
 !.yarn/patches
