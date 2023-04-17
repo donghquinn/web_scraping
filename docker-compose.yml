@@ -35,7 +35,7 @@ services:
                 env_file:
                         - .postgres.env
                 volumes:
-                        - ./blogData:/var/lib/postgresql/data
+                        - ./newsData:/var/lib/postgresql/data
 networks:
         proxy:
                 external: true

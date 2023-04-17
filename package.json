@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "author": "donghquinn",
-  "packageManager": "yarn@3.4.1",
+  "packageManager": "yarn@3.5.0",
+  "type": "module",
   "scripts": {
     "start": "NODE_ENV=production node -r  ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node ./src/app.ts",
     "build": "NODE_ENV=production tsc --project tsconfig.json --diagnostics -p tsconfig.json",
@@ -19,7 +20,6 @@
     "migrate": "prisma migrate dev --name added_melon",
     "db:update": "prisma db push"
   },
-  "type": "module",
   "dependencies": {
     "@nestjs/common": "^9.3.12",
     "@nestjs/core": "^9.3.12",
