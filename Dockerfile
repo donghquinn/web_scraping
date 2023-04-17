@@ -17,9 +17,7 @@ COPY yarn.lock ./
 # --- release ---
 FROM base AS release
 
-COPY dist .
-
-COPY package.json .
+COPY . .
 
 RUN yarn install
 
