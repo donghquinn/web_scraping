@@ -30,7 +30,7 @@ export class ScrapeObserver {
     this.prisma = new PrismaLibrary();
 
     this.rule = new schedule.RecurrenceRule();
-
+    
     this.rule.tz = 'Asia/Seoul';
 
     this.rule.hour = 23;
