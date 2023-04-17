@@ -16,3 +16,5 @@ example.env
 schema.prisma
 migrations
 .eslintrc.json
+
+newsData
