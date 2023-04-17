@@ -31,14 +31,12 @@ export class HackersNewsProvider {
     try {
       const yesterday = moment.utc().tz('Asia/Seoul').subtract(1, 'day');
 
-      Logger.debug('HAcker News Today: %o', { yesterday });
-
       const result = await this.prisma.hackers.findMany({
         select: { post: true, link: true, founded: true },
         where: {
           founded: {
-            lt: yesterday.endOf('day').toDate(),
-            gte: yesterday.startOf('day').toDate(),
+            lt: yesterday.endOf('day').format('YYYY-MM-DD HH:mm:ss'),
+            gte: yesterday.startOf('day').format('YYYY-MM-DD HH:mm:ss'),
           },
         },
         orderBy: { rank: 'desc' },

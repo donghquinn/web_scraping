@@ -11,11 +11,11 @@ datasource db {
 }
 
 model Hackers {
-  uuid    String   @id @default(uuid())
+  uuid    String @id @default(uuid())
   rank    String
   post    String
   link    String
-  founded DateTime
+  founded String
 }
 
 // model GoogleFinance {
@@ -27,34 +27,34 @@ model Hackers {
 // }
 
 model BbcTechNews {
-  uuid    String   @id @default(uuid())
+  uuid    String @id @default(uuid())
   rank    String
   post    String
   link    String
-  founded DateTime
+  founded String
 }
 
 model NaverNews {
-  uuid         String   @id @default(uuid())
+  uuid         String @id @default(uuid())
   keyWord      String
   title        String
   description  String
   originallink String
   url          String
   postedTime   String
-  founded      DateTime
+  founded      String
 }
 
 model Melon {
-  uuid    String   @id @default(uuid())
-  rank    Int      @default(autoincrement())
+  uuid    String @id @default(uuid())
+  rank    Int    @default(autoincrement())
   title   String
   artist  String
-  founded DateTime
+  founded String
 }
 
 model Climate {
-  uuid       String   @id @default(uuid())
+  uuid       String  @id @default(uuid())
   dataTime   String
   // 초미세먼지(PM2.5) 농도	
   pm25Value  String?
@@ -80,6 +80,6 @@ model Climate {
   coGrade    String?
   // 통합대기환경지수
   khaiGrade  String?
-  khaiStatus String   @default("normal")
-  created    DateTime
+  khaiStatus String  @default("normal")
+  created    String
 }
