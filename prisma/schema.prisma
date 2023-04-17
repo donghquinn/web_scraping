@@ -45,19 +45,6 @@ model NaverNews {
   founded      DateTime
 }
 
-model Metro {
-  id        String @id @default(uuid())
-  station   String
-  year      String
-  date      String
-  // 승하차
-  isOn      String
-  morning   String // 05~11
-  noon      String // 11 ~ 14
-  afterNoon String // 14 - 18
-  evening   String // 18 - 24
-}
-
 model Melon {
   uuid    String   @id @default(uuid())
   rank    Int      @default(autoincrement())
