@@ -170,16 +170,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/core@npm:^9.3.12":
-  version: 9.3.12
-  resolution: "@nestjs/core@npm:9.3.12"
+"@nestjs/core@npm:^9.4.0":
+  version: 9.4.0
+  resolution: "@nestjs/core@npm:9.4.0"
   dependencies:
     "@nuxtjs/opencollective": 0.3.2
     fast-safe-stringify: 2.1.1
     iterare: 1.2.1
     path-to-regexp: 3.2.0
     tslib: 2.5.0
-    uid: 2.0.1
+    uid: 2.0.2
   peerDependencies:
     "@nestjs/common": ^9.0.0
     "@nestjs/microservices": ^9.0.0
@@ -194,7 +194,7 @@ __metadata:
       optional: true
     "@nestjs/websockets":
       optional: true
-  checksum: 9a2ba9c304aae9655a8656e7eb2b9644340bc5498216377818c62d58930c1326dd313f3f20497e2499ed4c6215b5b77a2d18f874a463c14094b216ae743f14e1
+  checksum: a0d5ca077a25cdd21a720aead6121ff27070cc608dd323a4459c10c21d36dc59ab471d1198f8b3e20f1eeeec35d0fde4e589601ccc82236d8a99c8fcb3ea9b15
   languageName: node
   linkType: hard
 
@@ -4460,7 +4460,7 @@ __metadata:
   resolution: "scraping@workspace:."
   dependencies:
     "@nestjs/common": ^9.3.12
-    "@nestjs/core": ^9.3.12
+    "@nestjs/core": ^9.4.0
     "@nestjs/platform-express": ^9.3.12
     "@prisma/client": ^4.11.0
     "@types/express-session": ^1.17.7
@@ -5088,11 +5088,11 @@ __metadata:
 
 "typescript@patch:typescript@^5.0.2#~builtin<compat/typescript>":
   version: 5.0.2
-  resolution: "typescript@patch:typescript@npm%3A5.0.2#~builtin<compat/typescript>::version=5.0.2&hash=1f5320"
+  resolution: "typescript@patch:typescript@npm%3A5.0.2#~builtin<compat/typescript>::version=5.0.2&hash=85af82"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: bdbf3d0aac0d6cf010fbe0536753dc19f278eb4aba88140dcd25487dfe1c56ca8b33abc0dcd42078790a939b08ebc4046f3e9bb961d77d3d2c3cfa9829da4d53
+  checksum: b63cb742fbb9aeb3085e002ad8f10d5fd963606aa4d6b3b65b4e76c396ff09739f03b5dbae08e1698c3bce9d5619d3f67aeb7ee470ed4016bd345b3cfe37b54a
   languageName: node
   linkType: hard
 
@@ -5111,6 +5111,15 @@ __metadata:
   dependencies:
     "@lukeed/csprng": ^1.0.0
   checksum: 0a3c697d8dd1f3b647afa35c411b11fd8fa2fb6dbd8a49fe109a4aa5214068c2c58781aa6e4516dfd16f0fc524fb7bba0833e9c1dc1ed3f1965b520349be9ad5
+  languageName: node
+  linkType: hard
+
+"uid@npm:2.0.2":
+  version: 2.0.2
+  resolution: "uid@npm:2.0.2"
+  dependencies:
+    "@lukeed/csprng": ^1.0.0
+  checksum: 98aabddcd6fe46f9b331b0378a93ee9cc51474348ada02006df9d10b4abc783ed596748ed9f20d7f6c5ff395dbcd1e764a65a68db6f39a31c95ae85ef13fe979
   languageName: node
   linkType: hard
 
