@@ -9,19 +9,16 @@ import { scrapeHackerNews } from './scrape/hackers.lib';
 import { scrapeMelonChart } from './scrape/music.lib';
 import { naverNews } from './scrape/naver.lib';
 import moment from 'moment-timezone';
+import schedule, { RecurrenceRule } from 'node-schedule';
 
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
 
   private prisma: PrismaLibrary;
 
-  private workTime: boolean;
-
   private now: moment.Moment;
 
-  private runningMoment: Date;
-
-  private interval: number;
+  private rule: RecurrenceRule;
 
   private blockTimer: ReturnType<typeof setIntervalAsync> | null;
 
@@ -29,15 +26,18 @@ export class ScrapeObserver {
 
   constructor() {
     // ms 기준 - 1분에 한번씩 시간 체크
-    this.interval = Number(process.env.INTERVAL!);
 
     this.prisma = new PrismaLibrary();
 
-    this.workTime = false;
+    this.rule = new schedule.RecurrenceRule();
+
+    this.rule.tz = 'Asia/Seoul';
+
+    this.rule.hour = 23;
+
+    this.rule.minute = 59;
 
     this.now = moment.utc().tz('Asia/Seoul');
-
-    this.runningMoment = moment.tz('23:59', 'HH:mm', 'Asia/Seoul').toDate();
 
     this.blockTimer = null;
 
@@ -53,56 +53,49 @@ export class ScrapeObserver {
   }
 
   public start() {
-    setIntervalAsync(async () => {
+    schedule.scheduleJob(this.rule, async () => {
       try {
-        this.timeCheck();
+        Logger.log('Scrape Start');
 
-        if (this.workTime) {
-          Logger.log('Scrape Start');
+        const result = await Promise.allSettled([
+          scrapeHackerNews(),
+          scrapeBbcTechNews(),
+          scrapeMelonChart(),
+          getKoreanClimate(),
+          naverNews(),
+        ]);
 
-          const result = await Promise.allSettled([
-            scrapeHackerNews(),
-            scrapeBbcTechNews(),
-            scrapeMelonChart(),
-            getKoreanClimate(),
-            naverNews(),
-          ]);
-
-          if (result[0].status === 'fulfilled') {
-            this.scrapeResultArray.hackers = result[0].value;
-          } else if (result[0].status === 'rejected') {
-            Logger.error('Hackers News Scrape Error: %o', { error: result[0].reason });
-          }
-
-          if (result[1].status === 'fulfilled') {
-            this.scrapeResultArray.bbc = result[1].value;
-          } else if (result[1].status === 'rejected') {
-            Logger.error('BBC News Scrape Error: %o', { error: result[1].reason });
-          }
-
-          if (result[2].status === 'fulfilled') {
-            this.scrapeResultArray.melon = result[2].value;
-          } else if (result[2].status === 'rejected') {
-            Logger.error('Melon Music Rank Chart Scrape Error: %o', { error: result[2].reason });
-          }
-
-          if (result[3].status === 'fulfilled') {
-            this.scrapeResultArray.climate = result[3].value;
-          } else if (result[3].status === 'rejected') {
-            Logger.error('Korea Climate Scrape Error: %o', { error: result[3].reason });
-          }
-
-          if (result[4].status === 'fulfilled') {
-            this.scrapeResultArray.naverNews = result[4].value;
-          } else if (result[4].status === 'rejected') {
-            Logger.error('Naver News Scrape Error: %o', { error: result[4].reason });
-          }
-
-          await this.receivedDataInsert(this.scrapeResultArray);
-
-          // 실행 완료 후, 다시 false로
-          this.workTime = false;
+        if (result[0].status === 'fulfilled') {
+          this.scrapeResultArray.hackers = result[0].value;
+        } else if (result[0].status === 'rejected') {
+          Logger.error('Hackers News Scrape Error: %o', { error: result[0].reason });
         }
+
+        if (result[1].status === 'fulfilled') {
+          this.scrapeResultArray.bbc = result[1].value;
+        } else if (result[1].status === 'rejected') {
+          Logger.error('BBC News Scrape Error: %o', { error: result[1].reason });
+        }
+
+        if (result[2].status === 'fulfilled') {
+          this.scrapeResultArray.melon = result[2].value;
+        } else if (result[2].status === 'rejected') {
+          Logger.error('Melon Music Rank Chart Scrape Error: %o', { error: result[2].reason });
+        }
+
+        if (result[3].status === 'fulfilled') {
+          this.scrapeResultArray.climate = result[3].value;
+        } else if (result[3].status === 'rejected') {
+          Logger.error('Korea Climate Scrape Error: %o', { error: result[3].reason });
+        }
+
+        if (result[4].status === 'fulfilled') {
+          this.scrapeResultArray.naverNews = result[4].value;
+        } else if (result[4].status === 'rejected') {
+          Logger.error('Naver News Scrape Error: %o', { error: result[4].reason });
+        }
+
+        await this.receivedDataInsert(this.scrapeResultArray);
       } catch (error) {
         Logger.error('Error: %o', { error });
 
@@ -110,7 +103,7 @@ export class ScrapeObserver {
           error: error instanceof Error ? error : new Error(JSON.stringify(error)),
         });
       }
-    }, this.interval);
+    });
 
     // Logger.debug('Now, and Running Moment: %o', { now: now, runningMoment });
   }
@@ -206,25 +199,6 @@ export class ScrapeObserver {
         error instanceof Error ? error : new Error(JSON.stringify(error)),
       );
     }
-  }
-
-  timeCheck() {
-    if (
-      this.now.toDate().getFullYear() === this.runningMoment.getFullYear() &&
-      this.now.toDate().getMonth() === this.runningMoment.getMonth() &&
-      this.now.toDate().getDay() === this.runningMoment.getDay() &&
-      this.now.toDate().getHours() === this.runningMoment.getHours() &&
-      this.now.toDate().getMinutes() === this.runningMoment.getMinutes()
-    ) {
-      Logger.debug({ now: this.now, runningMoment: this.runningMoment });
-
-      this.workTime = true;
-      Logger.log(`Is Working Time: ${this.workTime}`);
-    } else {
-      this.workTime = false;
-    }
-
-    return this.workTime;
   }
 
   public stop() {
