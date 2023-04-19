@@ -45,7 +45,7 @@ export const getKoreanClimate = async () => {
       }
     }
 
-    Logger.debug('Climate Return Data: %o', { climate });
+    Logger.debug('Climate Data Inserted');
 
     return climate;
   } catch (error) {

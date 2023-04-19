@@ -41,8 +41,6 @@ export const scrapeMelonChart = async () => {
       musicArray.push({ rank: i + 1, title: musicTitle[i], artist: musicArtist[i] });
     }
 
-    Logger.debug('Found Result: %o', { musicArray });
-
     Logger.log('Found Melon Music Chart Result');
 
     return musicArray;
