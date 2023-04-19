@@ -24,7 +24,7 @@ export const naverNews = async () => {
 
     const response = (await (await fetch(url, options)).json()) as NaverNewsResponse;
 
-    console.log('Naver News: %o', { response });
+    console.log('Found Naver News');
 
     return response.items;
   } catch (error) {
