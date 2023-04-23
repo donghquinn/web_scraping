@@ -8,6 +8,9 @@ import { shutdown } from 'utils/shutdown.utils';
 export const bootstrap = async () => {
   const { ScrapeObserver } = await import('libraries/manager.lib');
   const { NestFactory } = await import('@nestjs/core');
+  const source = await import('source-map-support');
+
+  source.install();
 
   const date = new Date().toLocaleTimeString();
 
