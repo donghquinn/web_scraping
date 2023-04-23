@@ -16,7 +16,6 @@ export async function shutdown(server: NestExpressApplication) {
     Logger.error('[Process] abnormal exit(1).');
 
     // 비정상 프로세스 종료
-
     process.exitCode = 1;
   }
 }

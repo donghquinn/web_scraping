@@ -39,9 +39,9 @@ export class ScrapeObserver {
 
     this.rule.tz = 'Asia/Seoul';
 
-    this.rule.hour = 23;
+    this.rule.hour = 16;
 
-    this.rule.minute = 59;
+    this.rule.minute = 43;
 
     this.now = moment.utc().tz('Asia/Seoul').format('YYYY-MM-DD HH:mm:ss');
 
@@ -125,17 +125,19 @@ export class ScrapeObserver {
       this.insertNaverNews(naverNews),
     ]);
 
-    result.filter((item) => {
+    const runResult = result.map<string>((item) => {
       if (item.status === 'rejected') {
         Logger.error('Insert Data Failed: %o', { reason: item.reason });
 
-        throw new ManagerError('Manager Insert Data', 'Manager Insert Data Failed', item.reason);
+        return item.reason;
       } else {
         Logger.log('Data Insert Finished');
+
+        return 'success';
       }
     });
 
-    return 'Success';
+    return runResult;
   }
 
   async insertBbcData(bbc: Array<BbcNewsReturnArray>) {
