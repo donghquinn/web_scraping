@@ -2,12 +2,12 @@ import { Logger } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ScrapeObserver } from 'libraries/manager.lib';
 
-export async function shutdown(server: NestExpressApplication) {
+export function shutdown(server: NestExpressApplication) {
   try {
     const observer = new ScrapeObserver();
 
     observer.stop();
-    await server.close();
+    server.close();
 
     process.exitCode = 0;
   } catch (error) {
@@ -16,7 +16,6 @@ export async function shutdown(server: NestExpressApplication) {
     Logger.error('[Process] abnormal exit(1).');
 
     // 비정상 프로세스 종료
-
     process.exitCode = 1;
   }
 }

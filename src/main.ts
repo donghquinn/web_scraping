@@ -1,18 +1,23 @@
 import { Logger } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import session from 'express-session';
 import helmet from 'helmet';
-import { AppModule } from 'modules/app.module';
+import { AppModule } from 'app.module';
 import { shutdown } from 'utils/shutdown.utils';
 
 export const bootstrap = async () => {
-  const date = new Date().toLocaleTimeString();
   const { ScrapeObserver } = await import('libraries/manager.lib');
+  const { NestFactory } = await import('@nestjs/core');
+  const source = await import('source-map-support');
+  const { config } = await import('dotenv');
+
+  config();
+
+  source.install();
+
+  const date = new Date().toLocaleTimeString();
 
   const manager = ScrapeObserver.getInstance();
-
-  manager.start();
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: ['log', 'debug', 'warn', 'error'],
@@ -38,15 +43,21 @@ export const bootstrap = async () => {
     }),
   );
 
-  await app.listen(port, '0.0.0.0');
+  await app.listen(port, '0.0.0.0', () => {
+    const message = `Listening On ${port}`;
+    const wrapper = '@'.repeat(message.length);
 
-  const message = `Listening On ${port}`;
-  const wrapper = '@'.repeat(message.length);
+    Logger.log(wrapper);
+    Logger.log(`Scrape Manager Start: ${date}`);
+    Logger.log(message);
+    Logger.log(wrapper);
 
-  Logger.log(wrapper);
-  Logger.log(`Scrape Manager Start: ${date}`);
-  Logger.log(message);
-  Logger.log(wrapper);
+    process.send?.('ready');
+  });
 
-  process.on('SIGTERM', async () => await shutdown(app));
+  // process.on('SIGTERM', () => shutdown(app));
+
+  manager.start();
 };
+
+await bootstrap();

@@ -23,7 +23,7 @@ export class MusicChartProvider {
         orderBy: { rank: 'asc' },
       });
 
-      Logger.debug('Melon Music Chart Founded: %o', { result });
+      Logger.debug('Melon Music Chart Founded');
 
       return result;
     } catch (error) {
