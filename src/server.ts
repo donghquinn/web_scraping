@@ -48,5 +48,5 @@ export const bootstrap = async () => {
   Logger.log(message);
   Logger.log(wrapper);
 
-  process.on('SIGTERM', async () => await shutdown(app));
+  process.on('SIGTERM', () => shutdown(app));
 };

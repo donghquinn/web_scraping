@@ -28,7 +28,15 @@ export class ScrapeObserver {
 
   private blockTimer: ReturnType<typeof setIntervalAsync> | null;
 
-  private scrapeResultArray: ScrapeResultArray;
+  private bbc: Array<BbcNewsReturnArray>;
+
+  private hacker: Array<HackersNewsArrayType>;
+
+  private climate: Array<ClimateReturnData>;
+
+  private melon: Array<MusicRank>;
+
+  private naver: Array<NaverNewsItems>;
 
   constructor() {
     // ms 기준 - 1분에 한번씩 시간 체크
@@ -47,7 +55,11 @@ export class ScrapeObserver {
 
     this.blockTimer = null;
 
-    this.scrapeResultArray = { bbc: [], hackers: [], climate: [], naverNews: [], melon: [] };
+    this.bbc = [];
+    this.hacker = [];
+    this.climate = [];
+    this.naver = [];
+    this.melon = [];
   }
 
   public static getInstance() {
@@ -72,36 +84,36 @@ export class ScrapeObserver {
         ]);
 
         if (result[0].status === 'fulfilled') {
-          this.scrapeResultArray.hackers = result[0].value;
+          this.hacker = result[0].value;
         } else if (result[0].status === 'rejected') {
           Logger.error('Hackers News Scrape Error: %o', { error: result[0].reason });
         }
 
         if (result[1].status === 'fulfilled') {
-          this.scrapeResultArray.bbc = result[1].value;
+          this.bbc = result[1].value;
         } else if (result[1].status === 'rejected') {
           Logger.error('BBC News Scrape Error: %o', { error: result[1].reason });
         }
 
         if (result[2].status === 'fulfilled') {
-          this.scrapeResultArray.melon = result[2].value;
+          this.melon = result[2].value;
         } else if (result[2].status === 'rejected') {
           Logger.error('Melon Music Rank Chart Scrape Error: %o', { error: result[2].reason });
         }
 
         if (result[3].status === 'fulfilled') {
-          this.scrapeResultArray.climate = result[3].value;
+          this.climate = result[3].value;
         } else if (result[3].status === 'rejected') {
           Logger.error('Korea Climate Scrape Error: %o', { error: result[3].reason });
         }
 
         if (result[4].status === 'fulfilled') {
-          this.scrapeResultArray.naverNews = result[4].value;
+          this.naver = result[4].value;
         } else if (result[4].status === 'rejected') {
           Logger.error('Naver News Scrape Error: %o', { error: result[4].reason });
         }
 
-        await this.receivedDataInsert(this.scrapeResultArray);
+        await this.receivedDataInsert(this.bbc, this.naver, this.hacker, this.melon, this.climate);
       } catch (error) {
         Logger.error('Error: %o', { error });
 
@@ -114,15 +126,19 @@ export class ScrapeObserver {
     // Logger.debug('Now, and Running Moment: %o', { now: now, runningMoment });
   }
 
-  async receivedDataInsert(scrapeResults: ScrapeResultArray) {
-    const { bbc, hackers, melon, climate, naverNews } = scrapeResults;
-
+  async receivedDataInsert(
+    bbc: Array<BbcNewsReturnArray>,
+    naver: Array<NaverNewsItems>,
+    hacker: Array<HackersNewsArrayType>,
+    melon: Array<MusicRank>,
+    climate: Array<ClimateReturnData>,
+  ) {
     const result = await Promise.allSettled([
       this.insertBbcData(bbc),
       this.insertClimateData(climate),
-      this.insertHackerNewsData(hackers),
+      this.insertHackerNewsData(hacker),
       this.insertMelonData(melon),
-      this.insertNaverNews(naverNews),
+      this.insertNaverNews(naver),
     ]);
 
     const runResult = result.map<string>((item) => {
@@ -153,6 +169,8 @@ export class ScrapeObserver {
     }
 
     Logger.log('BBC News Inserted Finished.');
+
+    this.bbc.length = 0;
   }
 
   async insertMelonData(melon: Array<MusicRank>) {
@@ -168,6 +186,8 @@ export class ScrapeObserver {
     }
 
     Logger.log('Melon Music Chart Inserted Finished.');
+
+    this.melon.length = 0;
   }
 
   async insertClimateData(climate: Array<ClimateReturnData>) {
@@ -193,6 +213,8 @@ export class ScrapeObserver {
     }
 
     Logger.log('Korean Climate Inserted Finished.');
+
+    this.climate.length = 0;
   }
 
   async insertHackerNewsData(hackerNews: Array<HackersNewsArrayType>) {
@@ -208,6 +230,8 @@ export class ScrapeObserver {
     }
 
     Logger.log('Hacker News Inserted Finished.');
+
+    this.hacker.length = 0;
   }
 
   async insertNaverNews(naverNews: Array<NaverNewsItems>) {
@@ -226,6 +250,8 @@ export class ScrapeObserver {
     }
 
     Logger.log('Naver IT News Inserted Finished.');
+
+    this.naver.length = 0;
   }
 
   public stop() {
