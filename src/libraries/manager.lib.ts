@@ -44,6 +44,8 @@ export class ScrapeObserver {
 
     this.rule.tz = 'Asia/Seoul';
 
+    this.rule.date = new Date().getDate();
+
     this.rule.hour = 23;
 
     this.rule.minute = 59;
@@ -68,7 +70,7 @@ export class ScrapeObserver {
   }
 
   public start() {
-    schedule.scheduleJob(this.rule, async () => {
+    schedule.scheduleJob('0 59 23 * * *', async () => {
       try {
         Logger.log('Scrape Start');
 
