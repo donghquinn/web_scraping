@@ -455,10 +455,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^18.15.0":
-  version: 18.15.0
-  resolution: "@types/node@npm:18.15.0"
-  checksum: d81372276dd5053b1743338b61a2178ff9722dc609189d01fc7d1c2acd539414039e0e4780678730514390dad3f29c366a28c29e8dbd5b0025651181f6dd6669
+"@types/node@npm:^18.16.0":
+  version: 18.16.0
+  resolution: "@types/node@npm:18.16.0"
+  checksum: 63e0042136663b9e85ce503a4c65406cc6621fdba63ea66c74b4b1364a9aa9bdb57cadcb76696abab177f38a819b0fa6ace9e7f1647dcb990aedb1b4bd01012f
   languageName: node
   linkType: hard
 
@@ -4489,7 +4489,7 @@ __metadata:
     "@nestjs/platform-express": ^9.3.12
     "@prisma/client": ^4.12.0
     "@types/express-session": ^1.17.7
-    "@types/node": ^18.15.0
+    "@types/node": ^18.16.0
     "@types/node-schedule": ^2.1.0
     "@types/utf8": ^3.0.1
     "@typescript-eslint/eslint-plugin": ^5.58.0
