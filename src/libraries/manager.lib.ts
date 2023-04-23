@@ -10,6 +10,12 @@ import { scrapeMelonChart } from './scrape/music.lib';
 import { naverNews } from './scrape/naver.lib';
 import moment from 'moment-timezone';
 import schedule, { RecurrenceRule } from 'node-schedule';
+import { BbcNewsReturnArray } from 'types/bbc.type';
+import { MusicRank } from 'types/music.type';
+import { ClimateReturnData } from 'types/climate.type';
+import { HackersNewsArrayType } from 'types/hackers.type';
+import { NaverNewsItems } from 'types/naver.type';
+import { ManagerError } from 'errors/manager.error';
 
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
@@ -110,95 +116,114 @@ export class ScrapeObserver {
 
   async receivedDataInsert(scrapeResults: ScrapeResultArray) {
     const { bbc, hackers, melon, climate, naverNews } = scrapeResults;
-    try {
-      for (let i = 0; i < hackers.length; i += 1) {
-        await this.prisma.hackers.create({
-          data: {
-            rank: hackers[i].rank,
-            post: hackers[i].post,
-            link: hackers[i].link,
-            founded: this.now,
-          },
-        });
+
+    const result = await Promise.allSettled([
+      this.insertBbcData(bbc),
+      this.insertClimateData(climate),
+      this.insertHackerNewsData(hackers),
+      this.insertMelonData(melon),
+      this.insertNaverNews(naverNews),
+    ]);
+
+    result.filter((item) => {
+      if (item.status === 'rejected') {
+        Logger.error('Insert Data Failed: %o', { reason: item.reason });
+
+        throw new ManagerError('Manager Insert Data', 'Manager Insert Data Failed', item.reason);
+      } else {
+        Logger.log('Data Insert Finished');
       }
+    });
 
-      Logger.log('Hacker News Inserted Finished.');
+    return 'Success';
+  }
 
-      for (let i = 0; i < bbc.length; i += 1) {
-        await this.prisma.bbcTechNews.create({
-          data: {
-            rank: bbc[i].rank,
-            post: bbc[i].post,
-            link: bbc[i].link,
-            founded: this.now,
-          },
-        });
-      }
-
-      Logger.log('BBC News Inserted Finished.');
-
-      for (let i = 0; i < melon.length; i += 1) {
-        await this.prisma.melon.create({
-          data: {
-            rank: melon[i].rank,
-            title: melon[i].title,
-            artist: melon[i].artist,
-            founded: this.now,
-          },
-        });
-      }
-
-      Logger.log('Melon Music Chart Inserted Finished.');
-
-      for (let i = 0; i < climate.length; i += 1) {
-        await this.prisma.climate.create({
-          data: {
-            dataTime: climate[i].dataTime,
-            pm10Value: climate[i].pm10Value,
-            no2Value: climate[i].no2Value,
-            o3Value: climate[i].o3Value,
-            coValue: climate[i].coValue,
-            so2Value: climate[i].so2Value,
-            khaiValue: climate[i].khaiValue,
-            o3Grade: climate[i].o3Grade,
-            so2Grade: climate[i].so2Grade,
-            no2Grade: climate[i].no2Grade,
-            coGrade: climate[i].coGrade,
-            khaiGrade: climate[i].khaiGrade,
-            khaiStatus: climate[i].khaiStatus,
-            created: this.now,
-          },
-        });
-      }
-
-      Logger.log('Korean Climate Inserted Finished.');
-
-      for (let i = 0; i < naverNews.length; i += 1) {
-        await this.prisma.naverNews.create({
-          data: {
-            keyWord: 'IT',
-            title: naverNews[i].title,
-            description: naverNews[i].description,
-            originallink: naverNews[i].originallink,
-            url: naverNews[i].link,
-            postedTime: naverNews[i].pubDate,
-            founded: this.now,
-          },
-        });
-      }
-
-      Logger.log('Naver IT News Inserted Finished.');
-
-      return 'Success';
-    } catch (error) {
-      Logger.error('Prisma Error: %o', { error: error instanceof Error ? error : new Error(JSON.stringify(error)) });
-
-      throw new PrismaError(
-        'Prisma Manager',
-        'Prisma Manager Data Insert Error',
-        error instanceof Error ? error : new Error(JSON.stringify(error)),
-      );
+  async insertBbcData(bbc: Array<BbcNewsReturnArray>) {
+    for (let i = 0; i < bbc.length; i += 1) {
+      await this.prisma.bbcTechNews.create({
+        data: {
+          rank: bbc[i].rank,
+          post: bbc[i].post,
+          link: bbc[i].link,
+          founded: this.now,
+        },
+      });
     }
+
+    Logger.log('BBC News Inserted Finished.');
+  }
+
+  async insertMelonData(melon: Array<MusicRank>) {
+    for (let i = 0; i < melon.length; i += 1) {
+      await this.prisma.melon.create({
+        data: {
+          rank: melon[i].rank,
+          title: melon[i].title,
+          artist: melon[i].artist,
+          founded: this.now,
+        },
+      });
+    }
+
+    Logger.log('Melon Music Chart Inserted Finished.');
+  }
+
+  async insertClimateData(climate: Array<ClimateReturnData>) {
+    for (let i = 0; i < climate.length; i += 1) {
+      await this.prisma.climate.create({
+        data: {
+          dataTime: climate[i].dataTime,
+          pm10Value: climate[i].pm10Value,
+          no2Value: climate[i].no2Value,
+          o3Value: climate[i].o3Value,
+          coValue: climate[i].coValue,
+          so2Value: climate[i].so2Value,
+          khaiValue: climate[i].khaiValue,
+          o3Grade: climate[i].o3Grade,
+          so2Grade: climate[i].so2Grade,
+          no2Grade: climate[i].no2Grade,
+          coGrade: climate[i].coGrade,
+          khaiGrade: climate[i].khaiGrade,
+          khaiStatus: climate[i].khaiStatus,
+          created: this.now,
+        },
+      });
+    }
+
+    Logger.log('Korean Climate Inserted Finished.');
+  }
+
+  async insertHackerNewsData(hackerNews: Array<HackersNewsArrayType>) {
+    for (let i = 0; i < hackerNews.length; i += 1) {
+      await this.prisma.hackers.create({
+        data: {
+          rank: hackerNews[i].rank,
+          post: hackerNews[i].post,
+          link: hackerNews[i].link,
+          founded: this.now,
+        },
+      });
+    }
+
+    Logger.log('Hacker News Inserted Finished.');
+  }
+
+  async insertNaverNews(naverNews: Array<NaverNewsItems>) {
+    for (let i = 0; i < naverNews.length; i += 1) {
+      await this.prisma.naverNews.create({
+        data: {
+          keyWord: 'IT',
+          title: naverNews[i].title,
+          description: naverNews[i].description,
+          originallink: naverNews[i].originallink,
+          url: naverNews[i].link,
+          postedTime: naverNews[i].pubDate,
+          founded: this.now,
+        },
+      });
+    }
+
+    Logger.log('Naver IT News Inserted Finished.');
   }
 
   public stop() {
