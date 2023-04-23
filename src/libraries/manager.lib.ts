@@ -1,21 +1,18 @@
 import { Logger } from '@nestjs/common';
-import { PrismaError } from 'errors/prisma.error';
+import moment from 'moment-timezone';
+import schedule, { RecurrenceRule } from 'node-schedule';
 import { clearIntervalAsync, setIntervalAsync } from 'set-interval-async';
-import { ScrapeResultArray } from 'types/manager.type';
+import { BbcNewsReturnArray } from 'types/bbc.type';
+import { ClimateReturnData } from 'types/climate.type';
+import { HackersNewsArrayType } from 'types/hackers.type';
+import { MusicRank } from 'types/music.type';
+import { NaverNewsItems } from 'types/naver.type';
 import { PrismaLibrary } from './common/prisma.lib';
 import { scrapeBbcTechNews } from './scrape/bbc.lib';
 import { getKoreanClimate } from './scrape/climate.lib';
 import { scrapeHackerNews } from './scrape/hackers.lib';
 import { scrapeMelonChart } from './scrape/music.lib';
 import { naverNews } from './scrape/naver.lib';
-import moment from 'moment-timezone';
-import schedule, { RecurrenceRule } from 'node-schedule';
-import { BbcNewsReturnArray } from 'types/bbc.type';
-import { MusicRank } from 'types/music.type';
-import { ClimateReturnData } from 'types/climate.type';
-import { HackersNewsArrayType } from 'types/hackers.type';
-import { NaverNewsItems } from 'types/naver.type';
-import { ManagerError } from 'errors/manager.error';
 
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
