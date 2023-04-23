@@ -44,9 +44,9 @@ export class ScrapeObserver {
 
     this.rule.tz = 'Asia/Seoul';
 
-    this.rule.hour = 16;
+    this.rule.hour = 23;
 
-    this.rule.minute = 43;
+    this.rule.minute = 59;
 
     this.now = moment.utc().tz('Asia/Seoul').format('YYYY-MM-DD HH:mm:ss');
 
