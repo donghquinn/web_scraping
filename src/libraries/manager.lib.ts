@@ -1,7 +1,6 @@
 import { Logger } from '@nestjs/common';
 import moment from 'moment-timezone';
 import schedule, { RecurrenceRule } from 'node-schedule';
-import { clearIntervalAsync, setIntervalAsync } from 'set-interval-async';
 import { BbcNewsReturnArray } from 'types/bbc.type';
 import { ClimateReturnData } from 'types/climate.type';
 import { HackersNewsArrayType } from 'types/hackers.type';
@@ -23,8 +22,6 @@ export class ScrapeObserver {
 
   private rule: RecurrenceRule;
 
-  private blockTimer: ReturnType<typeof setIntervalAsync> | null;
-
   private bbc: Array<BbcNewsReturnArray>;
 
   private hacker: Array<HackersNewsArrayType>;
@@ -45,8 +42,6 @@ export class ScrapeObserver {
     this.rule.tz = 'Asia/Seoul';
 
     this.now = moment.utc().tz('Asia/Seoul').format('YYYY-MM-DD HH:mm:ss');
-
-    this.blockTimer = null;
 
     this.bbc = [];
     this.hacker = [];
@@ -77,31 +72,41 @@ export class ScrapeObserver {
         ]);
 
         if (result[0].status === 'fulfilled') {
+          Logger.debug('Founded Hacker News: ', result[0].value);
           this.hacker = result[0].value;
+          Logger.debug('Hacker News Array: ', this.hacker);
         } else if (result[0].status === 'rejected') {
           Logger.error('Hackers News Scrape Error: %o', { error: result[0].reason });
         }
 
         if (result[1].status === 'fulfilled') {
+          Logger.debug('Founded BBC News: ', result[1].value);
           this.bbc = result[1].value;
+          Logger.debug('BBC News Array: ', this.bbc);
         } else if (result[1].status === 'rejected') {
           Logger.error('BBC News Scrape Error: %o', { error: result[1].reason });
         }
 
         if (result[2].status === 'fulfilled') {
+          Logger.debug('Found Melon Music: ', result[2].value);
           this.melon = result[2].value;
+          Logger.debug('Melon Music Array: ', this.melon);
         } else if (result[2].status === 'rejected') {
           Logger.error('Melon Music Rank Chart Scrape Error: %o', { error: result[2].reason });
         }
 
         if (result[3].status === 'fulfilled') {
+          Logger.debug('Founded Climate Data', result[3].value);
           this.climate = result[3].value;
+          Logger.debug('Climate Array: ', this.climate);
         } else if (result[3].status === 'rejected') {
           Logger.error('Korea Climate Scrape Error: %o', { error: result[3].reason });
         }
 
         if (result[4].status === 'fulfilled') {
+          Logger.debug('Founded Naver News: ', this.naver);
           this.naver = result[4].value;
+          Logger.debug('Naver News Array: ', this.naver);
         } else if (result[4].status === 'rejected') {
           Logger.error('Naver News Scrape Error: %o', { error: result[4].reason });
         }
@@ -150,6 +155,8 @@ export class ScrapeObserver {
   }
 
   async insertBbcData(bbc: Array<BbcNewsReturnArray>) {
+    Logger.debug('Inserting BBC News: %o', { bbc });
+
     for (let i = 0; i < bbc.length; i += 1) {
       await this.prisma.bbcTechNews.create({
         data: {
@@ -167,6 +174,7 @@ export class ScrapeObserver {
   }
 
   async insertMelonData(melon: Array<MusicRank>) {
+    Logger.debug('Insert Melon Music Rank: %o', { melon });
     for (let i = 0; i < melon.length; i += 1) {
       await this.prisma.melon.create({
         data: {
@@ -184,6 +192,8 @@ export class ScrapeObserver {
   }
 
   async insertClimateData(climate: Array<ClimateReturnData>) {
+    Logger.debug('Insert Climate Data: %o', { climate });
+
     for (let i = 0; i < climate.length; i += 1) {
       await this.prisma.climate.create({
         data: {
@@ -211,6 +221,8 @@ export class ScrapeObserver {
   }
 
   async insertHackerNewsData(hackerNews: Array<HackersNewsArrayType>) {
+    Logger.debug('Insert Hacker News Data: %o', { hackerNews });
+
     for (let i = 0; i < hackerNews.length; i += 1) {
       await this.prisma.hackers.create({
         data: {
@@ -228,6 +240,8 @@ export class ScrapeObserver {
   }
 
   async insertNaverNews(naverNews: Array<NaverNewsItems>) {
+    Logger.debug('Insert Naver News: %o', { naverNews });
+
     for (let i = 0; i < naverNews.length; i += 1) {
       await this.prisma.naverNews.create({
         data: {
@@ -248,16 +262,10 @@ export class ScrapeObserver {
   }
 
   public stop() {
-    if (this.blockTimer) {
-      clearIntervalAsync(this.blockTimer);
+    this.prisma.$disconnect();
 
-      this.blockTimer = null;
+    Logger.log('[Observer] Waiting for queue idle...');
 
-      this.prisma.$disconnect();
-
-      Logger.log('[Observer] Waiting for queue idle...');
-
-      Logger.log('[Observer] Queue is idle, stopped');
-    }
+    Logger.log('[Observer] Queue is idle, stopped');
   }
 }
