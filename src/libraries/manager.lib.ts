@@ -59,7 +59,7 @@ export class ScrapeObserver {
   }
 
   public start() {
-    schedule.scheduleJob('0 59 23 * * *', async () => {
+    schedule.scheduleJob('0 05 23 * * *', async () => {
       try {
         Logger.log('Scrape Start');
 
@@ -144,7 +144,9 @@ export class ScrapeObserver {
         Logger.error('Insert Data Failed: %o', { reason: item.reason });
 
         return item.reason;
-      } else {
+      }
+
+      if (item.status === 'fulfilled') {
         Logger.log('Data Insert Finished');
 
         return 'success';
