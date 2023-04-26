@@ -58,7 +58,7 @@ export class ScrapeObserver {
   }
 
   public start() {
-    schedule.scheduleJob('0 52 09 * * *', async () => {
+    schedule.scheduleJob('0 10 23 * * *', async () => {
       try {
         Logger.log('Scrape Start');
 
