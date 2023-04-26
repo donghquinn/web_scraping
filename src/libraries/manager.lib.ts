@@ -148,6 +148,12 @@ export class ScrapeObserver {
       if (item.status === 'fulfilled') {
         Logger.log('Data Insert Finished');
 
+        this.hacker.length = 0;
+        this.bbc.length = 0;
+        this.naver.length = 0;
+        this.climate.length = 0;
+        this.melon.length = 0;
+
         return 'success';
       }
     });
