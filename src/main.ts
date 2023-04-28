@@ -31,17 +31,17 @@ export const bootstrap = async () => {
   app.useBodyParser('json');
   app.enableShutdownHooks();
   // app.useLogger(app.get(LoggerModule));
-  app.use(
-    session({
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      secret: process.env.SESSION_SECRET!,
-      resave: false,
-      saveUninitialized: false,
-      // TODO Save Session into Redis or Cache Server
-      // store: new RedisStore(),
-      cookie: { maxAge: 1800000, secure: true },
-    }),
-  );
+  // app.use(
+  //   session({
+  //     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  //     secret: process.env.SESSION_SECRET!,
+  //     resave: false,
+  //     saveUninitialized: false,
+  //     // TODO Save Session into Redis or Cache Server
+  //     // store: new RedisStore(),
+  //     cookie: { maxAge: 1800000, secure: true },
+  //   }),
+  // );
 
   await app.listen(port, '0.0.0.0', () => {
     const message = `Listening On ${port}`;
