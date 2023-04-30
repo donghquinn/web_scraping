@@ -1,6 +1,4 @@
 import { Logger } from '@nestjs/common';
-import axios from 'axios';
-import * as cheerio from 'cheerio';
 import { NaverError } from 'errors/naver.error';
 import fetch from 'node-fetch';
 import { NaverNewsResponse } from 'types/naver.type';
