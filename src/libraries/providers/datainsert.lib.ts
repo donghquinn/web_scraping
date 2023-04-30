@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { PrismaLibrary } from 'libraries/common/prisma.lib';
 import moment from 'moment';
 import { BbcNewsReturnArray } from 'types/bbc.type';
@@ -7,11 +7,12 @@ import { HackersNewsArrayType } from 'types/hackers.type';
 import { MusicRank } from 'types/music.type';
 import { NaverNewsItems } from 'types/naver.type';
 
-@Injectable()
 export class ScrapedDataInsert {
   private now: string;
+  private prisma:  PrismaLibrary;
 
-  constructor(private prisma: PrismaLibrary) {
+   constructor () {
+    this.prisma = new PrismaLibrary();
     this.now = moment.utc().tz('Asia/Seoul').format('YYYY-MM-DD HH:mm:ss');
   }
 

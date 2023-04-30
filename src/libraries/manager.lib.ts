@@ -1,11 +1,10 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import schedule, { RecurrenceRule } from 'node-schedule';
 import { BbcNewsReturnArray } from 'types/bbc.type';
 import { ClimateReturnData } from 'types/climate.type';
 import { HackersNewsArrayType } from 'types/hackers.type';
 import { MusicRank } from 'types/music.type';
 import { NaverNewsItems } from 'types/naver.type';
-import { PrismaLibrary } from './common/prisma.lib';
 import { ScrapedDataInsert } from './providers/datainsert.lib';
 import { scrapeBbcTechNews } from './scrape/bbc.lib';
 import { getKoreanClimate } from './scrape/climate.lib';
@@ -13,11 +12,8 @@ import { scrapeHackerNews } from './scrape/hackers.lib';
 import { scrapeMelonChart } from './scrape/music.lib';
 import { naverNews } from './scrape/naver.lib';
 
-@Injectable()
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
-
-  private prisma: PrismaLibrary;
 
   private insert: ScrapedDataInsert;
 
@@ -34,11 +30,9 @@ export class ScrapeObserver {
   private naver: Array<NaverNewsItems>;
 
   constructor() {
-    this.prisma = new PrismaLibrary();
-
     this.rule = new schedule.RecurrenceRule();
 
-    this.insert = new ScrapedDataInsert(this.prisma);
+    this.insert = new ScrapedDataInsert();
 
     this.rule.tz = 'Asia/Seoul';
 
@@ -159,13 +153,5 @@ export class ScrapeObserver {
     });
 
     return runResult;
-  }
-
-  public stop() {
-    this.prisma.$disconnect();
-
-    Logger.log('[Observer] Waiting for queue idle...');
-
-    Logger.log('[Observer] Queue is idle, stopped');
   }
 }
