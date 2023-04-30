@@ -41,31 +41,3 @@ export const naverNews = async () => {
     );
   }
 };
-
-export const naverKin = async() => {
-  try {
-    const keyword = ["빅데이터", "머신러닝", "딥러닝"]
-
-    for (let i = 0; i <= keyword.length; i +=1 ){
-      const url = `https://kin.naver.com/search/list.nhn?query=${i}`;
-
-      const response  = await (await axios.get(url)).data;
-
-      const html = cheerio.load(response)
-
-      const title = html("div.section").children("ul.basic1").children("li").append("!").text().split("!")
-      // .children("ul.basic1").children("li").children("dl").children("dt").children("a").children("b").toString()
-        // const date = html(item).children("li").children("dl").children("dt").children("dd.txt_inline").toString()
-
-       console.log(title)
-    }
-  
-
-    // const response =
-  } catch (error) {
-    throw new NaverError("Naver KIN", "Scrape Naver Kin Error",       error instanceof Error ? error : new Error(JSON.stringify(error)),
-    )
-  }
-}
-
-await naverKin()
