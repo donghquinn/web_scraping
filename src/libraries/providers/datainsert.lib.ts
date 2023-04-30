@@ -1,5 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { Logger } from '@nestjs/common';
 import { PrismaLibrary } from 'libraries/common/prisma.lib';
 import moment from 'moment';
 import { BbcNewsReturnArray } from 'types/bbc.type';
