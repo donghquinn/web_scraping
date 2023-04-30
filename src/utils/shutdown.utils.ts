@@ -4,9 +4,6 @@ import { ScrapeObserver } from 'libraries/manager.lib';
 
 export function shutdown(server: NestExpressApplication) {
   try {
-    const observer = new ScrapeObserver();
-
-    observer.stop();
     server.close();
 
     process.exitCode = 0;
