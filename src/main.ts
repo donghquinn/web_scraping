@@ -45,5 +45,5 @@ export const bootstrap = async () => {
 
 };
 
-scraper.start()
+scraper.start();
 await bootstrap();

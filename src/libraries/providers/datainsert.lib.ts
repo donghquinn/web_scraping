@@ -9,10 +9,12 @@ import { NaverNewsItems } from 'types/naver.type';
 
 export class ScrapedDataInsert {
   private now: string;
+
   private prisma:  PrismaLibrary;
 
    constructor () {
     this.prisma = new PrismaLibrary();
+    
     this.now = moment.utc().tz('Asia/Seoul').format('YYYY-MM-DD HH:mm:ss');
   }
 
