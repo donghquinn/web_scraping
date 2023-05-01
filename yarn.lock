@@ -4957,7 +4957,7 @@ __metadata:
     set-interval-async: ^3.0.3
     source-map-support: ^0.5.21
     ts-node: ^10.9.1
-    ts-paths-esm-loader: ^1.4.1
+    ts-paths-esm-loader: ^1.4.3
     tsconfig-paths: ^4.2.0
     typescript: ^5.0.4
     utf8: ^3.0.0
@@ -5497,13 +5497,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-paths-esm-loader@npm:^1.4.1":
-  version: 1.4.1
-  resolution: "ts-paths-esm-loader@npm:1.4.1"
+"ts-paths-esm-loader@npm:^1.4.3":
+  version: 1.4.3
+  resolution: "ts-paths-esm-loader@npm:1.4.3"
   peerDependencies:
     ts-node: ^10.4.0
-    tsconfig-paths: ^3.12.0
-  checksum: 7a80573661ced0939cba9302bc6f21ff6ee0ff7ec90619f78c89c99de82a1166cc1404171b278821c16aec93347108859d09c495a1230e2aab8cc6f4a3786093
+    tsconfig-paths: ^4.0.0 || ^3.12.0
+  checksum: a6318d9becf504059ec3812dff33dac4123f4b339cad55925c4b8569bf355b7a675b5eef4d06fb4847624d786114589226a5ca12160ab6cf1cbccf5fd10c5561
   languageName: node
   linkType: hard
 
