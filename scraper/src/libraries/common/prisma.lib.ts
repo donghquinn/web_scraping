@@ -1,19 +1,19 @@
 import { PrismaClient } from "@prisma/client";
 import { Logger } from "utils/logger.util";
 
-export class PrismaLibrary  {
-  private prisma: PrismaClient;
+export class PrismaLibrary  extends PrismaClient{
+  // private prisma: PrismaClient;
 
-  constructor() {
-    this.prisma = new PrismaClient();  
-  }
+  // constructor() {
+  //   this.prisma = new PrismaClient();  
+  // }
 
     async onModuleInit() {
-      await this.prisma.$connect();
+      await this.$connect();
     }
   
      gracefuleStopping(){
-      this.prisma.$on("beforeExit",  () => {
+      this.$on("beforeExit",  () => {
          this.stopping().catch((error) => {
           Logger.error("Prisma Error: %o", {error: error instanceof Error ? error : new Error(JSON.stringify(error)),
           })
@@ -22,7 +22,7 @@ export class PrismaLibrary  {
     }
 
     async stopping() {
-     await this.prisma.$disconnect()
+     await this.$disconnect()
   }
 }
   
