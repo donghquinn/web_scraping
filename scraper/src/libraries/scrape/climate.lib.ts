@@ -1,7 +1,7 @@
 import { ClimateError } from 'errors/climate.error';
 import fetch from 'node-fetch';
 import { ClimateReturnData, Response } from 'types/climate.type';
-import { Logger } from 'utils/logger.util';
+import { ScrapeLogger } from 'utils/logger.util';
 
 export const getKoreanClimate = async () => {
   try {
@@ -45,11 +45,11 @@ export const getKoreanClimate = async () => {
       }
     }
 
-    Logger.info('Climate Data Inserted');
+    ScrapeLogger.info('Climate Data Inserted');
 
     return climate;
   } catch (error) {
-    Logger.error('Scrape Korean Climate Error: %o', {
+    ScrapeLogger.error('Scrape Korean Climate Error: %o', {
       error: error instanceof Error ? error : new Error(JSON.stringify(error)),
     });
 

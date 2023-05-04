@@ -1,8 +1,8 @@
-import { Logger } from '@nestjs/common';
 import { NaverError } from 'errors/naver.error';
 import fetch from 'node-fetch';
 import { NaverNewsResponse } from 'types/naver.type';
 import utf8 from 'utf8';
+import { ScrapeLogger } from 'utils/logger.util';
 
 export const naverNews = async () => {
   try {
@@ -24,11 +24,11 @@ export const naverNews = async () => {
 
     const response = (await (await fetch(url, options)).json()) as NaverNewsResponse;
 
-    console.log('Found Naver News');
+    ScrapeLogger.info('Found Naver News');
 
     return response.items;
   } catch (error) {
-    Logger.error('Scrape Naver News Error: %o', {
+    ScrapeLogger.error('Scrape Naver News Error: %o', {
       error: error instanceof Error ? error : new Error(JSON.stringify(error)),
     });
 

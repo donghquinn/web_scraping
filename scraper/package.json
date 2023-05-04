@@ -3,7 +3,10 @@
   "packageManager": "yarn@3.5.0",
   "scripts": {
     "start": "NODE_ENV=production node --max-old-space-size=700 -r ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node  ./src/main.ts",
-    "build": "NODE_ENV=production tsc --project tsconfig.json --diagnostics  -p tsconfig.json"
+    "build": "NODE_ENV=production tsc --project tsconfig.json --diagnostics  -p tsconfig.json",
+    "schema": "prisma generate",
+    "migrate": "prisma migrate dev --name added_melon",
+    "db:update": "prisma db push"
   },
   "dependencies": {
     "@prisma/client": "^4.13.0",
@@ -15,6 +18,7 @@
     "moment-timezone": "^0.5.43",
     "node-fetch": "^3.3.1",
     "node-schedule": "^2.1.1",
+    "prisma": "^4.13.0",
     "utf8": "^3.0.0",
     "winston": "^3.8.2",
     "winston-daily-rotate-file": "^4.7.1"

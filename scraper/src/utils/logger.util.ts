@@ -21,20 +21,12 @@ const dirSaveName = path.join(dirName, '..', '..', 'logs');
 class WinstonLogger {
   private static instance: WinstonLogger;
 
-  private apiLogger: Winston.Logger;
-
-  private txLogger: Winston.Logger;
-
-  private callbackLogger: Winston.Logger;
-
-  private parseLogger: Winston.Logger;
-
   private logger: Winston.Logger;
 
-  private shareLogger: Winston.Logger;
+  private scrapeLogger: Winston.Logger;
 
   private constructor() {
-    this.apiLogger = Winston.createLogger({
+    this.scrapeLogger = Winston.createLogger({
       level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
       transports: [
         new Winston.transports.Console(),
@@ -42,62 +34,6 @@ class WinstonLogger {
           datePattern: 'YYYY-MM-DD',
           dirname: dirSaveName,
           filename: '%DATE%.api.log',
-          maxFiles: 30,
-          zippedArchive: true,
-        }),
-      ],
-    });
-
-    this.shareLogger = Winston.createLogger({
-      level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
-      transports: [
-        new Winston.transports.Console(),
-        new WinstonDaily({
-          datePattern: 'YYYY-MM-DD',
-          dirname: dirSaveName,
-          filename: '%DATE%.share.log',
-          maxFiles: 30,
-          zippedArchive: true,
-        }),
-      ],
-    });
-
-    this.txLogger = Winston.createLogger({
-      level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
-      transports: [
-        new Winston.transports.Console(),
-        new WinstonDaily({
-          datePattern: 'YYYY-MM-DD',
-          dirname: dirSaveName,
-          filename: '%DATE%.tx.log',
-          maxFiles: 30,
-          zippedArchive: true,
-        }),
-      ],
-    });
-
-    this.callbackLogger = Winston.createLogger({
-      level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
-      transports: [
-        new Winston.transports.Console(),
-        new WinstonDaily({
-          datePattern: 'YYYY-MM-DD',
-          dirname: dirSaveName,
-          filename: '%DATE%.cb.log',
-          maxFiles: 30,
-          zippedArchive: true,
-        }),
-      ],
-    });
-
-    this.parseLogger = Winston.createLogger({
-      level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
-      transports: [
-        new Winston.transports.Console(),
-        new WinstonDaily({
-          datePattern: 'YYYY-MM-DD',
-          dirname: dirSaveName,
-          filename: '%DATE%.parser.log',
           maxFiles: 30,
           zippedArchive: true,
         }),
@@ -133,14 +69,10 @@ class WinstonLogger {
     }
 
     return {
-      ApiLogger: this.instance.apiLogger,
-      TxLogger: this.instance.txLogger,
-      CallbackLogger: this.instance.callbackLogger,
-      ParseLogger: this.instance.parseLogger,
       Logger: this.instance.logger,
-      ShareLogger: this.instance.shareLogger,
+      ScrapeLogger: this.instance.scrapeLogger,
     };
   }
 }
 
-export const { ApiLogger, TxLogger, CallbackLogger, ParseLogger, Logger, ShareLogger } = WinstonLogger.getInstance();
+export const {  Logger, ScrapeLogger } = WinstonLogger.getInstance();

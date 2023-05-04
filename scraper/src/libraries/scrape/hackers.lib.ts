@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { HackerError } from 'errors/hacker.error';
 import { HackersNewsArrayType } from 'types/hackers.type';
-import { Logger } from 'utils/logger.util';
+import { ScrapeLogger } from 'utils/logger.util';
 
 /**
  * Hackers News 1 ~ 30: "https://news.ycombinator.com/"
@@ -12,7 +12,7 @@ export const scrapeHackerNews = async () => {
   try {
     const hackerUrl = 'https://news.ycombinator.com/';
 
-    const html = await axios.get(hackerUrl);
+    const html = await axios.get<string>(hackerUrl);
 
     const scrapedHtml = cheerio.load(html.data);
 
@@ -59,11 +59,11 @@ export const scrapeHackerNews = async () => {
       newsArray.push({ rank: rank[i], post: posts[i], link: hrefArray[i] });
     }
 
-    Logger.info('Got New Hacker News Rank.');
+    ScrapeLogger.info('Got New Hacker News Rank.');
 
     return newsArray;
   } catch (error) {
-    Logger.error('Scrape Hacker Tech News Error:', {
+    ScrapeLogger.error('Scrape Hacker Tech News Error:', {
       error: error instanceof Error ? error : new Error(JSON.stringify(error)),
     });
 

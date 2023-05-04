@@ -5,10 +5,13 @@ import { MelonError } from 'errors/melon.error';
 import { NaverError } from 'errors/naver.error';
 import fetch from 'node-fetch';
 import { MusicNaverSearchResponse, MusicRank } from 'types/music.type';
-import { Logger } from 'utils/logger.util';
+import { ScrapeLogger } from 'utils/logger.util';
 
 /**
- * https://search.daum.net/search?nil_suggest=sugsch&w=tot&DA=GIQ&sq=%EC%97%B0%EB%A0%B9%EB%B3%84+%EC%9D%8C%EC%9B%90%EC%B0%A8%ED%8A%B8&o=1&sugo=11&q=%EC%97%B0%EB%A0%B9%EB%B3%84+%EC%9D%8C%EC%9B%90%EC%B0%A8%ED%8A%B8
+ * https://search.daum.net/search?
+ * nil_suggest=sugsch&w=tot&DA=GIQ&sq=%EC%97%B0
+ * %EB%A0%B9%EB%B3%84+%EC%9D%8C%EC%9B%90%EC%B0%A8
+ * %ED%8A%B8&o=1&sugo=11&q=%EC%97%B0%EB%A0%B9%EB%B3%84+%EC%9D%8C%EC%9B%90%EC%B0%A8%ED%8A%B8
  */
 export const scrapeMelonChart = async () => {
   try {
@@ -16,7 +19,7 @@ export const scrapeMelonChart = async () => {
 
     const melonChartUrl = 'https://www.melon.com/chart/index.htm';
 
-    const { data } = await axios.get(melonChartUrl);
+    const { data } = await axios.get<string>(melonChartUrl);
 
     const html = cheerio.load(data);
 
@@ -41,11 +44,11 @@ export const scrapeMelonChart = async () => {
       musicArray.push({ rank: i + 1, title: musicTitle[i], artist: musicArtist[i] });
     }
 
-    Logger.info('Found Melon Music Chart Result');
+    ScrapeLogger.info('Found Melon Music Chart Result');
 
     return musicArray;
   } catch (error) {
-    Logger.error('Scrape Melon Chart Error: %o', {
+    ScrapeLogger.error('Scrape Melon Chart Error: %o', {
       error: error instanceof Error ? error : new Error(JSON.stringify(error)),
     });
 
@@ -71,11 +74,11 @@ export const searchMusicStatistics = async (musics: Array<MusicRank>) => {
 
     const startDate = subYears(today, 1);
 
-    console.log('Dates: %o', { today, startDate });
+    ScrapeLogger.debug('Dates: %o', { today, startDate });
     // const returndata = [];
     for (let i = 0; i < musics.length; i += 1) {
       const body = JSON.stringify({
-        startDate: startDate,
+        startDate,
         endDate: today,
         timeUnit: 'year',
         keywordGroups: [
@@ -92,14 +95,14 @@ export const searchMusicStatistics = async (musics: Array<MusicRank>) => {
         body,
       };
 
-      Logger.info('Request Body: ', { body });
+      ScrapeLogger.debug('Request Body: ', { body });
 
       const response = (await (await fetch(url, options)).json()) as MusicNaverSearchResponse;
 
-      console.log('Music Search Response: ', { responseData: response.results });
+      ScrapeLogger.debug('Music Search Response: ', { responseData: response.results });
     }
   } catch (error) {
-    Logger.error('Scrape Music Statistics Search Error: ', {
+    ScrapeLogger.error('Scrape Music Statistics Search Error: ', {
       error: error instanceof Error ? error : new Error(JSON.stringify(error)),
     });
 

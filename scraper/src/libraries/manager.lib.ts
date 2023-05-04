@@ -1,17 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import schedule, { RecurrenceRule } from 'node-schedule';
 import { BbcNewsReturnArray } from 'types/bbc.type';
 import { ClimateReturnData } from 'types/climate.type';
 import { HackersNewsArrayType } from 'types/hackers.type';
 import { MusicRank } from 'types/music.type';
 import { NaverNewsItems } from 'types/naver.type';
+import { Logger } from 'utils/logger.util';
+import { InsertData } from './common/insert.lib';
 import { scrapeBbcTechNews } from './scrape/bbc.lib';
 import { getKoreanClimate } from './scrape/climate.lib';
 import { scrapeHackerNews } from './scrape/hackers.lib';
 import { scrapeMelonChart } from './scrape/music.lib';
 import { naverNews } from './scrape/naver.lib';
-import { PrismaLibrary } from 'libraries/common/prisma.lib';
-import { InsertData } from './common/insert.lib';
-import { Logger } from 'utils/logger.util';
 
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
@@ -151,6 +152,8 @@ export class ScrapeObserver {
 
         return 'success';
       }
+
+      throw new Error("Run Scrape Failed");
     });
 
     return runResult;

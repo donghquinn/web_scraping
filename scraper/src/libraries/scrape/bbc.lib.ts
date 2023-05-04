@@ -1,14 +1,14 @@
-import { Logger } from '@nestjs/common';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { BbcError } from 'errors/bbc.error';
 import { BbcNewsReturnArray } from 'types/bbc.type';
+import { ScrapeLogger } from 'utils/logger.util';
 
 export const scrapeBbcTechNews = async () => {
   try {
     const url = 'https://www.bbc.com/korean/topics/c2dwqjn99ggt';
 
-    const { data } = await axios.get(url);
+    const { data } = await axios.get<string>(url);
 
     const html = cheerio.load(data);
 
@@ -35,11 +35,11 @@ export const scrapeBbcTechNews = async () => {
       });
     }
 
-    Logger.log('BBC Technology News Found');
+    ScrapeLogger.info('BBC Technology News Found');
 
     return returnArray;
   } catch (error) {
-    Logger.error('Scrape BBC Tech News Error: ', {
+    ScrapeLogger.error('Scrape BBC Tech News Error: ', {
       error: error instanceof Error ? error : new Error(JSON.stringify(error)),
     });
 
