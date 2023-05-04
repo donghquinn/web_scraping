@@ -23,34 +23,13 @@ services:
                         - .env
                 networks:
                         - proxy
-                        
-        scraper:
-                build:
-                        context: ./scraper
-                        dockerfile: ./Dockerfile
-                container_name: scraper
-                deploy:
-                        resources:
-                              limits:
-                                  cpus: '0.25'
-                                  memory: 700M
-                              reservations:
-                                  cpus: '0.15'
-                                  memory: 300M
-                volumes:
-                        - ./logs:/home/taste/logs
-                expose:
-                        - 5500
-                env_file:
-                        - .env
-                networks:
-                        - proxy
 
         scraper:
                 build:
                         context: ./scraper
                         dockerfile: ./Dockerfile
                 container_name: scraper
+                restart: unless-stopped
                 deploy:
                         resources:
                               limits:
