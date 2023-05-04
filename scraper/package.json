@@ -1,0 +1,47 @@
+{
+  "name": "scraper",
+  "packageManager": "yarn@3.5.0",
+  "scripts": {
+    "start": "NODE_ENV=production node --max-old-space-size=700 -r ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node  ./src/main.ts",
+    "build": "NODE_ENV=production tsc --project tsconfig.json --diagnostics  -p tsconfig.json",
+    "schema": "prisma generate",
+    "migrate": "prisma migrate dev --name added_melon",
+    "db:update": "prisma db push"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.13.0",
+    "axios": "^1.4.0",
+    "cheerio": "^1.0.0-rc.12",
+    "date-fns": "^2.30.0",
+    "dotenv": "^16.0.3",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
+    "node-fetch": "^3.3.1",
+    "node-schedule": "^2.1.1",
+    "prisma": "^4.13.0",
+    "puppeteer": "^20.1.0",
+    "utf8": "^3.0.0",
+    "winston": "^3.8.2",
+    "winston-daily-rotate-file": "^4.7.1"
+  },
+  "devDependencies": {
+    "@types/moment": "^2.13.0",
+    "@types/moment-timezone": "^0.5.30",
+    "@types/node": "^18.16.0",
+    "@types/node-schedule": "^2.1.0",
+    "@types/utf8": "^3.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "@typescript-eslint/parser": "^5.58.0",
+    "eslint": "^8.39.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-next": "^13.2.4",
+    "eslint-config-prettier": "^8.7.0",
+    "eslint-plugin-import": "^2.26.0",
+    "prettier": "^2.8.1",
+    "ts-node": "^10.9.1",
+    "ts-paths-esm-loader": "^1.4.3",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.0.4"
+  }
+}
