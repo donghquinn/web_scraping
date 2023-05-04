@@ -5,16 +5,17 @@ import { ClimateReturnData } from 'types/climate.type';
 import { HackersNewsArrayType } from 'types/hackers.type';
 import { MusicRank } from 'types/music.type';
 import { NaverNewsItems } from 'types/naver.type';
-import { scrapeBbcTechNews } from './libraries/scrape/bbc.lib';
-import { getKoreanClimate } from './libraries/scrape/climate.lib';
-import { scrapeHackerNews } from './libraries/scrape/hackers.lib';
-import { scrapeMelonChart } from './libraries/scrape/music.lib';
-import { naverNews } from './libraries/scrape/naver.lib';
+import { scrapeBbcTechNews } from './scrape/bbc.lib';
+import { getKoreanClimate } from './scrape/climate.lib';
+import { scrapeHackerNews } from './scrape/hackers.lib';
+import { scrapeMelonChart } from './scrape/music.lib';
+import { naverNews } from './scrape/naver.lib';
+import { PrismaLibrary } from 'libraries/common/prisma.lib';
 
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
 
-  private insert: ScrapedDataInsert;
+  private prisma: PrismaLibrary;
 
   private rule: RecurrenceRule;
 
@@ -31,7 +32,7 @@ export class ScrapeObserver {
   constructor() {
     this.rule = new schedule.RecurrenceRule();
 
-    this.insert = new ScrapedDataInsert();
+    this.prisma = PrismaLibrary.getInstance();
 
     this.rule.tz = 'Asia/Seoul';
 
