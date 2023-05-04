@@ -1,11 +1,11 @@
 import moment from "moment-timezone";
-import { PrismaLibrary } from "./prisma.lib";
 import { BbcNewsReturnArray } from "types/bbc.type";
-import { Logger } from "utils/logger.util";
 import { ClimateReturnData } from "types/climate.type";
 import { HackersNewsArrayType } from "types/hackers.type";
-import { NaverNewsItems } from "types/naver.type";
 import { MusicRank } from "types/music.type";
+import { NaverNewsItems } from "types/naver.type";
+import { Logger } from "utils/logger.util";
+import { PrismaLibrary } from "./prisma.lib";
 
 export class InsertData {
     private now: string;

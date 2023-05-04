@@ -1,25 +1,28 @@
 import { PrismaClient } from "@prisma/client";
+import { Logger } from "utils/logger.util";
 
-export class PrismaLibrary extends PrismaClient  {
-    private static instance: PrismaClient;
+export class PrismaLibrary  {
+  private prisma: PrismaClient;
 
-    public static getInstance() {
-        if (!this.instance) {
-            this.instance = new PrismaClient();
-        }
-    
-        return this.instance;
-        }
-
+  constructor() {
+    this.prisma = new PrismaClient();  
+  }
 
     async onModuleInit() {
-      await this.$connect();
+      await this.prisma.$connect();
     }
   
-    stopping() {
-      this.$on('beforeExit', async () => {
-        await this.prisma.close();
-      });
+     gracefuleStopping(){
+      this.prisma.$on("beforeExit",  () => {
+         this.stopping().catch((error) => {
+          Logger.error("Prisma Error: %o", {error: error instanceof Error ? error : new Error(JSON.stringify(error)),
+          })
+         })
+      })
     }
+
+    async stopping() {
+     await this.prisma.$disconnect()
   }
+}
   
