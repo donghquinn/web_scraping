@@ -17,10 +17,7 @@
     "dev:naverNews": "nodemon --exec node -r  ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node ./src/libraries/scrape/naver.lib.ts",
     "dev:metro": "nodemon --exec node -r  ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node ./src/libraries/scrape/metro.lib.ts",
     "dev:clicon": "nodemon --exec node -r  ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node ./src/libraries/providers/climate.lib.ts",
-    "nest:build": "nest build",
-    "schema": "prisma generate",
-    "migrate": "prisma migrate dev --name added_melon",
-    "db:update": "prisma db push"
+    "nest:build": "nest build"
   },
   "dependencies": {
     "@nestjs/common": "^9.4.0",
