@@ -1,6 +1,5 @@
 import { Logger } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { ScrapeObserver } from 'libraries/manager.lib';
 
 export function shutdown(server: NestExpressApplication) {
   try {
