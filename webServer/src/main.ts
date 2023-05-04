@@ -2,9 +2,6 @@ import { Logger } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from 'app.module';
 import helmet from 'helmet';
-import { ScrapeObserver } from 'libraries/manager.lib';
-
-const scraper  = ScrapeObserver.getInstance();
 
 export const bootstrap = async () => {
   const { NestFactory } = await import('@nestjs/core');
@@ -45,5 +42,4 @@ export const bootstrap = async () => {
 
 };
 
-scraper.start();
 await bootstrap();

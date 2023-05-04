@@ -1,7 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { SetErrorResponse, SetResponse } from 'dto/response.dto';
 import { BbcNewsProvider } from 'libraries/providers/bbc.lib';
-import { HackersNewsProvider } from 'libraries/providers/hacker.lib';
 
 @Controller('bbc')
 export class BbcController {

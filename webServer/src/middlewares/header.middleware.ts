@@ -4,6 +4,7 @@ import { NextFunction, Request, Response } from 'express';
 
 @Injectable()
 export class HeadersMiddleware implements NestMiddleware {
+  // eslint-disable-next-line @typescript-eslint/require-await, class-methods-use-this, consistent-return
   async use(request: Request, response: Response, next: NextFunction) {
     try {
       const authKey = request.headers?.key;

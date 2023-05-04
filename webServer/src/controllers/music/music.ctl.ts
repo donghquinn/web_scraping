@@ -17,11 +17,11 @@ export class MusicController {
     }
   }
 
-  @Get('/graph')
-  async melonChartGraph() {
-    try {
-    } catch (error) {
-      return new SetErrorResponse(500, error);
-    }
-  }
+  // @Get('/graph')
+  // async melonChartGraph() {
+  //   try {
+  //   } catch (error) {
+  //     return new SetErrorResponse(500, error);
+  //   }
+  // }
 }
