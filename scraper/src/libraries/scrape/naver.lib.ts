@@ -1,9 +1,6 @@
-<<<<<<< HEAD:scraper/src/libraries/scrape/naver.lib.ts
-=======
-import { Logger } from '@nestjs/common';
+
 import axios from 'axios';
 import * as cheerio from 'cheerio';
->>>>>>> 2061d8380f4321322364f715d64fedd516917e14:src/libraries/scrape/naver.lib.ts
 import { NaverError } from 'errors/naver.error';
 import fetch from 'node-fetch';
 import { NaverNewsResponse } from 'types/naver.type';
@@ -53,21 +50,23 @@ export const naverKin = async() => {
     for (let i = 0; i <= keyword.length; i +=1 ){
       const url = `https://kin.naver.com/search/list.nhn?query=${i}`;
 
-      const response  = await (await axios.get(url)).data;
+      const response  =  await axios.get<string>(url)
 
-      const html = cheerio.load(response)
+      const html = cheerio.load(response.data)
 
       const title = html("div.section").children("ul.basic1").children("li").append("!").text().split("!")
       // .children("ul.basic1").children("li").children("dl").children("dt").children("a").children("b").toString()
         // const date = html(item).children("li").children("dl").children("dt").children("dd.txt_inline").toString()
 
-       console.log(title)
+       ScrapeLogger.debug(title)
     }
   
 
     // const response =
   } catch (error) {
-    throw new NaverError("Naver KIN", "Scrape Naver Kin Error",       error instanceof Error ? error : new Error(JSON.stringify(error)),
+    throw new NaverError("Naver KIN", 
+    "Scrape Naver Kin Error",
+    error instanceof Error ? error : new Error(JSON.stringify(error)),
     )
   }
 }
