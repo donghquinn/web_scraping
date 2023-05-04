@@ -3,7 +3,7 @@ version: '3.7'
 services:
         backend:
                 build:
-                        context: .
+                        context: ./webServer
                         dockerfile: ./Dockerfile
                 container_name: news_miner
                 restart: unless-stopped
