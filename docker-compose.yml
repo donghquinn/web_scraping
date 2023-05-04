@@ -29,6 +29,7 @@ services:
                         context: ./scraper
                         dockerfile: ./Dockerfile
                 container_name: scraper
+                restart: unless-stopped
                 deploy:
                         resources:
                               limits:
