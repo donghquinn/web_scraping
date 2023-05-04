@@ -1,4 +1,17 @@
 {
   "name": "scraper",
-  "packageManager": "yarn@3.5.0"
+  "packageManager": "yarn@3.5.0",
+  "scripts": {
+    "start": "NODE_ENV=production node --max-old-space-size=700 -r ts-node/register -r dotenv/config --loader ts-paths-esm-loader --experimental-specifier-resolution=node  ./src/main.ts",
+    "build": "NODE_ENV=production tsc --project tsconfig.json --diagnostics  -p tsconfig.json"
+  },
+  "dependencies": {
+    "@nestjs/common": "^9.4.0",
+    "@nestjs/core": "^9.4.0",
+    "@prisma/client": "^4.13.0",
+    "node-schedule": "^2.1.1"
+  },
+  "devDependencies": {
+    "@types/node-schedule": "^2.1.0"
+  }
 }
