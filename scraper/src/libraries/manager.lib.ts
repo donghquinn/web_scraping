@@ -1,13 +1,21 @@
+<<<<<<< HEAD:scraper/src/libraries/manager.lib.ts
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+=======
+import { Logger } from '@nestjs/common';
+>>>>>>> 2061d8380f4321322364f715d64fedd516917e14:src/libraries/manager.lib.ts
 import schedule, { RecurrenceRule } from 'node-schedule';
 import { BbcNewsReturnArray } from 'types/bbc.type';
 import { ClimateReturnData } from 'types/climate.type';
 import { HackersNewsArrayType } from 'types/hackers.type';
 import { MusicRank } from 'types/music.type';
 import { NaverNewsItems } from 'types/naver.type';
+<<<<<<< HEAD:scraper/src/libraries/manager.lib.ts
 import { Logger } from 'utils/logger.util';
 import { InsertData } from './common/insert.lib';
+=======
+import { ScrapedDataInsert } from './providers/datainsert.lib';
+>>>>>>> 2061d8380f4321322364f715d64fedd516917e14:src/libraries/manager.lib.ts
 import { scrapeBbcTechNews } from './scrape/bbc.lib';
 import { getKoreanClimate } from './scrape/climate.lib';
 import { scrapeHackerNews } from './scrape/hackers.lib';
@@ -17,7 +25,11 @@ import { naverNews } from './scrape/naver.lib';
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
 
+<<<<<<< HEAD:scraper/src/libraries/manager.lib.ts
   private insert: InsertData;
+=======
+  private insert: ScrapedDataInsert;
+>>>>>>> 2061d8380f4321322364f715d64fedd516917e14:src/libraries/manager.lib.ts
 
   private rule: RecurrenceRule;
 
@@ -34,7 +46,11 @@ export class ScrapeObserver {
   constructor() {
     this.rule = new schedule.RecurrenceRule();
 
+<<<<<<< HEAD:scraper/src/libraries/manager.lib.ts
     this.insert = new InsertData();
+=======
+    this.insert = new ScrapedDataInsert();
+>>>>>>> 2061d8380f4321322364f715d64fedd516917e14:src/libraries/manager.lib.ts
 
     this.rule.tz = 'Asia/Seoul';
 
