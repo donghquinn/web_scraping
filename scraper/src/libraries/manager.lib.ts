@@ -1,4 +1,3 @@
-import { Logger } from '@nestjs/common';
 import schedule, { RecurrenceRule } from 'node-schedule';
 import { BbcNewsReturnArray } from 'types/bbc.type';
 import { ClimateReturnData } from 'types/climate.type';
@@ -11,11 +10,13 @@ import { scrapeHackerNews } from './scrape/hackers.lib';
 import { scrapeMelonChart } from './scrape/music.lib';
 import { naverNews } from './scrape/naver.lib';
 import { PrismaLibrary } from 'libraries/common/prisma.lib';
+import { InsertData } from './common/insert.lib';
+import { Logger } from 'utils/logger.util';
 
 export class ScrapeObserver {
   private static instance: ScrapeObserver;
 
-  private prisma: PrismaLibrary;
+  private insert: InsertData;
 
   private rule: RecurrenceRule;
 
@@ -32,7 +33,7 @@ export class ScrapeObserver {
   constructor() {
     this.rule = new schedule.RecurrenceRule();
 
-    this.prisma = PrismaLibrary.getInstance();
+    this.insert = new InsertData();
 
     this.rule.tz = 'Asia/Seoul';
 
@@ -54,7 +55,7 @@ export class ScrapeObserver {
   public start() {
     schedule.scheduleJob('0 10 23 * * *', async () => {
       try {
-        Logger.log('Scrape Start');
+        Logger.info('Scrape Start');
 
         const result = await Promise.allSettled([
           scrapeHackerNews(),
@@ -140,7 +141,7 @@ export class ScrapeObserver {
       }
 
       if (item.status === 'fulfilled') {
-        Logger.log('Data Insert Finished');
+        Logger.info('Data Insert Finished');
 
         this.hacker.length = 0;
         this.bbc.length = 0;

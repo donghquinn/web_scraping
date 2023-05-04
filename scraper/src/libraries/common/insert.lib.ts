@@ -1,5 +1,11 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import { PrismaLibrary } from "./prisma.lib";
+import { BbcNewsReturnArray } from "types/bbc.type";
+import { Logger } from "utils/logger.util";
+import { ClimateReturnData } from "types/climate.type";
+import { HackersNewsArrayType } from "types/hackers.type";
+import { NaverNewsItems } from "types/naver.type";
+import { MusicRank } from "types/music.type";
 
 export class InsertData {
     private now: string;
@@ -26,7 +32,7 @@ export class InsertData {
           });
         }
     
-        Logger.log('BBC News Inserted Finished.');
+        Logger.info('BBC News Inserted Finished.');
       }
     
       async insertMelonData(melon: Array<MusicRank>) {
@@ -42,7 +48,7 @@ export class InsertData {
           });
         }
     
-        Logger.log('Melon Music Chart Inserted Finished.');
+        Logger.info('Melon Music Chart Inserted Finished.');
       }
     
       async insertClimateData(climate: Array<ClimateReturnData>) {
@@ -69,7 +75,7 @@ export class InsertData {
           });
         }
     
-        Logger.log('Korean Climate Inserted Finished.');
+        Logger.info('Korean Climate Inserted Finished.');
       }
     
       async insertHackerNewsData(hackerNews: Array<HackersNewsArrayType>) {
@@ -86,7 +92,7 @@ export class InsertData {
           });
         }
     
-        Logger.log('Hacker News Inserted Finished.');
+        Logger.info('Hacker News Inserted Finished.');
       }
     
       async insertNaverNews(naverNews: Array<NaverNewsItems>) {
@@ -106,7 +112,7 @@ export class InsertData {
           });
         }
     
-        Logger.log('Naver IT News Inserted Finished.');
+        Logger.info('Naver IT News Inserted Finished.');
       }
     }
     

@@ -1,4 +1,3 @@
-import { Logger } from '@nestjs/common';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { subYears } from 'date-fns';
@@ -6,6 +5,7 @@ import { MelonError } from 'errors/melon.error';
 import { NaverError } from 'errors/naver.error';
 import fetch from 'node-fetch';
 import { MusicNaverSearchResponse, MusicRank } from 'types/music.type';
+import { Logger } from 'utils/logger.util';
 
 /**
  * https://search.daum.net/search?nil_suggest=sugsch&w=tot&DA=GIQ&sq=%EC%97%B0%EB%A0%B9%EB%B3%84+%EC%9D%8C%EC%9B%90%EC%B0%A8%ED%8A%B8&o=1&sugo=11&q=%EC%97%B0%EB%A0%B9%EB%B3%84+%EC%9D%8C%EC%9B%90%EC%B0%A8%ED%8A%B8
@@ -41,7 +41,7 @@ export const scrapeMelonChart = async () => {
       musicArray.push({ rank: i + 1, title: musicTitle[i], artist: musicArtist[i] });
     }
 
-    Logger.log('Found Melon Music Chart Result');
+    Logger.info('Found Melon Music Chart Result');
 
     return musicArray;
   } catch (error) {
@@ -92,7 +92,7 @@ export const searchMusicStatistics = async (musics: Array<MusicRank>) => {
         body,
       };
 
-      console.log('Request Body: ', { body });
+      Logger.info('Request Body: ', { body });
 
       const response = (await (await fetch(url, options)).json()) as MusicNaverSearchResponse;
 

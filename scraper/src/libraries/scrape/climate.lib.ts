@@ -1,7 +1,7 @@
-import { Logger } from '@nestjs/common';
 import { ClimateError } from 'errors/climate.error';
 import fetch from 'node-fetch';
 import { ClimateReturnData, Response } from 'types/climate.type';
+import { Logger } from 'utils/logger.util';
 
 export const getKoreanClimate = async () => {
   try {
@@ -45,7 +45,7 @@ export const getKoreanClimate = async () => {
       }
     }
 
-    Logger.debug('Climate Data Inserted');
+    Logger.info('Climate Data Inserted');
 
     return climate;
   } catch (error) {
