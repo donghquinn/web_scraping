@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Hackers {
+  uuid    String @id @default(uuid())
+  rank    String
+  post    String
+  link    String
+  founded String
+}
+
+// model GoogleFinance {
+//   uuid    String   @id @default(uuid())
+//   name    String
+//   price   String
+//   rised   String
+//   founded DateTime @default(now())
+// }
+
+model BbcTechNews {
+  uuid    String @id @default(uuid())
+  rank    String
+  post    String
+  link    String
+  founded String
+}
+
+model NaverNews {
+  uuid         String @id @default(uuid())
+  keyWord      String
+  title        String
+  description  String
+  originallink String
+  url          String
+  postedTime   String
+  founded      String
+}
+
+model Melon {
+  uuid    String @id @default(uuid())
+  rank    Int    @default(autoincrement())
+  title   String
+  artist  String
+  founded String
+}
+
+model Climate {
+  uuid       String  @id @default(uuid())
+  dataTime   String
+  // 초미세먼지(PM2.5) 농도	
+  pm25Value  String?
+  // 미세먼지(PM10) 농도	
+  pm10Value  String?
+  // 이산화질소 농도
+  no2Value   String?
+  // 오존 농도
+  o3Value    String?
+  // 일산화탄소 농도
+  coValue    String?
+  // 아황산가스 농도
+  so2Value   String?
+  // 통합대기환경수치
+  khaiValue  String?
+  // 오존 지수
+  o3Grade    String?
+  // 아황산가스 지수
+  so2Grade   String?
+  // 이산화질소 지수
+  no2Grade   String?
+  // 일산화탄소 지수
+  coGrade    String?
+  // 통합대기환경지수
+  khaiGrade  String?
+  khaiStatus String  @default("normal")
+  created    String
+}
