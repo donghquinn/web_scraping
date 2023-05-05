@@ -20,8 +20,7 @@
     "nest:build": "nest build",
     "schema": "prisma generate",
     "migrate": "prisma migrate dev --name added_melon",
-    "db:update": "prisma db push",
-    "nest:build": "nest build"
+    "db:update": "prisma db push"
   },
   "dependencies": {
     "@nestjs/common": "^9.4.0",
