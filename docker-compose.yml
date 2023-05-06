@@ -39,7 +39,7 @@ services:
                                   cpus: '0.15'
                                   memory: 300M
                 volumes:
-                        - ./scraper/logs:/home/taste/logs
+                        - ./scraper/logs:/home/node/logs
                 expose:
                         - 5500
                 env_file:
