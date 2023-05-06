@@ -82,36 +82,16 @@ export class ScrapeObserver {
     melon: Array<MusicRank>,
     climate: Array<ClimateReturnData>,
   ) {
-    const result = await Promise.allSettled([
-      this.insert.insertBbcData(bbc),
-      this.insert.insertClimateData(climate),
-      this.insert.insertHackerNewsData(hacker),
-      this.insert.insertMelonData(melon),
-      this.insert.insertNaverNews(naver),
-    ]);
+    await this.insert.insertBbcData(bbc);
 
-    const runResult = result.map<string>((item) => {
-      // if (item.status === 'rejected') {
-      //   Logger.error('Insert Data Failed: %o', { reason: item.reason });
+    await  this.insert.insertClimateData(climate);
 
-      //   return item.reason;
-      // }
+    await  this.insert.insertHackerNewsData(hacker);
 
-      if (item.status === 'fulfilled') {
-        Logger.info('Data Insert Finished');
+    await  this.insert.insertMelonData(melon);
 
-        this.hacker.length = 0;
-        this.bbc.length = 0;
-        this.naver.length = 0;
-        this.climate.length = 0;
-        this.melon.length = 0;
+    await this.insert.insertNaverNews(naver);
 
-        return 'success';
-      }
-
-      throw new Error("Run Scrape Failed");
-    });
-
-    return runResult;
+    return true;
   }
 }
