@@ -1,3 +1,4 @@
+import { ManagerError } from 'errors/manager.error';
 import schedule, { RecurrenceRule } from 'node-schedule';
 import { BbcNewsReturnArray } from 'types/bbc.type';
 import { ClimateReturnData } from 'types/climate.type';
@@ -82,16 +83,23 @@ export class ScrapeObserver {
     melon: Array<MusicRank>,
     climate: Array<ClimateReturnData>,
   ) {
-    await this.insert.insertBbcData(bbc);
-
-    await  this.insert.insertClimateData(climate);
-
-    await  this.insert.insertHackerNewsData(hacker);
-
-    await  this.insert.insertMelonData(melon);
-
-    await this.insert.insertNaverNews(naver);
-
-    return true;
+    try {
+      await this.insert.insertBbcData(bbc);
+  
+      await  this.insert.insertClimateData(climate);
+  
+      await  this.insert.insertHackerNewsData(hacker);
+  
+      await  this.insert.insertMelonData(melon);
+  
+      await this.insert.insertNaverNews(naver);
+  
+      return true;
+    } catch (error) {
+      throw new ManagerError(
+      "Scrape Manager", 
+      "Data Insert Error", 
+      error instanceof Error ? error : new Error(JSON.stringify(error)),)
+    }
   }
 }
