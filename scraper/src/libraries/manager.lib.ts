@@ -96,10 +96,15 @@ export class ScrapeObserver {
   
       return true;
     } catch (error) {
+      Logger.error("Insert Scraped Data Error: %o", {
+        error: error instanceof Error ? error : new Error(JSON.stringify(error))
+      });
+
       throw new ManagerError(
-      "Scrape Manager", 
-      "Data Insert Error", 
-      error instanceof Error ? error : new Error(JSON.stringify(error)),)
+        "Scrape Manager", 
+        "Data Insert Error", 
+        error instanceof Error ? error : new Error(JSON.stringify(error)),
+      );
     }
   }
 }
