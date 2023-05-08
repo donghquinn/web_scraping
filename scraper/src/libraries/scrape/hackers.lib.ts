@@ -16,7 +16,7 @@ export const scrapeHackerNews = async () => {
 
     const scrapedHtml = cheerio.load(html.data);
 
-    const newsArray: HackersNewsArrayType[] = [];
+    const newsArray: Array<HackersNewsArrayType> = [];
 
     const hrefArray: Array<string> = [];
 

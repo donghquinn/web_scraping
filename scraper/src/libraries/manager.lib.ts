@@ -60,11 +60,17 @@ export class ScrapeObserver {
       try {
         Logger.info('Scrape Start');
 
-        await scrapeHackerNews();
-        await scrapeBbcTechNews();
-        await scrapeMelonChart();
-        await getKoreanClimate();
-        await naverNews();
+        const hackerData = await scrapeHackerNews();
+        const bbcData = await scrapeBbcTechNews();
+        const melonData = await scrapeMelonChart();
+        const climateData = await getKoreanClimate();
+        const naverData = await naverNews();
+
+        this.hacker = hackerData;
+        this.bbc = bbcData;
+        this.melon = melonData;
+        this.climate = climateData;
+        this.naver = naverData;
 
         await this.receivedDataInsert(this.bbc, this.naver, this.hacker, this.melon, this.climate);
       } catch (error) {
@@ -97,6 +103,12 @@ export class ScrapeObserver {
   
       await this.insert.insertNaverNews(naver);
   
+      this.bbc = [];
+      this.climate = [];
+      this.hacker = [];
+      this.melon = [];
+      this.naver = [];
+      
       return true;
     } catch (error) {
       Logger.error("Insert Scraped Data Error: %o", {
