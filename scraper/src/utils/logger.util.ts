@@ -75,4 +75,4 @@ class WinstonLogger {
   }
 }
 
-export const {  Logger, ScrapeLogger } = WinstonLogger.getInstance();
+export const { Logger, ScrapeLogger } = WinstonLogger.getInstance();

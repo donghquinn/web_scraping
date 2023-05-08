@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { NaverError } from 'errors/naver.error';
@@ -43,32 +42,32 @@ export const naverNews = async () => {
   }
 };
 
-export const naverKin = async() => {
+export const naverKin = async () => {
   try {
-    const keyword = ["빅데이터", "머신러닝", "딥러닝"]
+    const keyword = ['빅데이터', '머신러닝', '딥러닝'];
 
-    for (let i = 0; i <= keyword.length; i +=1 ){
+    for (let i = 0; i <= keyword.length; i += 1) {
       const url = `https://kin.naver.com/search/list.nhn?query=${i}`;
 
-      const response  =  await axios.get<string>(url)
+      const response = await axios.get<string>(url);
 
-      const html = cheerio.load(response.data)
+      const html = cheerio.load(response.data);
 
-      const title = html("div.section").children("ul.basic1").children("li").append("!").text().split("!")
+      const title = html('div.section').children('ul.basic1').children('li').append('!').text().split('!');
       // .children("ul.basic1").children("li").children("dl").children("dt").children("a").children("b").toString()
-        // const date = html(item).children("li").children("dl").children("dt").children("dd.txt_inline").toString()
+      // const date = html(item).children("li").children("dl").children("dt").children("dd.txt_inline").toString()
 
-       ScrapeLogger.debug(title)
+      ScrapeLogger.debug(title);
     }
-  
 
     // const response =
   } catch (error) {
-    throw new NaverError("Naver KIN", 
-    "Scrape Naver Kin Error",
-    error instanceof Error ? error : new Error(JSON.stringify(error)),
-    )
+    throw new NaverError(
+      'Naver KIN',
+      'Scrape Naver Kin Error',
+      error instanceof Error ? error : new Error(JSON.stringify(error)),
+    );
   }
-}
+};
 
-await naverKin()
+await naverKin();
