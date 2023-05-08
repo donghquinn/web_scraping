@@ -37,6 +37,9 @@ export class ScrapeObserver {
 
     this.rule.tz = 'Asia/Seoul';
 
+    this.rule.minute = 59;
+    this.rule.hour = 23;
+
     this.bbc = [];
     this.hacker = [];
     this.climate = [];
@@ -53,7 +56,7 @@ export class ScrapeObserver {
   }
 
   public start() {
-    schedule.scheduleJob('0 59 23 * * *', async () => {
+    schedule.scheduleJob(this.rule, async () => {
       try {
         Logger.info('Scrape Start');
 
