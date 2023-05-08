@@ -67,9 +67,13 @@ export class ScrapeObserver {
         const naverData = await naverNews();
 
         this.hacker = hackerData;
+
         this.bbc = bbcData;
+
         this.melon = melonData;
+
         this.climate = climateData;
+
         this.naver = naverData;
 
         await this.receivedDataInsert(this.bbc, this.naver, this.hacker, this.melon, this.climate);
@@ -94,30 +98,34 @@ export class ScrapeObserver {
   ) {
     try {
       await this.insert.insertBbcData(bbc);
-  
-      await  this.insert.insertClimateData(climate);
-  
-      await  this.insert.insertHackerNewsData(hacker);
-  
-      await  this.insert.insertMelonData(melon);
-  
+
+      await this.insert.insertClimateData(climate);
+
+      await this.insert.insertHackerNewsData(hacker);
+
+      await this.insert.insertMelonData(melon);
+
       await this.insert.insertNaverNews(naver);
-  
+
       this.bbc = [];
+
       this.climate = [];
+
       this.hacker = [];
+
       this.melon = [];
+
       this.naver = [];
-      
+
       return true;
     } catch (error) {
-      Logger.error("Insert Scraped Data Error: %o", {
-        error: error instanceof Error ? error : new Error(JSON.stringify(error))
+      Logger.error('Insert Scraped Data Error: %o', {
+        error: error instanceof Error ? error : new Error(JSON.stringify(error)),
       });
 
       throw new ManagerError(
-        "Scrape Manager", 
-        "Data Insert Error", 
+        'Scrape Manager',
+        'Data Insert Error',
         error instanceof Error ? error : new Error(JSON.stringify(error)),
       );
     }
