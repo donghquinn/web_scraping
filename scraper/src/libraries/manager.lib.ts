@@ -60,21 +60,44 @@ export class ScrapeObserver {
       try {
         Logger.info('Scrape Start');
 
-        const hackerData = await scrapeHackerNews();
-        const bbcData = await scrapeBbcTechNews();
-        const melonData = await scrapeMelonChart();
-        const climateData = await getKoreanClimate();
-        const naverData = await naverNews();
+        const result = await Promise.allSettled([
+          scrapeHackerNews(),
+          scrapeBbcTechNews(),
+          scrapeMelonChart(),
+          getKoreanClimate(),
+          naverNews()
+        ])
 
-        this.hacker = hackerData;
+        if (result[0].status === "fulfilled") {
+          this.hacker = result[0].value;
+        } else {
+          Logger.error( "Hackers News Scraping Error: %o", { reason: result[ 0 ].reason } );
+        }
 
-        this.bbc = bbcData;
+        if ( result[ 1 ].status === "fulfilled" ) {
+          this.bbc = result[ 1 ].value;
+        } else {
+          Logger.error( "BBC News Scraping Error: %o", { reason: result[ 1 ].reason } );
+        }
 
-        this.melon = melonData;
+        if ( result[ 2 ].status === "fulfilled" ) {
+          this.melon = result[ 2 ].value;
+        } else {
+          Logger.error( "Melon Scraping Error: %o", { reason: result[ 2 ].reason } );
+        }
 
-        this.climate = climateData;
+        if ( result[ 3 ].status === "fulfilled" ) {
+          this.climate = result[ 3 ].value;
+        } else {
+          Logger.error( "Korean Climate Scraping Error: %o", { reason: result[ 3 ].reason } );
+        }
 
-        this.naver = naverData;
+        if ( result[ 4 ].status === "fulfilled" ) {
+          this.naver = result[ 4 ].value;
+        } else {
+          Logger.error( "Naver News Scraping Error: %o", { reason: result[ 4 ].reason } );
+        }
+
 
         await this.receivedDataInsert(this.bbc, this.naver, this.hacker, this.melon, this.climate);
       } catch (error) {
@@ -96,26 +119,52 @@ export class ScrapeObserver {
     melon: Array<MusicRank>,
     climate: Array<ClimateReturnData>,
   ) {
-    try {
-      await this.insert.insertBbcData(bbc);
+    try
+    {
+      
+      const result = await Promise.allSettled( [
+        this.insert.insertBbcData( bbc ),
+        this.insert.insertClimateData( climate ),
+        this.insert.insertHackerNewsData( hacker ),
+        this.insert.insertMelonData( melon ),
+        this.insert.insertNaverNews(naver),
+      ])
 
-      await this.insert.insertClimateData(climate);
+      if ( result[ 0 ].status === "rejected" ) {
+        Logger.error( "Insert BBC Data Error: %o",{ reason: result[ 0 ].reason } );
+        this.bbc = [];
+      } else
+      {
+        this.bbc = [];
+      }
 
-      await this.insert.insertHackerNewsData(hacker);
+      if ( result[ 1 ].status === "rejected" ) {
+        Logger.error( "Insert Korean Climate Data Error: %o",{ reason: result[ 1 ].reason } );
+        this.climate = [];
+      } else {
+        this.climate = [];
+      }
 
-      await this.insert.insertMelonData(melon);
+      if ( result[ 2 ].status === "rejected" ) {
+        Logger.error( "Insert Hackers News Data Error: %o",{ reason: result[ 2 ].reason } );
+        this.hacker = [];
+      } else {
+        this.hacker = [];
+      }
 
-      await this.insert.insertNaverNews(naver);
+      if ( result[ 3 ].status === "rejected" ) {
+        Logger.error( "Insert Melon Data Error: %o",{ reason: result[ 3 ].reason } );
+        this.melon = [];
+      } else {
+        this.melon = [];
+      }
 
-      this.bbc = [];
-
-      this.climate = [];
-
-      this.hacker = [];
-
-      this.melon = [];
-
-      this.naver = [];
+      if ( result[ 4 ].status === "rejected" ) {
+        Logger.error( "Insert Naver News Data Error: %o",{ reason: result[ 4 ].reason } );
+        this.naver = [];
+      } else {
+        this.naver = [];
+      }
 
       return true;
     } catch (error) {
