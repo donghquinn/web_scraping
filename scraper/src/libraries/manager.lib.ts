@@ -65,39 +65,38 @@ export class ScrapeObserver {
           scrapeBbcTechNews(),
           scrapeMelonChart(),
           getKoreanClimate(),
-          naverNews()
-        ])
+          naverNews(),
+        ]);
 
-        if (result[0].status === "fulfilled") {
+        if (result[0].status === 'fulfilled') {
           this.hacker = result[0].value;
         } else {
-          Logger.error( "Hackers News Scraping Error: %o", { reason: result[ 0 ].reason } );
+          Logger.error('Hackers News Scraping Error: %o', { reason: result[0].reason });
         }
 
-        if ( result[ 1 ].status === "fulfilled" ) {
-          this.bbc = result[ 1 ].value;
+        if (result[1].status === 'fulfilled') {
+          this.bbc = result[1].value;
         } else {
-          Logger.error( "BBC News Scraping Error: %o", { reason: result[ 1 ].reason } );
+          Logger.error('BBC News Scraping Error: %o', { reason: result[1].reason });
         }
 
-        if ( result[ 2 ].status === "fulfilled" ) {
-          this.melon = result[ 2 ].value;
+        if (result[2].status === 'fulfilled') {
+          this.melon = result[2].value;
         } else {
-          Logger.error( "Melon Scraping Error: %o", { reason: result[ 2 ].reason } );
+          Logger.error('Melon Scraping Error: %o', { reason: result[2].reason });
         }
 
-        if ( result[ 3 ].status === "fulfilled" ) {
-          this.climate = result[ 3 ].value;
+        if (result[3].status === 'fulfilled') {
+          this.climate = result[3].value;
         } else {
-          Logger.error( "Korean Climate Scraping Error: %o", { reason: result[ 3 ].reason } );
+          Logger.error('Korean Climate Scraping Error: %o', { reason: result[3].reason });
         }
 
-        if ( result[ 4 ].status === "fulfilled" ) {
-          this.naver = result[ 4 ].value;
+        if (result[4].status === 'fulfilled') {
+          this.naver = result[4].value;
         } else {
-          Logger.error( "Naver News Scraping Error: %o", { reason: result[ 4 ].reason } );
+          Logger.error('Naver News Scraping Error: %o', { reason: result[4].reason });
         }
-
 
         await this.receivedDataInsert(this.bbc, this.naver, this.hacker, this.melon, this.climate);
       } catch (error) {
@@ -119,48 +118,48 @@ export class ScrapeObserver {
     melon: Array<MusicRank>,
     climate: Array<ClimateReturnData>,
   ) {
-    try
-    {
-      
-      const result = await Promise.allSettled( [
-        this.insert.insertBbcData( bbc ),
-        this.insert.insertClimateData( climate ),
-        this.insert.insertHackerNewsData( hacker ),
-        this.insert.insertMelonData( melon ),
+    try {
+      const result = await Promise.allSettled([
+        this.insert.insertBbcData(bbc),
+        this.insert.insertClimateData(climate),
+        this.insert.insertHackerNewsData(hacker),
+        this.insert.insertMelonData(melon),
         this.insert.insertNaverNews(naver),
-      ])
+      ]);
 
-      if ( result[ 0 ].status === "rejected" ) {
-        Logger.error( "Insert BBC Data Error: %o",{ reason: result[ 0 ].reason } );
+      if (result[1]) {
+        console.log('a');
+      }
+      if (result[0].status === 'rejected') {
+        Logger.error('Insert BBC Data Error: %o', { reason: result[0].reason });
         this.bbc = [];
-      } else
-      {
+      } else {
         this.bbc = [];
       }
 
-      if ( result[ 1 ].status === "rejected" ) {
-        Logger.error( "Insert Korean Climate Data Error: %o",{ reason: result[ 1 ].reason } );
+      if (result[1].status === 'rejected') {
+        Logger.error('Insert Korean Climate Data Error: %o', { reason: result[1].reason });
         this.climate = [];
       } else {
         this.climate = [];
       }
 
-      if ( result[ 2 ].status === "rejected" ) {
-        Logger.error( "Insert Hackers News Data Error: %o",{ reason: result[ 2 ].reason } );
+      if (result[2].status === 'rejected') {
+        Logger.error('Insert Hackers News Data Error: %o', { reason: result[2].reason });
         this.hacker = [];
       } else {
         this.hacker = [];
       }
 
-      if ( result[ 3 ].status === "rejected" ) {
-        Logger.error( "Insert Melon Data Error: %o",{ reason: result[ 3 ].reason } );
+      if (result[3].status === 'rejected') {
+        Logger.error('Insert Melon Data Error: %o', { reason: result[3].reason });
         this.melon = [];
       } else {
         this.melon = [];
       }
 
-      if ( result[ 4 ].status === "rejected" ) {
-        Logger.error( "Insert Naver News Data Error: %o",{ reason: result[ 4 ].reason } );
+      if (result[4].status === 'rejected') {
+        Logger.error('Insert Naver News Data Error: %o', { reason: result[4].reason });
         this.naver = [];
       } else {
         this.naver = [];
