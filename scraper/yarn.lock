@@ -3655,7 +3655,6 @@ __metadata:
     eslint-config-next: ^13.4.4
     eslint-config-prettier: ^8.8.0
     eslint-plugin-import: ^2.27.5
-    moment: ^2.29.4
     moment-timezone: ^0.5.43
     node-fetch: ^3.3.1
     node-schedule: ^2.1.1
