@@ -4849,11 +4849,7 @@ __metadata:
     "@nestjs/common": ^9.4.2
     "@nestjs/core": ^9.4.2
     "@nestjs/platform-express": ^9.4.2
-<<<<<<< HEAD
-    "@prisma/client": ^4.13.0
-=======
     "@prisma/client": ^4.15.0
->>>>>>> a1bacf3c5e0197d52ca208c7f4e21f4b67044ebc
     "@types/express-session": ^1.17.7
     "@types/moment-timezone": ^0.5.30
     "@types/node": ^20.2.5
