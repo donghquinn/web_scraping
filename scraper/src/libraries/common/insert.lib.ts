@@ -103,7 +103,7 @@ export class InsertData {
         data: {
           keyWord: 'IT',
           title: naverNews[i].title,
-          description: naverNews[i].description,
+          description: naverNews[i].description.replace(/[\n\t\r]/g, ''),
           originallink: naverNews[i].originallink,
           url: naverNews[i].link,
           postedTime: naverNews[i].pubDate,
