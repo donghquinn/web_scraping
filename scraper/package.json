@@ -18,6 +18,10 @@
     "cheerio": "^1.0.0-rc.12",
     "date-fns": "^2.30.0",
     "dotenv": "^16.1.4",
+<<<<<<< HEAD
+=======
+    "moment-timezone": "^0.5.43",
+>>>>>>> 8c6da105fea9079f14e261083448eff6742a6761
     "node-fetch": "^3.3.1",
     "node-schedule": "^2.1.1",
     "prisma": "^4.13.0",
