@@ -3876,7 +3876,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moment-timezone@npm:*, moment-timezone@npm:^0.5.43":
+"moment-timezone@npm:*":
   version: 0.5.43
   resolution: "moment-timezone@npm:0.5.43"
   dependencies:
@@ -4849,11 +4849,7 @@ __metadata:
     "@nestjs/common": ^9.4.2
     "@nestjs/core": ^9.4.2
     "@nestjs/platform-express": ^9.4.2
-<<<<<<< HEAD
-    "@prisma/client": ^4.13.0
-=======
     "@prisma/client": ^4.15.0
->>>>>>> a1bacf3c5e0197d52ca208c7f4e21f4b67044ebc
     "@types/express-session": ^1.17.7
     "@types/moment-timezone": ^0.5.30
     "@types/node": ^20.2.5
@@ -4875,7 +4871,6 @@ __metadata:
     express: ^4.18.2
     express-session: ^1.17.3
     helmet: ^7.0.0
-    moment-timezone: ^0.5.43
     node-fetch: ^3.3.1
     node-schedule: ^2.1.1
     nodemon: ^2.0.22

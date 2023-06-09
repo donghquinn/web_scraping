@@ -54,6 +54,7 @@ export const naverKin = async () => {
       const html = cheerio.load(response.data);
 
       const title = html('div.section').children('ul.basic1').children('li').append('!').text().split('!');
+
       // .children("ul.basic1").children("li").children("dl").children("dt").children("a").children("b").toString()
       // const date = html(item).children("li").children("dl").children("dt").children("dd.txt_inline").toString()
 
@@ -69,5 +70,3 @@ export const naverKin = async () => {
     );
   }
 };
-
-await naverKin();
