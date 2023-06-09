@@ -56,7 +56,7 @@ export const scrapeHackerNews = async () => {
       .split('!');
 
     for (let i = 0; i < rank.length - 1; i += 1) {
-      newsArray.push({ rank: rank[i], post: posts[i], link: hrefArray[i] });
+      newsArray.push({ rank: rank[i], post: posts[i].replace(/[\n\t\r]/g, ''), link: hrefArray[i] });
     }
 
     ScrapeLogger.info('Got New Hacker News Rank.');

@@ -30,7 +30,7 @@ export const scrapeBbcTechNews = async () => {
     for (let i = 0; i < linkArray.length; i += 1) {
       returnArray.push({
         rank: String(i + 1),
-        post: newsTitle[i],
+        post: newsTitle[i].replace(/[\n\t\r]/g, ''),
         link: linkArray[i],
       });
     }

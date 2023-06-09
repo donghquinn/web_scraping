@@ -8,7 +8,7 @@ services:
                 container_name: news_miner
                 restart: unless-stopped
                 volumes:
-                        - ./webServer/logs:/home/taste/logs
+                        - ./webServer/logs:/home/node/logs
                 deploy:
                         resources:
                               limits:
